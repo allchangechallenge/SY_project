@@ -365,11 +365,16 @@ function to360( scene_id ) {
         if ( scene_id == v ) document.getElementById( scene_id ).setAttribute( 'visible', 'true' ) ;
     } ) ;
 
+    // Attach raycaster on all the objects 
     makarScenes.forEach( m => { 
         if ( m.scene_id == scene_id ) {
             theRaycaster( m.objs ) ;
         }
     } ) ;
+
+    // Move the yellow current point on the map
+    let current_point = new map_dot( scene_id, map_dot_pos[ scene_id ][ 0 ], map_dot_pos[ scene_id ][ 1 ] ) ;
+    current_point.current_pos() ;
 
     vr = 1 ;
     start_tick = 0 ;
@@ -596,12 +601,12 @@ function theRaycaster( sceneObjs ) {
 }
 
 
-// Down right map 
+// Dots information for down right map
 let map_dot_pos = {
-    'b5e7eeb146954a73af7a9248cff19543' : [ 45, 43 ],
-    'a344d7bf16d140879724eb2e62a440aa' : [ 58, 41 ],
-    '18522ccb12004b1f8b8f3961858c4465' : [ 64, 69 ],
-    '673149e6f1b24354a949ff60415c5481' : [ 35, 51 ]
+    'b5e7eeb146954a73af7a9248cff19543' : [ 44, 43 ],
+    'a344d7bf16d140879724eb2e62a440aa' : [ 56, 43 ],
+    '18522ccb12004b1f8b8f3961858c4465' : [ 64, 70 ],
+    '673149e6f1b24354a949ff60415c5481' : [ 33, 52 ]
 }
 
 let dots = document.getElementById( 'dots' ) ;
@@ -612,7 +617,7 @@ class map_dot {
         this.x = x.toString() + '%' ;
         this.y = y.toString() + '%' ;
     }
-    create_dot( color ) {
+    create_dot( tag ) {
         let div = document.createElement( 'div' ) ;
         let num = document.createTextNode( 'O' ) ;
         div.classList.add( 'points' ) ;
@@ -620,11 +625,17 @@ class map_dot {
         div.style.left = this.x ;
 
         div.addEventListener( 'click', function() {
-            to360( tag ) ;
+            to360( id_to_scene[ tag ] ) ;
         })
 
         div.appendChild( num ) ;
         dots.appendChild( div ) ;
+    }
+    current_pos() {
+        let current = document.getElementById( 'circle' ) ;
+        current.style.top = map_dot_pos[ this.sceneId ][ 1 ].toString() + '%' ;
+        current.style.left = map_dot_pos[ this.sceneId ][ 0 ].toString() + '%' ;
+        console.log( map_dot_pos[ this.sceneId ][ 0 ], map_dot_pos[ this.sceneId ][ 1 ])
     }
 }
 
@@ -634,7 +645,7 @@ function map_jump() {
 
     const yellow_dot = new map_dot( makarScenes[ 1 ].scene_id, map_dot_pos[ makarScenes[ 1 ].scene_id ][ 0 ], map_dot_pos[ makarScenes[ 1 ].scene_id ][ 1 ] ) ;
     yellow_dot.create_dot( 'y_tag' ) ;
-
+    
     const red_dot = new map_dot( makarScenes[ 2 ].scene_id, map_dot_pos[ makarScenes[ 2 ].scene_id ][ 0 ], map_dot_pos[ makarScenes[ 2 ].scene_id ][ 1 ] ) ;
     red_dot.create_dot( 'r_tag' ) ;
 
