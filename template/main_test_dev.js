@@ -334,7 +334,7 @@ function to360( scene_id ) {
                 cam_rot.x = s.camera_rotation.split( ',' )[ 0 ] * Math.PI / 180 ;
                 cam_rot.y = s.camera_rotation.split( ',' )[ 1 ] * Math.PI / 180 ;
                 cam_rot.z = s.camera_rotation.split( ',' )[ 2 ] * Math.PI / 180 ;
-                console.log( cam_rot ) ;
+                // console.log( cam_rot ) ;
             }
         }
     } ) ;
@@ -382,6 +382,7 @@ function to360( scene_id ) {
 
 function toOrbit() {
     homePage.setAttribute( 'visible', 'true' ) ;
+    scene_360.setAttribute( 'visible', 'false' ) ;
 
     makarScenes.forEach( s => {
         if ( document.getElementById( s.scene_id ) ) document.getElementById( s.scene_id ).setAttribute( 'visible', 'false' ) ;
@@ -406,6 +407,7 @@ function toOrbit() {
     document.getElementById( 'btn1' ).innerHTML = 'Orbit View' ;      
     if ( vr != 0 ) {
         cam.setAttribute( 'look-controls', 'enabled : false' ) ;
+ 
         let sceneCamRec = cam.object3D.position.clone() ;
         cam.object3D.children[0].position.x = sceneCamRec.x ;
         cam.object3D.children[0].position.y = sceneCamRec.y ;
@@ -413,7 +415,9 @@ function toOrbit() {
         // console.log( cam.object3D.children[0].position.x, cam.object3D.children[0].position.y, cam.object3D.children[0].position.z ) ;
 
         let rotRec = { 'x' : cam.components[ 'look-controls' ].pitchObject.rotation.x, 
-                    'y' : cam.components[ 'look-controls' ].yawObject.rotation.y, 'z' : 0 } ;
+                       'y' : cam.components[ 'look-controls' ].yawObject.rotation.y, 'z' : 0 } ;
+
+        cam.object3D.children[0].rotation.reorder( 'YXZ' ) ;
         cam.object3D.children[0].rotation.x = rotRec.x ;
         cam.object3D.children[0].rotation.y = rotRec.y ;
         cam.object3D.children[0].rotation.z = rotRec.z ;
@@ -432,12 +436,12 @@ function toOrbit() {
 
         // use lookat to determine the position to turn to 
         let a = cam.object3D.children[0].clone()
+        a.rotation.reorder( 'YXZ' ) ;
         a.position.x = target_pos.x ;
         a.position.y = target_pos.y ;
         a.position.z = target_pos.z ;
         a.lookAt( new THREE.Vector3( 0, 0, 0 ) ) ;
-        a.rotation.reorder( 'YXZ' ) ;
-
+        
         distance.ratio = 0 ;
 
         var persCam = {
@@ -488,9 +492,11 @@ function toOrbit() {
                     cam.object3D.children[0].rotation.x = persRot.x ;
                     cam.object3D.children[0].rotation.y = persRot.y ;
                     cam.object3D.children[0].rotation.z = persRot.z ;
+
+                    console.log( cam.object3D.children[0].rotation ) ;
                                                   
                 },
-
+                
                 complete : function() {
                     cam.setAttribute( 'orbit-controls', 'enabled : true' ) ;
                 }
@@ -563,6 +569,7 @@ function map_func() {
 function theRaycaster( sceneObjs ) {
     let mouse = new THREE.Vector2() ;
     let raycaster = new THREE.Raycaster() ;
+    console.log( 'In raycaster' ) ;
     aScene.canvas.addEventListener( 'mouseup', function( event ){
         if ( event.changedTouches ) {
             x = event.changedTouches[ 0 ].pageX ;
@@ -635,7 +642,7 @@ class map_dot {
         let current = document.getElementById( 'circle' ) ;
         current.style.top = map_dot_pos[ this.sceneId ][ 1 ].toString() + '%' ;
         current.style.left = map_dot_pos[ this.sceneId ][ 0 ].toString() + '%' ;
-        console.log( map_dot_pos[ this.sceneId ][ 0 ], map_dot_pos[ this.sceneId ][ 1 ])
+        // console.log( map_dot_pos[ this.sceneId ][ 0 ], map_dot_pos[ this.sceneId ][ 1 ])
     }
 }
 
