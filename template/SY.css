@@ -1,0 +1,279 @@
+* {
+  /* font-size: 20px; */
+}
+body {
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+}
+#load {
+    width: 100%;
+    height: 100%;
+    background-color: darkcyan;
+    opacity: 50%;
+    position: absolute;
+    z-index: 7;
+    font-size: 1000%;
+    /* visibility: hidden; */
+}
+#load_w {
+    position: relative;
+    top: 50%;
+    /* left: 42%; */
+    text-align: center;
+}
+#SY_icon {
+    position: absolute;
+    z-index: 6;
+    top: 3%;
+    margin-left: 2%;
+    width: 14%;
+    /* margin-left: 7%; */
+}
+#home_menu {
+    position: absolute;
+    z-index: 6;
+    top: 20%;
+    left: 2%;
+    border-left: black solid;
+    padding-left: 2%;
+    font-size: 80px;
+    width: 10%;
+}
+.home_menu {
+    display: block;
+    cursor: pointer;
+}
+.home_menu:hover {
+    color: white;
+}
+#up {
+    position: absolute;
+    right: 4%;
+    top: 3%;
+    z-index: 6;
+    width: 17%;
+}
+.btn {
+    font-size: 50px;
+    text-align: center;
+    width: 50%;
+    height: 0;
+    float: left;
+    padding-top: 5%;
+    padding-bottom: 14%;
+}
+.btn:hover {
+    /* background-color: darksalmon;
+    border-color: darksalmon;
+    opacity: 90%; */
+    cursor: -webkit-grab;
+}
+#btn1 {
+    background-color: darksalmon;
+    /* padding: 3rem; */
+    /* padding-top: 2rem;
+    padding-bottom: 2rem; */
+
+}
+#btn2 {
+    /* padding: 3rem; */
+    /* padding-top: 2rem;
+    padding-bottom: 2rem; */
+    /* width: 50%;
+    height: 0;
+    float: left; */
+}
+#tags {
+    position: absolute;
+    z-index: 6;
+    font-size: 60px;
+    cursor: pointer;
+}
+.tag {
+    position: absolute;
+    visibility: hidden;
+    padding: 12px;
+}
+#menu {
+    position: absolute;
+    z-index: 6;
+    top: 14%;
+    height: 80%;
+    width: 26%;
+    margin-left: 2%;
+    visibility: hidden;
+}
+#menu_icon {
+    margin-top: 5%;
+    margin-bottom: 2%;
+    /* margin-left: 2px; */
+    height: 7%;
+    visibility: hidden;
+    user-select: none;
+}
+#menu_icon:hover {
+    cursor: pointer;
+}
+#scroll_bar {
+    height: 72%;
+    margin-top: 4%;
+    margin-left: 2%;
+    padding-left: 4%;
+    color: white;
+    /* visibility: hidden; */
+    overflow: auto;
+    direction:rtl;
+}
+#scroll_bar::-webkit-scrollbar {
+    background-color: rgba(220, 220, 220, 0.641);
+    width: 34px;
+    max-width: 34px;
+    min-width: 34px;
+
+}
+#scroll_bar::-webkit-scrollbar-thumb {
+    background-color: rgba(108, 102, 102, 0.752);
+}
+#scroll_bar::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(77, 70, 70);
+}
+span.scroll {
+    display: block;
+    height: 13%;
+    font-size: 120%;
+}
+.scroll {
+    direction:ltr;
+}
+#down {
+    position: absolute;
+    z-index: 6;
+    top: 88%;
+    right: -1%;
+    width: 13%;
+    user-select: none;
+}
+#down:hover {
+    cursor: pointer;
+}
+#home {
+    width: 33%;
+    float: left;
+}
+#home_icon {
+    width: 100%;
+}
+#mag {
+    width: 32%;
+    float: left;
+}
+#mag_icon {
+    width: 60%;
+    padding-top: 24%;
+    margin-left: 5%;
+}
+#walk {
+    width: 33%;
+    float: left;
+}
+#walk_icon {
+    width: 60%;
+    padding-top: 24%;
+    margin-left: -25%;
+}
+#down_left_360 {
+    visibility: hidden;
+    position: absolute;
+    z-index: 6;
+    top: 92%;
+    margin-left: 2%;
+    width: 6%;
+    user-select: none;
+}
+#lastPage {
+    position: absolute;
+    color: white;
+    height: 77%;
+    cursor: pointer;
+}
+#back_icon {
+    Width: 26%;
+    margin-left: 83%; 
+    margin-top: 7%;
+    cursor: pointer;
+}
+#down_right_360 {
+    /* border: palevioletred solid; */
+    display: none;
+    /* display: inline; */
+    position: absolute;
+    z-index: 6;
+    top: 63%;
+    left: 64%;
+    height: 33%;
+    width: 33%;
+    user-select: none;
+}
+#map_area {
+    visibility: hidden;
+    position: absolute;
+    height: 100%;
+    width: 84%;
+    bottom: 0;
+    right: 16%;
+    /* border: deepskyblue solid; */
+}
+#down_right_icon {
+    position: absolute;
+    width: 15%;
+    /* top: 84%;
+    left: 84%; */
+    bottom: 0;
+    right: 5px;
+    /* border: wheat solid; */
+    user-select: none;
+}
+.down_right {
+    float: left;
+}
+.down_right_icon {
+    float: left;
+}
+#map {
+    width: 100%;
+    height: 100%;
+}
+#loc_icon {
+    width: 48%;
+    cursor: pointer;
+}
+#help_icon {
+    width: 48%;
+    margin-left: 4%;
+    cursor: pointer;
+}
+.points {
+    position: absolute;
+    font-size: 280%;
+    font-weight: bolder;
+    top: 2px;
+    cursor: pointer;
+    color: transparent;
+}
+#undef {
+    width: 100%;
+    height: 100%;
+    background-color: darksalmon;
+    opacity: 50%;
+    position: absolute;
+    z-index: 7;
+    font-size: 1000%;
+    text-align: center;
+    visibility: hidden;
+}
+#undefined_cap {
+    position: relative;
+    top: 50%;
+}

@@ -1,0 +1,88 @@
+<html>
+<head>
+  <title>Craw the frame of of website</title>
+</head>
+<body>
+    <p style="font-size: 400%;">
+
+    </p>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script>
+        // let pic = [] ;
+        // d3.csv( 'source/360_match.csv' ).then( data => {
+        //     console.log( data ) ;
+        //     for ( var i = 0 ; i < data.length ; i ++ ) {
+        //         pic.push( data[ i ] ) ;
+        //     }
+        //     console.log( pic ) ;
+        // } ) ;
+        
+
+        let url = "https://ssl-api-makar-v3-apps.miflyservice.com/Makar/"
+        let xhr = new XMLHttpRequest() ; // dont use var!!! will override the previous one
+        let data = {
+            "user_id": '1626f751-f2d6-4416-8e54-a1cb6b32f870',
+            "proj_id": '1e8509d05668ca1945f2a39b6be9167a'
+            } ; 
+        let specificUrl = url + "get_vr_proj_scene" ; // get_vr_proj_scene
+        let request = {
+            "ver":"3.0.0",
+            "cid": 5,
+            "data":data
+            } ;
+        let getVRProjSceneJsonReq = JSON.stringify( request ) ;
+        // console.log("netWorkAgent.js: _getUserPublishProjs: POST open, specificUrl=", specificUrl);
+        xhr.open( 'POST', specificUrl , true ) ;
+        xhr.setRequestHeader( 'Content-Type', 'application/json' ) ;
+        xhr.responseType = 'json' ; // set reponse as "arraybuffer" or "text" or "json"
+        xhr.onload = function(e) {
+            console.log(' xxxxxxxx ', xhr.response.data ) ;
+            let jsonData = xhr.response.data ;
+            listTree( jsonData, jsonData[ 'scenes' ][ 1 ] ) ;
+        }
+        xhr.send(getVRProjSceneJsonReq) ;
+
+        var record = [] ;
+        for ( var i = 0 ; i < 118 ; i ++ ) {
+            record[ i ] = 0 ; 
+        }
+        function listTree( jsonData ) {
+            let all_scenes = jsonData[ 'scenes' ] ;
+
+            let pic = [] ;
+            d3.csv( 'source/360_match.csv' ).then( data => {
+                console.log( data ) ;
+
+                for ( var i = 0 ; i < jsonData[ 'scenes' ].length ; i ++ ) {
+                let sceneObj = jsonData[ 'scenes' ][ i ] ;
+                let p = document.querySelector( 'p' ) ;
+                // p.innerHTML += ( sceneObj[ 'scene_id' ] + ' ' ) ;
+                p.innerHTML += ( sceneObj[ 'scene_name' ] + ' [ ' ) ;
+                p.innerHTML += ( sceneObj[ 'camera_rotation' ] + ' ] ' ) ;
+                data.forEach( d => { if ( d[ '圖片名稱' ] == sceneObj[ 'scene_name' ] ) p.innerHTML += ( d[ '場景名稱' ] + '<br>' ) ; } ) ;
+                p.innerHTML += ( sceneObj[ 'scene_id' ] + '<br>' ) ;
+
+                let next_arr = [] ;
+                sceneObj[ 'objs' ].forEach( obj => {
+                    if ( obj[ 'main_type' ] == 'image' && obj[ 'res_name' ] == [ 'ARR' ] ) {
+                        let flag = 0 ;
+                        Object.keys( obj ).forEach( k => { if ( k == 'behav' ) flag = 1 } ) ;
+                        if ( flag == 1 ) {
+                            // p.innerHTML += obj[ 'behav' ][ 0 ][ 'scene_id' ] + ' ' ;
+                            for ( var i = 0 ; i < all_scenes.length ; i ++ ) {
+                            if ( all_scenes[ i ][ 'scene_id' ] == obj[ 'behav' ][ 0 ][ 'scene_id' ] ) {
+                                p.innerHTML += all_scenes[ i ][ 'scene_name' ] + ' ' ;     
+                                data.forEach( d => { if ( d[ '圖片名稱' ] == all_scenes[ i ][ 'scene_name' ] ) p.innerHTML += ( d[ '場景名稱' ] + '<br>' ) ; } ) ;  
+                                p.innerHTML += 'transform : ' + obj[ 'transform' ] + '<br>' ;       
+                            }
+                        }
+                        }    
+                    }
+                } ) ;
+                p.innerHTML += ( '<br>' + '<br>' ) ;
+            }
+            } ) ;         
+        }
+    </script>
+</body>
+</html>
