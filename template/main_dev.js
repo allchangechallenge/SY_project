@@ -193,7 +193,8 @@ makarData.then( function( resolvedData ) {
     map_jump() ;
 } ) ;
 
-let p_arr = [] ;
+let sceneIdArr = [] ;   // Storing scene ids
+let p_arr = [] ;   // Collecting object loading promises from each scenes
 let loadPage = document.getElementById( 'load' ) ;
 // Prepare for scene
 function createScene( makarScenes ) {
@@ -204,11 +205,13 @@ function createScene( makarScenes ) {
 
     let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
         for ( var i = 0 ; i < makarScenes.length ; i++ ) {
-            if ( i > 3 ) break ; 
+            // if ( i > 20 ) break ; 
             let sceneObj = document.createElement( 'a-entity' ) ;
     
             sceneObj.setAttribute( 'id', makarScenes[ i ].scene_id ) ;
             sceneObjs.appendChild( sceneObj ) ;
+
+            sceneIdArr.push( makarScenes[ i ].scene_id ) ;
     
             let asky = document.createElement( 'a-sky' ) ;
             asky.setAttribute( 'material', { 'src' : makarScenes[ i ].scene_skybox_url } ) ;
@@ -358,7 +361,7 @@ let down_right_h ;   // Initially equals to 0
 let down_right_w ;
 
 function sizing() {
-    // 【 left corner font-size adjusting 】
+    // left corner font-size adjusting
     console.log( 'sizing' ) ;
     var btn1 = document.getElementById( 'btn1' ) ;
     var btn2 = document.getElementById( 'btn2' ) ;
@@ -372,7 +375,7 @@ function sizing() {
     circle.style.width = down_right.clientHeight * 0.0963 + 'px' ;
     circle.style.height = down_right.clientHeight * 0.0963 + 'px' ;
 
-    // 【 Adjusting by determing which scale is being changed the most 】
+    // Adjusting by determing which scale is being changed the most 
     if ( ( cur_down_right_w - down_right_w ) > ( cur_down_right_h - down_right_h ) ) {
         map_area.style.width = down_right.clientWidth * 0.84 + 'px' ;
         map_area.style.height = map_area.clientWidth / 16 * 9 + 'px' ;           
@@ -437,7 +440,8 @@ function to360( scene_id ) {
     document.getElementById( 'btn1' ).innerHTML = '360 View' ;
 
     // Active the right scene
-    Object.values( id_to_scene ).forEach( v => {
+    // Use an array to keep scene ids
+    Object.values( sceneIdArr ).forEach( v => {
         if ( scene_id == v ) document.getElementById( scene_id ).setAttribute( 'visible', 'true' ) ;
     } ) ;
 
@@ -449,8 +453,11 @@ function to360( scene_id ) {
     } ) ;
 
     // Move the yellow current point on the map
-    let current_point = new map_dot( scene_id, map_dot_pos[ scene_id ][ 0 ], map_dot_pos[ scene_id ][ 1 ] ) ;
-    current_point.current_pos() ;
+    if ( map_dot_pos[ scene_id ] ) {
+        let current_point = new map_dot( scene_id, map_dot_pos[ scene_id ][ 0 ], map_dot_pos[ scene_id ][ 1 ] ) ;
+        current_point.current_pos() ;
+    }
+
 
     vr = 1 ;
     start_tick = 0 ;
@@ -648,8 +655,9 @@ function map_func() {
 function theRaycaster( sceneObjs ) {
     let mouse = new THREE.Vector2() ;
     let raycaster = new THREE.Raycaster() ;
-    console.log( 'In raycaster' ) ;
+    
     aScene.canvas.addEventListener( 'mouseup', function( event ){
+        console.log( 'In raycaster' ) ;
         if ( event.changedTouches ) {
             x = event.changedTouches[ 0 ].pageX ;
             y = event.changedTouches[ 0 ].pageY ;
@@ -666,23 +674,26 @@ function theRaycaster( sceneObjs ) {
         // console.log( 'Intersects : ', intersects[ 0 ].object.el ) ;
 
         sceneObjs.forEach( obj => { 
-            if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
-                obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
-                                            console.log( 'hit ' + b.scene_id ) ;
-                                            if ( document.getElementById( b.scene_id ) != undefined ) {
-                                                // console.log( 'hit ' + b.scene_id ) ;
-                                                to360( b.scene_id ) ; 
-                                            }
-                                            else {
-                                                document.getElementById( 'undef' ).style.visibility = 'visible' ;
-                                                setTimeout( function(){
-                                                    document.getElementById( 'undef' ).style.visibility = 'hidden' ;
-                                                }, 2000 ) ;
-                                            }
-                                                                                                            
-                                        } 
-                                        } )
-            } 
+            if ( intersects[ 0 ].object.el ) {
+                if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
+                    obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
+                                                console.log( 'hit ' + b.scene_id ) ;
+                                                if ( document.getElementById( b.scene_id ) != undefined ) {
+                                                    // console.log( 'hit ' + b.scene_id ) ;
+                                                    to360( b.scene_id ) ; 
+                                                }
+                                                else {
+                                                    document.getElementById( 'undef' ).style.visibility = 'visible' ;
+                                                    setTimeout( function(){
+                                                        document.getElementById( 'undef' ).style.visibility = 'hidden' ;
+                                                    }, 2000 ) ;
+                                                }
+                                                                                                                
+                                            } 
+                                            } )
+                } 
+            }
+
         } ) ;
     } ) ;
 }
@@ -692,7 +703,7 @@ function theRaycaster( sceneObjs ) {
 let map_dot_pos = {
     'b5e7eeb146954a73af7a9248cff19543' : [ 44, 43 ],
     'a344d7bf16d140879724eb2e62a440aa' : [ 57, 43 ],
-    '18522ccb12004b1f8b8f3961858c4465' : [ 64, 72 ],
+    '18522ccb12004b1f8b8f3961858c4465' : [ 64, 79 ],
     '673149e6f1b24354a949ff60415c5481' : [ 33, 54 ]
 }
 

@@ -3,9 +3,6 @@
   <title>Craw the frame of of website</title>
 </head>
 <body>
-    <canvas id="canvas">
-
-    </canvas>
     <p style="font-size: 400%;">
 
     </p>
@@ -61,7 +58,7 @@
                 let sceneObj = jsonData[ 'scenes' ][ i ] ;
                 let p = document.querySelector( 'p' ) ;
                 // p.innerHTML += ( sceneObj[ 'scene_id' ] + ' ' ) ;
-                p.innerHTML += ( sceneObj[ 'scene_name' ] + ' [ ' ) ;
+                p.innerHTML += ( i + ' ' + sceneObj[ 'scene_name' ] + ' [ ' ) ;
                 p.innerHTML += ( sceneObj[ 'camera_rotation' ] + ' ] ' ) ;
                 data.forEach( d => { if ( d[ '圖片名稱' ] == sceneObj[ 'scene_name' ] ) p.innerHTML += ( d[ '場景名稱' ] + '<br>' ) ; } ) ;
                 p.innerHTML += ( sceneObj[ 'scene_id' ] + '<br>' ) ;
@@ -87,31 +84,6 @@
             }
             } ) ;         
         }
-
-
-        const canvas = document.getElementById( 'canvas' ) ;
-        const ctx = canvas.getContext( '2d' ) ;
-        ctx.strokeStyle = 'red' ;
-        ctx.lineWidth = 5 ;
-        ctx.beginPath() ;
-        // ctx.moveTo( cube_pos[ 0 ], cube_pos[ 1 ] ) ;
-        // ctx.lineTo( tag_pos.right, tag_pos.top ) ;
-        ctx.moveTo( 100, 100 ) ;
-        ctx.lineTo( 300, 500 ) ;
-        ctx.stroke() ; 
-
-        // const canvas = document.querySelector('#canvas');
-        // const ctx = canvas.getContext('2d');
-
-        // // set line style
-        // ctx.strokeStyle = 'red';
-        // ctx.lineWidth = 22;
-
-        // // draw a red line
-        // ctx.beginPath();
-        // ctx.moveTo(100, 100);
-        // ctx.lineTo(300, 100);
-        // ctx.stroke();
     </script>
 </body>
 </html>
