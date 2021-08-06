@@ -351,35 +351,39 @@ function loadChinese( obj, sceneObj, position, rotation, scale ) {
     else sceneObj.appendChild( anchor ) ;
 }
 
-
 window.onresize = sizing ;
 
 let down_right = document.getElementById( 'down_right_360' ) ;
-let down_right_h = down_right.clientHeight ;
-let down_right_w = down_right.clientWidth ;
+let down_right_h ;   // Initially equals to 0
+let down_right_w ;
 
 function sizing() {
-    // left corner font-size adjusting 
+    // 【 left corner font-size adjusting 】
     console.log( 'sizing' ) ;
     var btn1 = document.getElementById( 'btn1' ) ;
     var btn2 = document.getElementById( 'btn2' ) ;
     btn1.style.fontSize = btn1.offsetWidth / 6.8 + 'px' ;
     btn2.style.fontSize = btn2.offsetWidth / 6.8 + 'px' ;
 
-    home_menu.style.fontSize = home_menu.offsetWidth * 0.9 / 5 + 'px' ;
+    let cur_down_right_h = down_right.clientHeight ;
+    let cur_down_right_w = down_right.clientWidth ;
 
-    if ( down_right.clientWidth != 0 && down_right.clientHeight != 0 ) {
-        let d_h = Math.abs( down_right.clientHeight - down_right_h ) ;
-        let d_w = Math.abs( down_right.clientWidth - down_right_w ) ;
-        if ( d_h > d_w ) {
-            map_area.style.width = down_right.clientWidth * 0.84 + 'px' ;
-            map_area.style.height = map_area.clientWidth / 16 * 9 + 'px' ;           
-        }
-        else {
-            map_area.style.height = down_right.clientHeight + 'px' ;
-            map_area.style.width = map_area.clientHeight / 9 * 16 + 'px' ;          
-        }
-    } 
+    let circle = document.getElementById( 'circle' ) ;
+    circle.style.width = down_right.clientHeight * 0.0963 + 'px' ;
+    circle.style.height = down_right.clientHeight * 0.0963 + 'px' ;
+
+    // 【 Adjusting by determing which scale is being changed the most 】
+    if ( ( cur_down_right_w - down_right_w ) > ( cur_down_right_h - down_right_h ) ) {
+        map_area.style.width = down_right.clientWidth * 0.84 + 'px' ;
+        map_area.style.height = map_area.clientWidth / 16 * 9 + 'px' ;           
+    }
+    else {
+        map_area.style.height = down_right.clientHeight + 'px' ;
+        map_area.style.width = map_area.clientHeight / 9 * 16 + 'px' ;          
+    }
+
+    down_right_h = down_right.clientHeight ;
+    down_right_w = down_right.clientWidth ;
 
     var scroll_font = document.getElementById( 'scroll_bar' ) ;
     scroll_font.style.fontSize = scroll_font.offsetHeight / 20 + 'px' ;
@@ -392,7 +396,8 @@ function sizing() {
 function to360( scene_id ) {
     homePage.setAttribute( 'visible', 'false' ) ;
     scene_360.setAttribute( 'visible', 'true' ) ;
-    sizing() ;
+
+    sizing() ;   // At this point, there's no value for the size of down_right_360 corner
     console.log( 'Inside 360 scene' ) ;
 
     // Set all 360 scenes to false
@@ -634,6 +639,9 @@ function map_func() {
     const map_ins = new menu( map_area, '100%', '100%' ) ;
     map_ins.hit_menu( map_on ) ;
     map_on = ( map_on ==  0 ) ? 1 : 0 ;
+
+    console.log( down_right.clientWidth, down_right.clientHeight ) ;
+    sizing() ;
 }
 
 // Raycaster API
@@ -657,24 +665,25 @@ function theRaycaster( sceneObjs ) {
         console.log( intersects ) ;
         // console.log( 'Intersects : ', intersects[ 0 ].object.el ) ;
 
-        sceneObjs.forEach( obj => { if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
-                                         obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
-                                                                        console.log( 'hit ' + b.scene_id ) ;
-                                                                        if ( document.getElementById( b.scene_id ) != undefined ) {
-                                                                            // console.log( 'hit ' + b.scene_id ) ;
-                                                                            to360( b.scene_id ) ; 
-                                                                        }
-                                                                        else {
-                                                                            document.getElementById( 'undef' ).style.visibility = 'visible' ;
-                                                                            setTimeout( function(){
-                                                                                document.getElementById( 'undef' ).style.visibility = 'hidden' ;
-                                                                            }, 2000 ) ;
-                                                                        }
-                                                                                                                                     
-                                                                    } 
-                                                                 } )
-                                    } 
-                                  } ) ;
+        sceneObjs.forEach( obj => { 
+            if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
+                obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
+                                            console.log( 'hit ' + b.scene_id ) ;
+                                            if ( document.getElementById( b.scene_id ) != undefined ) {
+                                                // console.log( 'hit ' + b.scene_id ) ;
+                                                to360( b.scene_id ) ; 
+                                            }
+                                            else {
+                                                document.getElementById( 'undef' ).style.visibility = 'visible' ;
+                                                setTimeout( function(){
+                                                    document.getElementById( 'undef' ).style.visibility = 'hidden' ;
+                                                }, 2000 ) ;
+                                            }
+                                                                                                            
+                                        } 
+                                        } )
+            } 
+        } ) ;
     } ) ;
 }
 

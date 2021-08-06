@@ -7,6 +7,12 @@ body {
     margin-right: 0px;
     margin-bottom: 0px;
 }
+#canvas {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 8;
+}
 #load {
     width: 100%;
     height: 100%;
@@ -268,8 +274,8 @@ span.scroll {
     border-radius: 50%;
     border: gold solid 5px;
     background-color: gold;
-    width: 45px;
-    height: 45px;
+    width: 3rem;
+    height: 3rem;
 }
 #undef {
     width: 100%;

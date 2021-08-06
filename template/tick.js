@@ -16,6 +16,7 @@ AFRAME.registerComponent( 'tag-monitor', {
         let x_bias = [ -317, -307, -327, -380, -307, -327 ] ;   // b, g, y, o, r, p
         let y_bias = [ 0, -100, 15, -10, -120, 15 ] ;
 
+        // Initial position from cubes instantaneously
         for ( var i = 0 ; i < cube_obj.length ; i ++ ) {
             point3D.x = cube_obj[ i ].object3D.position.x ;
             point3D.y = cube_obj[ i ].object3D.position.y ;
@@ -34,6 +35,7 @@ AFRAME.registerComponent( 'tag-monitor', {
         }
         // console.log( tag_point ) ;
 
+        // Arrange the tags instantaneously
         if ( start_tick == 1 ) {
             var over = [] ;   // Determine the overlap status for every tags in this tick
             for ( var i = 0 ; i < tag_point.length ; i ++ ) over[ i ] = 0 ;
@@ -74,6 +76,14 @@ AFRAME.registerComponent( 'tag-monitor', {
             }
         }
 
+        // TRY : draw line from cube to tag
+        for ( var i = 0 ; i < tag_obj.length ; i++ ) {
+            // console.log( tag_point[ i ],  tag_point[ i ] ) ;
+            // draw_line( tag_point[ i ], tag_obj[ i ].style  ) ;
+        }
+       
+
+        // Controlling when to let different kind of tags appear
         if ( vr == 0 ) {
             if ( tag == 1 ) {
                 for ( var i = 0 ; i < tag_point.length ; i ++ ) {
@@ -94,8 +104,27 @@ AFRAME.registerComponent( 'tag-monitor', {
     }
 } ) ;
 
-AFRAME.registerComponent( 'arrow-monitor', {
-    tick : function( time, timeDelta ) {
-        
-    }
-} )
+// Hope to draw out the line between blocks and tags 
+function draw_line( cube_pos, tag_pos ) {
+    // console.log( cube_pos, tag_pos.right, tag_pos.top ) ;
+    
+    
+    const canvas = document.getElementById( 'canvas' ) ;
+    const ctx = canvas.getContext( '2d' ) ;
+
+    let h_rate =  canvas.height / window.innerHeight ;
+    let w_rate =  canvas.weight / window.innerWidth ;
+
+    let des_x = tag_pos[ 0 ].slice( ( tag_pos[ 0 ].length - 1 ) ) ;
+    console.log( tag_pos[ 0 ], des_x ) ;
+
+
+    ctx.strokeStyle = 'red' ;
+    ctx.lineWidth = 22 ;
+    ctx.beginPath() ;
+    // ctx.moveTo( cube_pos[ 0 ] * canvas_rate, cube_pos[ 1 ] * canvas_rate ) ;
+    // ctx.lineTo( cube_pos[ 0 ] * canvas_rate + 200, cube_pos[ 1 ] * canvas_rate + 200 ) ;
+    // ctx.moveTo( 100, 100 ) ;
+    // ctx.lineTo( 300, 500 ) ;
+    ctx.stroke() ; 
+}

@@ -73331,7 +73331,7 @@ module.exports.Component = registerComponent('text', {
             }
  
             if (!geometryDone){
-              console.log(" *** _setTextGeometry: not done again = " , self.el.object3D.children[i] );
+              // console.log(" *** _setTextGeometry: not done again = " , self.el.object3D.children[i] );
 
               setTimeout( setTextGeometry , 500);
             }
