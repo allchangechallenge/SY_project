@@ -10,25 +10,6 @@ var start_tick = 0 ;
 
 AFRAME.registerComponent( 'tag-monitor', {
      tick : function( time, timeDelta ) {
-        // var btn1 = document.getElementById( 'btn1' ) ;
-        // var btn2 = document.getElementById( 'btn2' ) ;
-        // btn1.style.fontSize = btn1.offsetWidth / 6.8 + 'px' ;
-        // btn2.style.fontSize = btn2.offsetWidth / 6.8 + 'px' ;
-    
-        // home_menu.style.fontSize = home_menu.offsetWidth * 0.9 / 5 + 'px' ;
-    
-        // var down_right = document.getElementById( 'down_right_360' ) ;
-        
-        // down_right.style.width = window.innerWidth / 3.3 + 'px' ;
-        // down_right.style.height = down_right.clientWidth / 1.9 + 'px' ;
-        // down_right.style.top = ( window.innerHeight - ( down_right.clientHeight + window.innerHeight * 0.03 ) ) + 'px'  ;
-    
-        // var scroll_font = document.getElementById( 'scroll_bar' ) ;
-        // scroll_font.style.fontSize = scroll_font.offsetHeight / 20 + 'px' ;
-    
-        // let lastPage = document.getElementById( 'lastPage' ) ;
-        // lastPage.style.fontSize = lastPage.offsetHeight + 'px' ;
-
         let point3D = new THREE.Vector3() ;
         let point2D = new THREE.Vector2() ;
         let tag_point = [] ;

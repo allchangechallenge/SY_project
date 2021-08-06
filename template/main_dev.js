@@ -226,6 +226,9 @@ function createScene( makarScenes ) {
                     case 'image' :
                         loadImage( obj, sceneObj, position, rotation, scale ) ; 
                         break ;
+                    case 'text' :
+                        loadChinese( obj, sceneObj, position, rotation, scale ) ;
+                        break ;
                 }  
             }
         }
@@ -234,6 +237,19 @@ function createScene( makarScenes ) {
             loadPage.style.visibility = 'hidden' ;
         } ) ;
     } ) ;
+}
+
+function setTransform( obj, position, rotation, scale ) {
+    let pos = position.clone() ;
+    pos.multiply( new THREE.Vector3( -1, 1, 1 ) ) ;
+
+    let rot = rotation.clone() ;
+    rot.multiply( new THREE.Vector3( 1, -1, -1 ) ) ;
+
+    obj.setAttribute( 'position', pos ) ;
+    obj.setAttribute( 'rotation', rot ) ;
+    obj.setAttribute( 'scale', scale ) ;
+
 }
 
 function loadImage( obj, sceneObj, position, rotation, scale ) {
@@ -261,15 +277,7 @@ function loadImage( obj, sceneObj, position, rotation, scale ) {
                         }
                     } ) ;
     
-                    let pos = position.clone() ;
-                    pos.multiply( new THREE.Vector3( -1, 1, 1 ) ) ;
-                    plane.setAttribute( 'position', pos ) ;
-    
-                    let rot = rotation.clone() ;
-                    rot.multiply( new THREE.Vector3( 1, -1, -1 ) ) ;
-                    plane.setAttribute( 'rotation', rot ) ;
-    
-                    plane.setAttribute( 'scale', scale ) ;
+                    setTransform( plane, position, rotation, scale ) ;
                     
                     sceneObj.appendChild( plane ) ; 
                 }
@@ -280,6 +288,69 @@ function loadImage( obj, sceneObj, position, rotation, scale ) {
     ) ;
     return p_arr ;
 }
+
+// Time to load some Chinese text
+function loadChinese( obj, sceneObj, position, rotation, scale ) {
+    let anchor = document.createElement( 'a-entity' ) ;
+    setTransform( anchor, position, rotation, scale ) ;
+    anchor.setAttribute( 'id', obj.obj_id ) ;
+
+    let text = document.createElement( 'a-text' ) ;
+    textList = obj.content ;
+    const chinese_regex = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
+    const isChinese = ( str ) => chinese_regex.test( str ) ;
+
+    let str_len = 0 ;
+    for ( var i = 0 ; i < textList.length ; i ++ ) {
+        let c = textList[ i ] ;
+        if ( isChinese( c ) ) str_len += 1.6 ;
+        else if ( c == c.toUpperCase() && c != c.toLowerCase() ) str_len += 1 ;
+        else if ( c == c.toLowerCase() && c != c.toUpperCase() ) str_len += 1 ;
+        else str_len += 1.25 ;
+    }
+
+    text.setAttribute( 'value', obj.content ) ;
+    text.setAttribute( 'width', str_len ) ;
+    text.setAttribute( 'anchor', 'center' ) ;
+    text.setAttribute( 'back-color', obj.back_color ) ;
+    text.setAttribute( 'side', 'double' ) ;
+    
+    var fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/" ;
+    fonts = [ fontUrl + "1-msdf.json", fontUrl + "2-msdf.json", fontUrl + "3-msdf.json", fontUrl + "4-msdf.json", 
+              fontUrl + "5-msdf.json", fontUrl + "6-msdf.json", fontUrl + "7-msdf.json", fontUrl + "8-msdf.json", 
+              fontUrl + "9-msdf.json", fontUrl + "10-msdf.json", fontUrl + "11-msdf.json", fontUrl + "12-msdf.json" ] ;
+    text.setAttribute( 'font', fonts ) ; 
+    text.setAttribute( "negate", "false" ) ;
+    text.setAttribute( 'crossorigin', 'anonymous' ) ;
+
+    let rgb = obj.color.split( ',' ) ;
+    let color = new THREE.Color( parseFloat( rgb[ 0 ] ), parseFloat( rgb[ 1 ] ), parseFloat( [ 2 ] ) ) ;
+    text.setAttribute( 'color', '#' + color.getHexString() ) ;
+
+    text.addEventListener( 'loaded', function( evt ) {
+        if ( evt.target == evt.currentTarget ) {
+            let r = new THREE.Vector3() ;
+            r.set( 0, Math.PI, 0 ) ;
+            text.object3D.rotation.setFromVector3( r ) ;
+        }
+    } ) ;
+
+    anchor.appendChild( text ) ;
+
+    if ( obj.obj_parent_id ) {
+        let timeout = setInterval( function() {
+            let parent = document.getElementById( obj.obj_parent_id ) ;
+            if ( parent ) {
+                if ( parent.object3D.children.length > 0 ) {
+                    parent.appendChild( anchor ) ;
+                    window.clearInterval( timeout ) ;
+                }
+            }
+        }, 1 ) ;
+    }
+    else sceneObj.appendChild( anchor ) ;
+}
+
 
 window.onresize = sizing ;
 
@@ -611,9 +682,9 @@ function theRaycaster( sceneObjs ) {
 // Dots information for down right map
 let map_dot_pos = {
     'b5e7eeb146954a73af7a9248cff19543' : [ 44, 43 ],
-    'a344d7bf16d140879724eb2e62a440aa' : [ 56, 43 ],
-    '18522ccb12004b1f8b8f3961858c4465' : [ 64, 70 ],
-    '673149e6f1b24354a949ff60415c5481' : [ 33, 52 ]
+    'a344d7bf16d140879724eb2e62a440aa' : [ 57, 43 ],
+    '18522ccb12004b1f8b8f3961858c4465' : [ 64, 72 ],
+    '673149e6f1b24354a949ff60415c5481' : [ 33, 54 ]
 }
 
 let dots = document.getElementById( 'dots' ) ;
