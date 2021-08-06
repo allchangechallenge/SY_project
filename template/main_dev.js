@@ -362,7 +362,7 @@ let down_right_w ;
 
 function sizing() {
     // left corner font-size adjusting
-    console.log( 'sizing' ) ;
+    // console.log( 'sizing' ) ;
     var btn1 = document.getElementById( 'btn1' ) ;
     var btn2 = document.getElementById( 'btn2' ) ;
     btn1.style.fontSize = btn1.offsetWidth / 6.8 + 'px' ;
@@ -647,7 +647,6 @@ function map_func() {
     map_ins.hit_menu( map_on ) ;
     map_on = ( map_on ==  0 ) ? 1 : 0 ;
 
-    console.log( down_right.clientWidth, down_right.clientHeight ) ;
     sizing() ;
 }
 
@@ -657,7 +656,6 @@ function theRaycaster( sceneObjs ) {
     let raycaster = new THREE.Raycaster() ;
     
     aScene.canvas.addEventListener( 'mouseup', function( event ){
-        console.log( 'In raycaster' ) ;
         if ( event.changedTouches ) {
             x = event.changedTouches[ 0 ].pageX ;
             y = event.changedTouches[ 0 ].pageY ;
@@ -670,27 +668,29 @@ function theRaycaster( sceneObjs ) {
 
         raycaster.setFromCamera( mouse, aScene.camera ) ;
         let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
-        console.log( intersects ) ;
+        console.log( "Intersects : ", intersects ) ;
         // console.log( 'Intersects : ', intersects[ 0 ].object.el ) ;
 
         sceneObjs.forEach( obj => { 
             if ( intersects[ 0 ].object.el ) {
                 if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
-                    obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
-                                                console.log( 'hit ' + b.scene_id ) ;
-                                                if ( document.getElementById( b.scene_id ) != undefined ) {
-                                                    // console.log( 'hit ' + b.scene_id ) ;
-                                                    to360( b.scene_id ) ; 
-                                                }
-                                                else {
-                                                    document.getElementById( 'undef' ).style.visibility = 'visible' ;
-                                                    setTimeout( function(){
-                                                        document.getElementById( 'undef' ).style.visibility = 'hidden' ;
-                                                    }, 2000 ) ;
-                                                }
-                                                                                                                
-                                            } 
-                                            } )
+                    if ( obj.behav ) {
+                        obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
+                            console.log( 'hit ' + b.scene_id ) ;
+                            if ( document.getElementById( b.scene_id ) != undefined ) {
+                                // console.log( 'hit ' + b.scene_id ) ;
+                                to360( b.scene_id ) ; 
+                            }
+                            else {
+                                document.getElementById( 'undef' ).style.visibility = 'visible' ;
+                                setTimeout( function(){
+                                    document.getElementById( 'undef' ).style.visibility = 'hidden' ;
+                                }, 2000 ) ;
+                            }
+                                                                                            
+                        } 
+                        } )
+                    }
                 } 
             }
 
