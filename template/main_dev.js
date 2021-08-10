@@ -416,8 +416,8 @@ function to360( scene_id ) {
         if ( document.getElementById( s.scene_id ) ) {
             document.getElementById( s.scene_id ).setAttribute( 'visible', 'false' ) ;
             if ( s.scene_id == scene_id ) {
-                cam_rot.x = s.camera_rotation.split( ',' )[ 0 ] * Math.PI / 180 ;
-                cam_rot.y = s.camera_rotation.split( ',' )[ 1 ] * Math.PI / 180 ;
+                cam_rot.x = s.camera_rotation.split( ',' )[ 0 ] * ( -1 ) * Math.PI / 180 ;
+                cam_rot.y = ( s.camera_rotation.split( ',' )[ 1 ] * -1 + 180 ) * Math.PI / 180 ;
                 cam_rot.z = s.camera_rotation.split( ',' )[ 2 ] * Math.PI / 180 ;
                 // console.log( cam_rot ) ;
             }
