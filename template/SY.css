@@ -262,11 +262,13 @@ span.scroll {
 }
 .points {
     position: absolute;
-    font-size: 280%;
+    height: 5%;
+    width: 5%;
     font-weight: bolder;
     top: 2px;
     cursor: pointer;
-    color: transparent;
+    /* border:coral solid; */
+    /* color: transparent; */
 }
 #circle {
     position: absolute;

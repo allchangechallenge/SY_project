@@ -363,6 +363,7 @@ window.onresize = sizing ;
 let down_right = document.getElementById( 'down_right_360' ) ;
 let down_right_h ;   // Initially equals to 0
 let down_right_w ;
+let dots = document.getElementById( 'dots' ) ;
 
 function sizing() {
     // left corner font-size adjusting
@@ -380,7 +381,7 @@ function sizing() {
     circle.style.height = down_right.clientHeight * 0.0963 + 'px' ;
 
     // Adjusting by determing which scale is being changed the most 
-    if ( ( cur_down_right_w - down_right_w ) > ( cur_down_right_h - down_right_h ) ) {
+    if ( Math.abs( cur_down_right_w - down_right_w ) > Math.abs( cur_down_right_h - down_right_h ) ) {
         map_area.style.width = down_right.clientWidth * 0.84 + 'px' ;
         map_area.style.height = map_area.clientWidth / 16 * 9 + 'px' ;           
     }
@@ -392,13 +393,16 @@ function sizing() {
     down_right_h = down_right.clientHeight ;
     down_right_w = down_right.clientWidth ;
 
+    dots.style.width = map_area.style.width ;
+    dots.style.height = map_area.style.height ;
+
     var scroll_font = document.getElementById( 'scroll_bar' ) ;
     scroll_font.style.fontSize = scroll_font.offsetHeight / 20 + 'px' ;
 
     let lastPage = document.getElementById( 'lastPage' ) ;
     lastPage.style.fontSize = lastPage.offsetHeight + 'px' ;
 
-    home_menu.style.fontSize = home_menu.offsetWidth / 5 + 'px' ;
+    home_menu.style.fontSize = home_menu.offsetWidth / 6 + 'px' ;
 
 }
 
@@ -627,7 +631,7 @@ class menu {
         this.start = start ;
         this.end = end ;
     }
-    hit_menu( visible ) {
+    hit_menu() {
         let tline = gsap.timeline() ;
         if ( gsap.getProperty( this.el, 'visibility' ) == 'hidden' ) {
             tline.set( this.el, { 'visibility' : 'visible', scale : 1 } ) ;
@@ -640,19 +644,14 @@ class menu {
     }
 }
 
-let menu_on = 0 ;
 function click_menu() {
     const scroll_menu_ins = new menu( scroll_bar, '0%', '0%' ) ;
-    scroll_menu_ins.hit_menu( menu_on ) ;
-    menu_on = ( menu_on ==  0 ) ? 1 : 0 ;
+    scroll_menu_ins.hit_menu() ;
 }
 
-let map_on = 0 ;
 function map_func() {
     const map_ins = new menu( map_area, '100%', '100%' ) ;
-    map_ins.hit_menu( map_on ) ;
-    map_on = ( map_on ==  0 ) ? 1 : 0 ;
-
+    map_ins.hit_menu() ;
     sizing() ;
 }
 
@@ -713,8 +712,6 @@ let map_dot_pos = {
     '673149e6f1b24354a949ff60415c5481' : [ 33, 54 ]
 }
 
-let dots = document.getElementById( 'dots' ) ;
-
 class map_dot {
     constructor( scene_id, x, y ) {   // start from the up left corner of the map
         this.sceneId = scene_id ;
@@ -723,7 +720,6 @@ class map_dot {
     }
     create_dot( tag ) {
         let div = document.createElement( 'div' ) ;
-        let num = document.createTextNode( 'O' ) ;
         div.classList.add( 'points' ) ;
         div.style.top = this.y ;
         div.style.left = this.x ;
@@ -732,7 +728,6 @@ class map_dot {
             to360( id_to_scene[ tag ] ) ;
         })
 
-        div.appendChild( num ) ;
         dots.appendChild( div ) ;
     }
     current_pos() {
