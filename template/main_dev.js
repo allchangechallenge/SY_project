@@ -398,6 +398,8 @@ function sizing() {
     let lastPage = document.getElementById( 'lastPage' ) ;
     lastPage.style.fontSize = lastPage.offsetHeight + 'px' ;
 
+    home_menu.style.fontSize = home_menu.offsetWidth / 5.5 + 'px' ;
+
 }
 
 function to360( scene_id ) {
