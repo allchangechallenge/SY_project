@@ -197,8 +197,7 @@ let sceneIdArr = [] ;   // Storing scene ids
 let p_arr = [] ;   // Collecting object loading promises from each scenes
 let loadPage = document.getElementById( 'load' ) ;
 // Prepare for scene
-function createScene( makarScenes ) {
-
+function createScene( makarScenes ) {  
     let sceneObjs = document.createElement( 'a-entity' ) ;
     sceneObjs.setAttribute( 'id', 'sceneObjs' ) ;
     scene_360.appendChild( sceneObjs ) ;
@@ -217,6 +216,7 @@ function createScene( makarScenes ) {
             asky.setAttribute( 'material', { 'src' : makarScenes[ i ].scene_skybox_url } ) ;
             asky.setAttribute( 'id', makarScenes[ i ].scene_id + '_sky' ) ;
             sceneObj.appendChild( asky ) ;
+            // asky.addEventListener( 'loaded', ( e ) => { resolve( true ) } ) ;
     
             for ( var j = 0 ; j < makarScenes[ i ].objs.length ; j ++ ) {
                 let obj = makarScenes[ i ].objs[ j ] ;
@@ -227,19 +227,24 @@ function createScene( makarScenes ) {
     
                 switch( obj.main_type ) {
                     case 'image' :
-                        loadImage( obj, sceneObj, position, rotation, scale ) ; 
+                        let load1 = new Promise( ( resolve, reject ) => { 
+                            let temp = loadImage( obj, sceneObj, position, rotation, scale ) ; 
+                            if ( temp == true ) resolve() ;
+                        } ) ; 
                         break ;
                     case 'text' :
-                        loadChinese( obj, sceneObj, position, rotation, scale ) ;
+                        let load2 = new Promise( ( resolve, reject ) => { 
+                            let temp = loadChinese( obj, sceneObj, position, rotation, scale ) ; 
+                            if ( temp == true ) resolve() ;
+                        } ) ; 
                         break ;
                 }  
+              
             }
-        }
-
-        Promise.all( p_arr ).then( ( resolve ) => {
-            loadPage.style.visibility = 'hidden' ;
-        } ) ;
+            if ( i == ( makarScenes.length - 1 ) ) resolve() ;
+        } 
     } ) ;
+    allSceneObjLoaded.then( () => { console.log( 'true' ) ; loadPage.style.visibility = 'hidden' } ) ;
 }
 
 function setTransform( obj, position, rotation, scale ) {
@@ -252,7 +257,6 @@ function setTransform( obj, position, rotation, scale ) {
     obj.setAttribute( 'position', pos ) ;
     obj.setAttribute( 'rotation', rot ) ;
     obj.setAttribute( 'scale', scale ) ;
-
 }
 
 function loadImage( obj, sceneObj, position, rotation, scale ) {
@@ -283,13 +287,13 @@ function loadImage( obj, sceneObj, position, rotation, scale ) {
                     setTransform( plane, position, rotation, scale ) ;
                     
                     sceneObj.appendChild( plane ) ; 
-                }
-            } ) ;
-            
-            p_arr.push( oneLoadPromise ) ;
+                    resolve( sceneObj.id ) ;
+                }    
+            } ) ;  
+            oneLoadPromise.then( () => { return true } ) ;
         }
     ) ;
-    return p_arr ;
+    
 }
 
 // Time to load some Chinese text

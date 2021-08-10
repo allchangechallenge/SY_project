@@ -21,7 +21,7 @@ body {
     position: absolute;
     z-index: 7;
     font-size: 1000%;
-    /* visibility: hidden; */
+    visibility: visible;
 }
 #load_w {
     position: relative;
