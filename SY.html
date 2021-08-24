@@ -64,14 +64,15 @@
                         <img id="button4-1-icon-ques" class="middle_bottom_btn" src="切圖/button/button4-1-icon-ques.png">
                     </div> -->
                 </div>
-
             </div>
         </div>        
         <div id="up">
             <div class="btn btn-light" id="btn1">Orbit View</div>
             <div class="btn btn-light" id="btn2">VR View</div>
         </div>
-
+        <div id="SY_icon_360">
+            <img id="SY_img_360" src="source/sccp2.png" width="100%">
+        </div>
         <div id="menu">
             <img id="menu_icon" src="source/menu.png" onclick="click_menu()">
             <div id="scroll_bar" class="scroll_bar">
@@ -141,13 +142,13 @@
 
         <div>
             
-            <a-scene tag-monitor debug gltf-model="dracoDecoderPath: /template/draco/;" loading-scene="enabled: false">
+            <a-scene tag-monitor debug gltf-model="dracoDecoderPath: /template/draco/;" loading-screen="enabled: false">
                 <a-assets>
                     <img id="arrow" src="source/arrow.png">
                     <!-- <a-asset-item id="sy_model" src="/source/model/Songyan.glb"></a-asset-item> -->
                 </a-assets>
 
-                <a-entity id="homePage">      
+                <a-entity id="homeModel">      
                     <a-entity gltf-model="url(/source/model/Songyan_d.glb)" scale="0.5 0.5 0.5"></a-entity>
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
                     <a-sky id="sky" color="lightblue"></a-sky>
@@ -159,7 +160,7 @@
                     <a-box id="r_cube" color="#c4372d" depth="1.2" position="4 0.5 -2" visible="false"></a-box>
                     <a-box id="p_cube" color="#bf2ca7" depth="1.2" position="-5 0.5 7" visible="false"></a-box>
     
-                    <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 20; initialPosition: -8 10 15; maxPolarAngle: 80; minPolarAngle: 40">
+                    <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 21; initialPosition: -18 7 6; maxPolarAngle: 80; minPolarAngle: 40">
                     </a-entity>     
                 </a-entity>
 

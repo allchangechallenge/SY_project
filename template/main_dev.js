@@ -1,5 +1,6 @@
 let aScene = document.getElementsByTagName( 'a-scene' )[ 0 ] ;   // 1315, 898
 let homePage = document.getElementById( 'homePage' ) ;
+let homeModel = document.getElementById( 'homeModel' ) ;
 let scene_360 = document.getElementById( '360Scene' ) ;
 let tags = document.getElementById( 'tags' ) ;
 
@@ -20,7 +21,8 @@ let o_info = { 'vr_pos' : oCube.object3D.position,
 
 let vrInfo = {'g' : g_info, 'o' : o_info } ;
 
-let SY_img = document.getElementById( 'SY_img' ) ;
+let SY_icon = document.getElementById( 'SY_icon' ) ;
+let SY_icon_360 = document.getElementById( 'SY_icon_360' ) ;
 let home_menu = document.getElementById( 'home_menu' ) ;
 let scroll_menu = document.getElementById( 'menu' ) ;
 let scroll_menu_icon = document.getElementById( 'menu_icon' ) ;
@@ -67,7 +69,7 @@ function toVR( s ) {
         // --- Into VR camera ---
         cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
         cam.object3D.children[0].rotation.reorder( 'YXZ' ) ;  
-        console.log( vrInfo[ s ][ 'vr_pos' ].x, vrInfo[ s ][ 'vr_pos' ].y, vrInfo[ s ][ 'vr_pos' ].z ) ;
+        // console.log( vrInfo[ s ][ 'vr_pos' ].x, vrInfo[ s ][ 'vr_pos' ].y, vrInfo[ s ][ 'vr_pos' ].z ) ;
         var persCam = {
             target : new THREE.Vector3( vrInfo[ s ][ 'vr_pos' ].x, vrInfo[ s ][ 'vr_pos' ].y, vrInfo[ s ][ 'vr_pos' ].z ),
             origin : new THREE.Vector3( cam.object3D.children[0].position.x, 
@@ -108,7 +110,7 @@ function toVR( s ) {
                 let persRot = new THREE.Vector3( ( persCam.rot_o.x + direction.pers_rot.x * distance.ratio / 1000 ) ,
                                                     ( persCam.rot_o.y + direction.pers_rot.y * distance.ratio / 1000 ) ,
                                                     ( persCam.rot_o.z + direction.pers_rot.z * distance.ratio / 1000 ) )
-                console.log( persPos, persRot ) ;
+                // console.log( persPos, persRot ) ;
                 
                 cam.object3D.children[0].position.x = persPos.x ;
                 cam.object3D.children[0].position.y = persPos.y ;
@@ -203,6 +205,15 @@ function createScene( makarScenes ) {
     scene_360.appendChild( sceneObjs ) ;
 
     let p_arr = [] ;   // Collecting object loading promises from each scenes
+    let syModelLoadPromise = new Promise ( ( resolve, reject ) => {
+        document.querySelector( 'a-entity' ).addEventListener( 'model-loaded', ( evt ) => {
+            console.log( "model-loaded" ) ;
+            resolve() ;
+        } ) ; 
+    } ) ;
+    p_arr.push( syModelLoadPromise ) ;
+
+
     let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
         for ( var i = 0 ; i < makarScenes.length ; i++ ) {
             // if ( i > 20 ) break ; 
@@ -259,24 +270,33 @@ function setTransform( obj, position, rotation, scale ) {
 }
 
 function loadImage( obj, sceneObj, position, rotation, scale ) {
-    var texture = new THREE.TextureLoader().load( obj.res_url ) ;
+    
 
-    let url_split_length = obj.res_url.split( '.' ).length ;
-    let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
-
+    
     this.loadPromise = function ( texture ) {
+        var texture = new THREE.TextureLoader().load( obj.res_url ) ;
+        // console.log( texture ) ;
+        
+    
+        let url_split_length = obj.res_url.split( '.' ).length ;
+        let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
         let oneLoadPromise = new Promise( ( resolve, reject ) => {
             let plane ;
             if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
+               
                 
                 plane = document.createElement( 'a-plane' ) ;
                 plane.setAttribute( 'src', obj.res_url ) ;
                 plane.setAttribute( 'id', obj.obj_id ) ;
                 plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
     
-                plane.addEventListener( 'loaded', function( evt ) { 
+                plane.addEventListener( 'loaded', function( evt ) {
+                    console.log( texture ) ; 
                     if ( evt.target == evt.currentTarget ) {
-                        plane.object3D.children[0].scale.set( texture.image.width * 0.01, texture.image.height * 0.01, 1 ) ;
+                        if ( texture.image ) {
+                            plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
+                        }
+                        
                         plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
                     }
                 } ) ;
@@ -284,13 +304,14 @@ function loadImage( obj, sceneObj, position, rotation, scale ) {
                 setTransform( plane, position, rotation, scale ) ;
                 
                 sceneObj.appendChild( plane ) ; 
+                // console.log( 'append a-plane' ) ;
                 resolve() ;
             }    
         } ) ; 
         return oneLoadPromise ;
     }
- 
-    return this.loadPromise ;
+
+    return loadPromise() ;
 }
 
 // Time to load some Chinese text
@@ -404,7 +425,7 @@ function sizing() {
 }
 
 function to360( scene_id ) {
-    homePage.setAttribute( 'visible', 'false' ) ;
+    homeModel.setAttribute( 'visible', 'false' ) ;
     scene_360.setAttribute( 'visible', 'true' ) ;
 
     sizing() ;   // At this point, there's no value for the size of down_right_360 corner
@@ -425,12 +446,13 @@ function to360( scene_id ) {
         }
     } ) ;
 
+    homePage.style.display = 'none' ;
     tags.style.display = 'none' ;
     down.style.display = 'none' ;
     down_left_360.style.visibility = 'visible' ;
     down_right_360.style.display = 'inline' ;
 
-    SY_img.src = 'source/sccp2.png'
+    SY_icon_360.style.display = 'block' ;
     home_menu.style.visibility = 'hidden' ;
     scroll_menu_icon.style.visibility = 'visible' ;
 
@@ -471,18 +493,19 @@ function to360( scene_id ) {
 }
 
 function toOrbit() {
-    homePage.setAttribute( 'visible', 'true' ) ;
+    homeModel.setAttribute( 'visible', 'true' ) ;
     scene_360.setAttribute( 'visible', 'false' ) ;
 
     makarScenes.forEach( s => {
         if ( document.getElementById( s.scene_id ) ) document.getElementById( s.scene_id ).setAttribute( 'visible', 'false' ) ;
     } ) ;
 
+    homePage.style.display = 'block' ;
     down.style.display = 'inline' ;
     down_left_360.style.visibility = 'hidden' ;
     down_right_360.style.display = 'none' ;
 
-    SY_img.src = 'source/sccp.png'
+    SY_icon_360.style.display = 'none' ;
     home_menu.style.visibility = 'visible' ;
     scroll_bar.style.visibility = 'hidden' ;
     scroll_menu_icon.style.visibility = 'hidden' ;
@@ -522,7 +545,7 @@ function toOrbit() {
         cam.object3D.rotation.y = 0 ;
         cam.object3D.rotation.z = 0 ;
 
-        let target_pos = new THREE.Vector3( -8, 10, 15 ) ;
+        let target_pos = new THREE.Vector3( -18, 7, 6 ) ;
 
         // use lookat to determine the position to turn to 
         let a = cam.object3D.children[0].clone()
@@ -583,7 +606,7 @@ function toOrbit() {
                     cam.object3D.children[0].rotation.y = persRot.y ;
                     cam.object3D.children[0].rotation.z = persRot.z ;
 
-                    console.log( cam.object3D.children[0].rotation ) ;
+                    // console.log( cam.object3D.children[0].rotation ) ;
                                                   
                 },
                 
@@ -670,7 +693,7 @@ function theRaycaster( sceneObjs ) {
 
         raycaster.setFromCamera( mouse, aScene.camera ) ;
         let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
-        console.log( "Intersects : ", intersects ) ;
+        // console.log( "Intersects : ", intersects ) ;
         // console.log( 'Intersects : ', intersects[ 0 ].object.el ) ;
 
         sceneObjs.forEach( obj => { 

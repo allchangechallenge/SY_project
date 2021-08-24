@@ -22,11 +22,11 @@ body {
     position: absolute;
     z-index: 7;
     font-size: 1000%;
-    visibility: hidden;
+    visibility: visible;
 }
 #load_w {
     position: relative;
-    top: 50%;
+    top: 40%;
     /* left: 42%; */
     text-align: center;
 }
@@ -210,6 +210,14 @@ body {
     position: absolute;
     visibility: hidden;
     padding: 12px;
+}
+#SY_icon_360 {
+    position: absolute;
+    z-index: 6;
+    top: 30px;
+    margin-left: 30px;
+    width: 11%;
+    display: none;
 }
 #menu {
     position: absolute;
