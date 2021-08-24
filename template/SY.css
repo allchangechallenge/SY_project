@@ -6,6 +6,7 @@ body {
     margin-top: 0px;
     margin-right: 0px;
     margin-bottom: 0px;
+    cursor: auto;
 }
 #canvas {
     width: 100%;
@@ -21,7 +22,7 @@ body {
     position: absolute;
     z-index: 7;
     font-size: 1000%;
-    visibility: visible;
+    visibility: hidden;
 }
 #load_w {
     position: relative;
@@ -29,30 +30,138 @@ body {
     /* left: 42%; */
     text-align: center;
 }
+#homePage {
+    position: absolute;
+    z-index: 6;
+    height: 100%;
+    width: 100%;
+    user-select: none;
+    pointer-events: none;
+}
+#icon_bottom {
+    width: 17%;
+}
 #SY_icon {
     position: absolute;
     z-index: 6;
-    top: 3%;
-    margin-left: 2%;
-    width: 14%;
+    top: 30px;
+    margin-left: 30px;
+    width: 11%;
     /* margin-left: 7%; */
 }
 #home_menu {
     position: absolute;
     z-index: 6;
-    top: 20%;
-    left: 2%;
-    border-left: black solid;
-    padding-left: 2%;
-    font-size: 80px;
-    width: 10%;
-}
-.home_menu {
+    width: 16%;
+    height: 44%;
     display: block;
+    top: 27.778%;
+    left: 2%;
+    pointer-events: initial;
+}
+#home_menu:hover {
     cursor: pointer;
 }
-.home_menu:hover {
-    color: white;
+.homeBtnImg {
+    width: 100%;
+}
+#travel {
+    position: absolute;
+    right: -13%;
+    width: 110%;
+}
+#shop {
+    position: absolute;
+    top: 39%;
+    width: 67%;
+}
+#game {
+    position: absolute;
+    top: 77%;
+    right: 3%;
+}
+#model_control {
+    position: absolute;
+    z-index: 6;
+    top: 78%;
+    right: 4%;
+    width: 18%;
+    height: 18vh;
+    pointer-events: initial;
+}
+#model_control:hover {
+    cursor: pointer;
+}
+#model {
+    position: absolute;
+    z-index: 6;
+    top: -4%;
+    right: 17%;
+}
+#button2-1 {
+    width: 99%;
+}
+#button2-2 {
+    width: 92%;
+}
+#detail {
+    position: absolute;
+    z-index: 6;
+    right: -16%;
+    top: 47%;
+}
+#middle_bottom {
+    position: absolute;
+    top: 93%;
+    left: 42%;
+    width: 17%;
+    /* border: lightcoral solid 8px; */
+}
+#bottom_paint {
+    width: 100%;
+}
+#button3-2 {
+    width: 100%;
+}
+#icon {
+    position: absolute;
+    top: 12%;
+    left: 29%;
+    display: flex;
+    flex-direction: row;
+    width: 43%;
+    height: 48px;
+    /* border: lightseagreen solid 3px; */
+}
+#zoom_square {
+    margin-right: 20px;
+    background-color: #88AB85;
+    height: 40px;
+    width: 40px;
+    -webkit-mask: url("../切圖/button/button4-1-bottom-square.png") no-repeat center center;
+    mask: url("../切圖/button/button4-1-bottom-square.png") no-repeat center center;
+}
+#zoom {
+    background-color: white;
+    height: 42px;
+    width: 42px;
+    -webkit-mask: url("../切圖/button/button4-1-icon-zoom-in.png") no-repeat center center;
+    mask: url("../切圖/button/button4-1-icon-zoom-in.png") no-repeat center center;
+}
+#ques_circle {
+    margin-right: 20px;
+    background-color: #88AB85;
+    height: 40px;
+    width: 40px;
+    -webkit-mask: url("../切圖/button/button4-1-bottom-circle.png") no-repeat center center;
+    mask: url("../切圖/button/button4-1-bottom-circle.png") no-repeat center center;
+}
+#ques {
+    background-color: white;
+    height: 42px;
+    width: 42px;
+    -webkit-mask: url("../切圖/button/button4-1-icon-ques.png") no-repeat center center;
+    mask: url("../切圖/button/button4-1-icon-ques.png") no-repeat center center;
 }
 #up {
     position: absolute;
@@ -131,6 +240,7 @@ body {
     /* visibility: hidden; */
     overflow: auto;
     direction:rtl;
+    user-select: none;
 }
 #scroll_bar::-webkit-scrollbar {
     background-color: rgba(220, 220, 220, 0.641);
@@ -156,8 +266,8 @@ span.scroll {
 #down {
     position: absolute;
     z-index: 6;
-    top: 88%;
-    right: -1%;
+    top: 90%;
+    right: 10%;
     width: 13%;
     user-select: none;
 }

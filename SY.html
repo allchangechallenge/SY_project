@@ -20,18 +20,58 @@
         <div id="load">
             <p id="load_w">Loading</p>
         </div>
+        <div id="homePage">
+            <div id="SY_icon">
+                <img id="SY_img" src="source/sccp.png" width="100%">
+            </div>
+            <div id="icon_bottom">
+                <img class="homeBtnImg" src="切圖/bottom/bottom-04-1@2x.png">
+            </div>
+            <div id="home_menu">
+                <div class="homeBtn" id="travel">
+                    <img class="homeBtnImg" id="button1-1" src="切圖/button/button1-1-normal@2x.png" onmouseover="homeButtonHover( this )" onmouseout="homeButtonUnhover( this )">
+                </div>
+                <div class="homeBtn" id="shop">
+                    <img class="homeBtnImg" id="button1-2" src="切圖/button/button1-2-normal@2x.png" onmouseover="homeButtonHover( this )" onmouseout="homeButtonUnhover( this )">
+                </div>
+                <div class="homeBtn" id="game">
+                    <img class="homeBtnImg" id="button1-6" src="切圖/button/button1-6-normal@2x.png" onmouseover="homeButtonHover( this )" onmouseout="homeButtonUnhover( this )">
+                </div>
+            </div>
+            <div id="model_control">
+                <div id="model">
+                    <img id="button2-1" src="切圖/button/button2-1-normal@2x.png" onmouseover="homeButtonHover( this )" onmouseout="homeButtonUnhover( this )">
+                </div>
+                <div id="detail">
+                    <img id="button2-2" src="切圖/button/button2-2-normal@2x.png" onmouseover="homeButtonHover( this )" onmouseout="homeButtonUnhover( this )">
+                </div>
+            </div>
+            <div id="middle_bottom">
+                <div id="bottom_paint">
+                    <img id="bottom-05" src="切圖/bottom/bottom-05@2x.png">
+                </div>
+                <div id="icon">
+                    <div id="zoom_square"> 
+                        <div id="zoom"></div>       
+                    </div>
+                    <div id="ques_circle">
+                        <div id="ques"></div>
+                    </div>
+                    <!-- <div id="zoom">
+                        <img id="button4-1-icon-zoom-in" class="middle_bottom_btn" src="切圖/button/button4-1-icon-zoom-in.png">
+                    </div>
+                    <div id="ques">
+                        <img id="button4-1-icon-ques" class="middle_bottom_btn" src="切圖/button/button4-1-icon-ques.png">
+                    </div> -->
+                </div>
 
+            </div>
+        </div>        
         <div id="up">
             <div class="btn btn-light" id="btn1">Orbit View</div>
             <div class="btn btn-light" id="btn2">VR View</div>
         </div>
-        <div id="SY_icon">
-            <img id="SY_img" src="source/sccp.png" width="100%">
-        </div>
-        <div id="home_menu">
-            <span class="home_menu">漫遊松菸</span>
-            <span class="home_menu">數位商城</span>
-        </div>
+
         <div id="menu">
             <img id="menu_icon" src="source/menu.png" onclick="click_menu()">
             <div id="scroll_bar" class="scroll_bar">
@@ -101,29 +141,23 @@
 
         <div>
             
-            <a-scene tag-monitor debug>
+            <a-scene tag-monitor debug gltf-model="dracoDecoderPath: /template/draco/;" loading-scene="enabled: false">
                 <a-assets>
                     <img id="arrow" src="source/arrow.png">
+                    <!-- <a-asset-item id="sy_model" src="/source/model/Songyan.glb"></a-asset-item> -->
                 </a-assets>
 
-                <a-entity id="homePage">
-                    <a-box id="floor" color="#eb3471" depth="20" height="0.2" width="20" rotation="0 0 0" position="0 0 0">
-                        <a-entity id="front" position="0 0.1 9.7" text="value: Front; color: white; align: center; side: double; wrapCount: 12" scale="4 4 4" rotation="-90 0 0"></a-entity>
-                        <a-entity id="front" position="-9.7 0.1 0" text="value: Left; color: white; align: center; side: double; wrapCount: 12" scale="4 4 4" rotation="-90 -90 0"></a-entity>
-                    </a-box>
-                    <a-entity></a-entity>
+                <a-entity id="homePage">      
+                    <a-entity gltf-model="url(/source/model/Songyan_d.glb)" scale="0.5 0.5 0.5"></a-entity>
+                    <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
                     <a-sky id="sky" color="lightblue"></a-sky>
-
-                    <a-sphere id="cam_obj" radius="0.5" position="0 0 0"></a-sphere>
-                    <a-sphere id="pers" radius="0.5" color="yellow" position="-8 10 15"></a-sphere>
     
-                    <a-box id="b_cube" color="#75a2eb" depth="1" position="2 0.5 5"></a-box>
-
-                    <a-box id="g_cube" color="#8cbf82" depth="1" position="-5 0.5 -2"></a-box>
-                    <a-box id="y_cube" color="#eff542" depth="1.2" position="-3 0.5 1"></a-box>
-                    <a-box id="o_cube" color="#edbc40" depth="1.2" position="2 0.5 -5"></a-box>
-                    <a-box id="r_cube" color="#c4372d" depth="1.2" position="4 0.5 -2"></a-box>
-                    <a-box id="p_cube" color="#bf2ca7" depth="1.2" position="-5 0.5 7"></a-box>
+                    <a-box id="b_cube" color="#75a2eb" depth="1" position="2 0.5 5" visible="false"></a-box>
+                    <a-box id="g_cube" color="#8cbf82" depth="1" position="-5 0.5 -2" visible="false"></a-box>
+                    <a-box id="y_cube" color="#eff542" depth="1.2" position="-3 0.5 1" visible="false"></a-box>
+                    <a-box id="o_cube" color="#edbc40" depth="1.2" position="2 0.5 -5" visible="false"></a-box>
+                    <a-box id="r_cube" color="#c4372d" depth="1.2" position="4 0.5 -2" visible="false"></a-box>
+                    <a-box id="p_cube" color="#bf2ca7" depth="1.2" position="-5 0.5 7" visible="false"></a-box>
     
                     <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 20; initialPosition: -8 10 15; maxPolarAngle: 80; minPolarAngle: 40">
                     </a-entity>     

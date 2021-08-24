@@ -194,7 +194,7 @@ makarData.then( function( resolvedData ) {
 } ) ;
 
 let sceneIdArr = [] ;   // Storing scene ids
-let p_arr = [] ;   // Collecting object loading promises from each scenes
+
 let loadPage = document.getElementById( 'load' ) ;
 // Prepare for scene
 function createScene( makarScenes ) {  
@@ -202,6 +202,7 @@ function createScene( makarScenes ) {
     sceneObjs.setAttribute( 'id', 'sceneObjs' ) ;
     scene_360.appendChild( sceneObjs ) ;
 
+    let p_arr = [] ;   // Collecting object loading promises from each scenes
     let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
         for ( var i = 0 ; i < makarScenes.length ; i++ ) {
             // if ( i > 20 ) break ; 
@@ -227,16 +228,11 @@ function createScene( makarScenes ) {
     
                 switch( obj.main_type ) {
                     case 'image' :
-                        let load1 = new Promise( ( resolve, reject ) => { 
-                            let temp = loadImage( obj, sceneObj, position, rotation, scale ) ; 
-                            if ( temp == true ) resolve() ;
-                        } ) ; 
+                        let imgReturn = loadImage( obj, sceneObj, position, rotation, scale ) ; 
+                        p_arr.push( imgReturn ) ;
                         break ;
                     case 'text' :
-                        let load2 = new Promise( ( resolve, reject ) => { 
-                            let temp = loadChinese( obj, sceneObj, position, rotation, scale ) ; 
-                            if ( temp == true ) resolve() ;
-                        } ) ; 
+                        loadChinese( obj, sceneObj, position, rotation, scale ) ;
                         break ;
                 }  
               
@@ -244,7 +240,10 @@ function createScene( makarScenes ) {
             if ( i == ( makarScenes.length - 1 ) ) resolve() ;
         } 
     } ) ;
-    allSceneObjLoaded.then( () => { console.log( 'true' ) ; loadPage.style.visibility = 'hidden' } ) ;
+    // allSceneObjLoaded.then( () => { console.log( 'true' ) ; loadPage.style.visibility = 'hidden' } ) ;
+    Promise.all( p_arr ).then( () => {
+        console.log( 'sceneObjs promise resolved' ) ; loadPage.style.visibility = 'hidden' ;
+    } ) ;
 }
 
 function setTransform( obj, position, rotation, scale ) {
@@ -260,40 +259,38 @@ function setTransform( obj, position, rotation, scale ) {
 }
 
 function loadImage( obj, sceneObj, position, rotation, scale ) {
-    var loader = new THREE.TextureLoader ;
-    loader.load( 
-        obj.res_url,
-        function( texture ) {
-            
-            let url_split_length = obj.res_url.split( '.' ).length ;
-            let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
-           
-            let oneLoadPromise = new Promise( ( resolve, reject ) => {
-                let plane ;
-                if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
-                    
-                    plane = document.createElement( 'a-plane' ) ;
-                    plane.setAttribute( 'src', obj.res_url ) ;
-                    plane.setAttribute( 'id', obj.obj_id ) ;
-                    plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
+    var texture = new THREE.TextureLoader().load( obj.res_url ) ;
+
+    let url_split_length = obj.res_url.split( '.' ).length ;
+    let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
+
+    this.loadPromise = function ( texture ) {
+        let oneLoadPromise = new Promise( ( resolve, reject ) => {
+            let plane ;
+            if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
+                
+                plane = document.createElement( 'a-plane' ) ;
+                plane.setAttribute( 'src', obj.res_url ) ;
+                plane.setAttribute( 'id', obj.obj_id ) ;
+                plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
     
-                    plane.addEventListener( 'loaded', function( evt ) { 
-                        if ( evt.target == evt.currentTarget ) {
-                            plane.object3D.children[0].scale.set( texture.image.width * 0.01, texture.image.height * 0.01, 1 ) ;
-                            plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
-                        }
-                    } ) ;
+                plane.addEventListener( 'loaded', function( evt ) { 
+                    if ( evt.target == evt.currentTarget ) {
+                        plane.object3D.children[0].scale.set( texture.image.width * 0.01, texture.image.height * 0.01, 1 ) ;
+                        plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
+                    }
+                } ) ;
     
-                    setTransform( plane, position, rotation, scale ) ;
-                    
-                    sceneObj.appendChild( plane ) ; 
-                    resolve( sceneObj.id ) ;
-                }    
-            } ) ;  
-            oneLoadPromise.then( () => { return true } ) ;
-        }
-    ) ;
-    
+                setTransform( plane, position, rotation, scale ) ;
+                
+                sceneObj.appendChild( plane ) ; 
+                resolve() ;
+            }    
+        } ) ; 
+        return oneLoadPromise ;
+    }
+ 
+    return this.loadPromise ;
 }
 
 // Time to load some Chinese text
@@ -402,7 +399,7 @@ function sizing() {
     let lastPage = document.getElementById( 'lastPage' ) ;
     lastPage.style.fontSize = lastPage.offsetHeight + 'px' ;
 
-    home_menu.style.fontSize = home_menu.offsetWidth / 6 + 'px' ;
+    // home_menu.style.fontSize = home_menu.offsetWidth / 6 + 'px' ;
 
 }
 
@@ -752,3 +749,18 @@ function map_jump() {
     purple_dot.create_dot( 'p_tag' ) ;
 }
 
+changeButton = {
+    "button1-1" : [ "/切圖/button/button1-1-hover@2x.png", "/切圖/button/button1-1-normal@2x.png" ], 
+    "button1-2" : [ "/切圖/button/button1-2-hover@2x.png", "/切圖/button/button1-2-normal@2x.png" ], 
+    "button1-6" : [ "/切圖/button/button1-6-hover@2x.png", "/切圖/button/button1-6-normal@2x.png" ], 
+
+    "button2-1" : [ "/切圖/button/button2-1-hover@2x.png", "/切圖/button/button2-1-normal@2x.png" ], 
+    "button2-2" : [ "/切圖/button/button2-2-hover@2x.png", "/切圖/button/button2-2-normal@2x.png" ],
+}
+function homeButtonHover( img ) {
+    img.src = changeButton[ img.id ][ 0 ] ;
+}
+
+function homeButtonUnhover( img ) {
+    img.src = changeButton[ img.id ][ 1 ] ;
+}

@@ -131,9 +131,7 @@ this.loadText = function (obj, position, rotation, scale) {
         // self.vrScene.appendChild(textEntity);
     }
 };
-白色勾勾
-一雙眼睛
-舉雙手
+
 
 
 
