@@ -125,6 +125,7 @@ body {
     left: 42%;
     width: 17%;
     min-width: 293px;
+    pointer-events: initial;
     /* border: lightcoral solid 8px; */
 }
 #bottom_paint {
@@ -160,6 +161,8 @@ body {
     width: 42px;
     -webkit-mask: url("../cutImage/button/button4-1-icon-zoom-in.png") no-repeat center center;
     mask: url("../cutImage/button/button4-1-icon-zoom-in.png") no-repeat center center;
+    pointer-events: initial;
+    cursor: pointer;
 }
 #ques_circle {
     margin-right: 20px;
@@ -175,6 +178,8 @@ body {
     width: 42px;
     -webkit-mask: url("../cutImage/button/button4-1-icon-ques.png") no-repeat center center;
     mask: url("../cutImage/button/button4-1-icon-ques.png") no-repeat center center;
+    pointer-events: initial;
+    cursor: pointer;
 }
 #up {
     position: absolute;
@@ -291,6 +296,7 @@ span.scroll {
     right: 10%;
     width: 13%;
     user-select: none;
+    display: none;
 }
 #down:hover {
     cursor: pointer;

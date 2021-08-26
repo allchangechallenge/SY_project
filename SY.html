@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="template/SY.css"></link>
     </head>
 
-    <body onload="sizing()">
+    <body onload="main()">
         <div id="load">
             <p id="load_w">Loading</p>
         </div>
@@ -29,21 +29,21 @@
             </div>
             <div id="home_menu">
                 <div class="homeBtn" id="travel">
-                    <img class="homeBtnImg" id="button1-1" src="cutImage/button/button1-1-normal@2x.png" onmouseover="homeButtonHover( this )" onmouseout="homeButtonUnhover( this )" onclick="homeButtonClick( this )">
+                    <img class="homeBtnImg" id="button1-1" src="cutImage/button/button1-1-normal@2x.png" onclick="tag_apear( 'w' )">
                 </div>
                 <div class="homeBtn" id="shop">
-                    <img class="homeBtnImg" id="button1-2" src="cutImage/button/button1-2-normal@2x.png" onmouseover="homeButtonHover( this )" onmouseout="homeButtonUnhover( this )" onclick="homeButtonClick( this )">
+                    <img class="homeBtnImg" id="button1-2" src="cutImage/button/button1-2-normal@2x.png">
                 </div>
                 <div class="homeBtn" id="game">
-                    <img class="homeBtnImg" id="button1-6" src="cutImage/button/button1-6-normal@2x.png" onmouseover="homeButtonHover( this )" onmouseout="homeButtonUnhover( this )" onclick="homeButtonClick( this )">
+                    <img class="homeBtnImg" id="button1-6" src="cutImage/button/button1-6-normal@2x.png">
                 </div>
             </div>
             <div id="model_control">
                 <div id="model">
-                    <img id="button2-1" src="cutImage/button/button2-1-normal@2x.png" onmouseover="homeButtonHover( this )" onmouseout="homeButtonUnhover( this )" onclick="homeButtonClick( this )">
+                    <img id="button2-1" src="cutImage/button/button2-1-normal@2x.png" onclick="toOrbit()">
                 </div>
                 <div id="detail">
-                    <img id="button2-2" src="cutImage/button/button2-2-normal@2x.png" onmouseover="homeButtonHover( this )" onmouseout="homeButtonUnhover( this )" onclick="homeButtonClick( this )">
+                    <img id="button2-2" src="cutImage/button/button2-2-normal@2x.png" onclick="tag_apear( 'm' )">
                 </div>
             </div>
             <div id="middle_bottom">
@@ -52,7 +52,7 @@
                 </div>
                 <div id="icon">
                     <div id="zoom_square"> 
-                        <div id="zoom"></div>       
+                        <div id="zoom" onclick="fullScreen()"></div>       
                     </div>
                     <div id="ques_circle">
                         <div id="ques"></div>
@@ -101,7 +101,7 @@
         </div>
         <div id="down">
             <div id="home">
-                <img src="source/home2.png" id="home_icon" onclick="toOrbit()"}>
+                <img src="source/home2.png" id="home_icon" onclick="toOrbit()">
             </div>
             <div id="mag">
                 <img src="source/magnifier.png" id="mag_icon" onclick="tag_apear( 'm' )">
@@ -149,7 +149,9 @@
                 </a-assets>
 
                 <a-entity id="homeModel">      
+                    <!-- For loading Songyan compressed model -->
                     <a-entity gltf-model="url(/source/model/Songyan_d.glb)" scale="0.5 0.5 0.5"></a-entity>
+
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
                     <a-sky id="sky" color="lightblue"></a-sky>
     

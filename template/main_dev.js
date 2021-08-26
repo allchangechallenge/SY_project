@@ -204,14 +204,14 @@ function createScene( makarScenes ) {
     sceneObjs.setAttribute( 'id', 'sceneObjs' ) ;
     scene_360.appendChild( sceneObjs ) ;
 
-    let p_arr = [] ;   // Collecting object loading promises from each scenes
+    let p_arr = [] ;     // Collecting object loading promises from everything needs loading
     let syModelLoadPromise = new Promise ( ( resolve, reject ) => {
         document.querySelector( 'a-entity' ).addEventListener( 'model-loaded', ( evt ) => {
             console.log( "model-loaded" ) ;
             resolve() ;
         } ) ; 
     } ) ;
-    p_arr.push( syModelLoadPromise ) ;
+    p_arr.push( syModelLoadPromise ) ;     
 
 
     let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
@@ -376,6 +376,13 @@ function loadChinese( obj, sceneObj, position, rotation, scale ) {
     else sceneObj.appendChild( anchor ) ;
 }
 
+// ----- Some flows that needs to go through once the web page is opened -----
+
+function main() {
+    sizing() ;
+    buttonActive() ;
+}
+
 window.onresize = sizing ;
 
 let down_right = document.getElementById( 'down_right_360' ) ;
@@ -501,7 +508,7 @@ function toOrbit() {
     } ) ;
 
     homePage.style.display = 'block' ;
-    down.style.display = 'inline' ;
+    // down.style.display = 'inline' ;
     down_left_360.style.visibility = 'hidden' ;
     down_right_360.style.display = 'none' ;
 
@@ -772,34 +779,103 @@ function map_jump() {
     purple_dot.create_dot( 'p_tag' ) ;
 }
 
-changeButton = {
-    "button1-1" : [ "/cutImage/button/button1-1-hover@2x.png", "/cutImage/button/button1-1-normal@2x.png", "/cutImage/button/button1-1-selected@2x.png" ], 
-    "button1-2" : [ "/cutImage/button/button1-2-hover@2x.png", "/cutImage/button/button1-2-normal@2x.png", "/cutImage/button/button1-2-selected@2x.png" ], 
-    "button1-6" : [ "/cutImage/button/button1-6-hover@2x.png", "/cutImage/button/button1-6-normal@2x.png", "/cutImage/button/button1-6-selected@2x.png" ], 
+// ----- Home Page button manipulating -----
+// hover -> normal -> selected
+buttonSelect = {
+    "button1-1" : 0 ,
+    "button1-2" : 0 ,
+    "button1-6" : 0 ,
 
-    "button2-1" : [ "/cutImage/button/button2-1-hover@2x.png", "/cutImage/button/button2-1-normal@2x.png", "/cutImage/button/button2-1-selected@2x.png" ], 
-    "button2-2" : [ "/cutImage/button/button2-2-hover@2x.png", "/cutImage/button/button2-2-normal@2x.png", "/cutImage/button/button2-2-selected@2x.png" ],
-}
-function homeButtonHover( img ) {
-    img.src = changeButton[ img.id ][ 0 ] ;
-}
-function homeButtonUnhover( img ) {
-    img.src = changeButton[ img.id ][ 1 ] ;
+    "button2-1" : 0 ,
+    "button2-2" : 0 ,
 }
 
-function homeButtonClick( img ) {
-    let url = window.location ;
-    if ( img.src == url.protocol + '//' + url.hostname + ':' + url.port + changeButton[ img.id ][ 2 ] ) {
-        img.src = changeButton[ img.id ][ 1 ] ;
-        img.setAttribute( 'onmouseover', "homeButtonHover( this )" ) ;
-        img.setAttribute( 'onmouseout', "homeButtonUnhover( this )" ) ;
-    } else {
-        img.src = changeButton[ img.id ][ 2 ] ;
-        img.setAttribute( 'onmouseover', "" ) ;
-        img.setAttribute( 'onmouseout', "" ) ;
+// Create a button object which do the control things
+var buttonController = function() {
+
+    this.buttonObj = {
+        "button1-1" : document.getElementById( "button1-1" ),
+        "button1-2" : document.getElementById( "button1-2" ),
+        "button1-6" : document.getElementById( "button1-6" ),
+
+        "button2-1" : document.getElementById( "button2-1" ),
+        "button2-2" : document.getElementById( "button2-2" ),
     }
-}
-homeButtonClick.prototype.clickMethod = function allUnselect() {
+
+    this.changeButton = {
+        "button1-1" : [ "/cutImage/button/button1-1-hover@2x.png", "/cutImage/button/button1-1-normal@2x.png", "/cutImage/button/button1-1-selected@2x.png" ], 
+        "button1-2" : [ "/cutImage/button/button1-2-hover@2x.png", "/cutImage/button/button1-2-normal@2x.png", "/cutImage/button/button1-2-selected@2x.png" ], 
+        "button1-6" : [ "/cutImage/button/button1-6-hover@2x.png", "/cutImage/button/button1-6-normal@2x.png", "/cutImage/button/button1-6-selected@2x.png" ], 
     
+        "button2-1" : [ "/cutImage/button/button2-1-hover@2x.png", "/cutImage/button/button2-1-normal@2x.png", "/cutImage/button/button2-1-selected@2x.png" ], 
+        "button2-2" : [ "/cutImage/button/button2-2-hover@2x.png", "/cutImage/button/button2-2-normal@2x.png", "/cutImage/button/button2-2-selected@2x.png" ],
+    }
+
 }
+
+// Make sure that other buttons are back to normal 
+buttonController.prototype.allUnselect = function allUnselect() {
+    console.log( 'allUnselect' ) ;
+    Object.keys( this.changeButton ).forEach( b => {
+        var getButton = document.getElementById( b ) ;
+        getButton.src = this.changeButton[ b ][ 1 ] ;
+        buttonSelect[ b ] = 0 ;
+        // console.log( 'getButton.src : ', getButton.src ) ;
+        // console.log( 'btnEle', btnEle ) ;
+    } ) ;
+}
+
+buttonController.prototype.addHoverEvent = function() {
+    Object.values( this.buttonObj ).forEach( btnEle => {
+        let tempBtnControll = new buttonController() ;
+        btnEle.addEventListener( 'mouseover', function( event ) {
+            if ( buttonSelect[ btnEle.id ] != 1 ) {
+                event.target.src = tempBtnControll.changeButton[ event.target.id ][ 0 ] ;
+            }
+        } ) ;
+    } ) ;
+}
+
+buttonController.prototype.addMouseoutEvent = function() {
+    Object.values( this.buttonObj ).forEach( btnEle => {
+        let tempBtnControll = new buttonController() ;
+
+        btnEle.addEventListener( 'mouseout', function( event ) {
+            console.log( 'button select : ', buttonSelect ) ;
+            if ( buttonSelect[ btnEle.id ] != 1 ) {
+                console.log( 'btn1-1 : ', buttonSelect[ btnEle.id ] ) ;
+                event.target.src = tempBtnControll.changeButton[ event.target.id ][ 1 ] ;
+            }
+        } ) ;
+    } ) ;
+}
+
+// Add event to every buttons on home page according to there universal behavior
+buttonController.prototype.addClickEvent = function() {
+    Object.values( this.buttonObj ).forEach( btnEle => {
+        btnEle.addEventListener( 'click', function( event ) {
+
+            // ------ Change for the selected one ------
+            let tempBtnControll = new buttonController() ;
+            tempBtnControll.allUnselect() ;     // Unselect all buttons
+            btnEle.src = tempBtnControll.changeButton[ btnEle.id ][ 2 ] ;     // Change to selected img
+
+            buttonSelect[ btnEle.id ] = 1 ;
+            console.log( "Select : ", buttonSelect[ btnEle.id ] ) ;  
+        } ) ;
+    } ) ;
+}
+
+function buttonActive() {
+    let btnController = new buttonController() ;
+    btnController.addClickEvent() ;
+    btnController.addHoverEvent() ;
+    btnController.addMouseoutEvent() ;
+}
+
+// ----- Screen Controlling -----
+function fullScreen() {
+    console.log( "The screen is fullsized." ) ;
+}
+
 
