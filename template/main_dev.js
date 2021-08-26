@@ -291,7 +291,7 @@ function loadImage( obj, sceneObj, position, rotation, scale ) {
                 plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
     
                 plane.addEventListener( 'loaded', function( evt ) {
-                    console.log( texture ) ; 
+                    // console.log( texture ) ; 
                     if ( evt.target == evt.currentTarget ) {
                         if ( texture.image ) {
                             plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
@@ -773,17 +773,33 @@ function map_jump() {
 }
 
 changeButton = {
-    "button1-1" : [ "/切圖/button/button1-1-hover@2x.png", "/切圖/button/button1-1-normal@2x.png" ], 
-    "button1-2" : [ "/切圖/button/button1-2-hover@2x.png", "/切圖/button/button1-2-normal@2x.png" ], 
-    "button1-6" : [ "/切圖/button/button1-6-hover@2x.png", "/切圖/button/button1-6-normal@2x.png" ], 
+    "button1-1" : [ "/cutImage/button/button1-1-hover@2x.png", "/cutImage/button/button1-1-normal@2x.png", "/cutImage/button/button1-1-selected@2x.png" ], 
+    "button1-2" : [ "/cutImage/button/button1-2-hover@2x.png", "/cutImage/button/button1-2-normal@2x.png", "/cutImage/button/button1-2-selected@2x.png" ], 
+    "button1-6" : [ "/cutImage/button/button1-6-hover@2x.png", "/cutImage/button/button1-6-normal@2x.png", "/cutImage/button/button1-6-selected@2x.png" ], 
 
-    "button2-1" : [ "/切圖/button/button2-1-hover@2x.png", "/切圖/button/button2-1-normal@2x.png" ], 
-    "button2-2" : [ "/切圖/button/button2-2-hover@2x.png", "/切圖/button/button2-2-normal@2x.png" ],
+    "button2-1" : [ "/cutImage/button/button2-1-hover@2x.png", "/cutImage/button/button2-1-normal@2x.png", "/cutImage/button/button2-1-selected@2x.png" ], 
+    "button2-2" : [ "/cutImage/button/button2-2-hover@2x.png", "/cutImage/button/button2-2-normal@2x.png", "/cutImage/button/button2-2-selected@2x.png" ],
 }
 function homeButtonHover( img ) {
     img.src = changeButton[ img.id ][ 0 ] ;
 }
-
 function homeButtonUnhover( img ) {
     img.src = changeButton[ img.id ][ 1 ] ;
 }
+
+function homeButtonClick( img ) {
+    let url = window.location ;
+    if ( img.src == url.protocol + '//' + url.hostname + ':' + url.port + changeButton[ img.id ][ 2 ] ) {
+        img.src = changeButton[ img.id ][ 1 ] ;
+        img.setAttribute( 'onmouseover', "homeButtonHover( this )" ) ;
+        img.setAttribute( 'onmouseout', "homeButtonUnhover( this )" ) ;
+    } else {
+        img.src = changeButton[ img.id ][ 2 ] ;
+        img.setAttribute( 'onmouseover', "" ) ;
+        img.setAttribute( 'onmouseout', "" ) ;
+    }
+}
+homeButtonClick.prototype.clickMethod = function allUnselect() {
+    
+}
+
