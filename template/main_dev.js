@@ -211,7 +211,7 @@ function createScene( makarScenes ) {
             resolve() ;
         } ) ; 
     } ) ;
-    p_arr.push( syModelLoadPromise ) ;     
+    // p_arr.push( syModelLoadPromise ) ;     
 
 
     let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
@@ -874,17 +874,31 @@ function buttonActive() {
 }
 
 // ----- Screen Fullsized -----
+let screenExit = 0 ;
 function fullScreen() {
-    
     let elem = document.body ;
-    if ( elem.requestFullscreen ) {
-        elem.requestFullscreen() ;
-    } else if ( elem.webkitRequestFullscreen ) {
-        elem.webkitRequestFullscreen() ;
-    } else if ( elem.msRequestFullscreen ) {
-        elem.msRequestFullscreen() ;
+
+    if ( screenExit == 0 ) {
+        if ( elem.requestFullscreen ) {
+            elem.requestFullscreen() ;
+            // console.log( elem.requestFullscreen ) ;
+        } else if ( elem.webkitRequestFullscreen ) {
+            elem.webkitRequestFullscreen() ;
+        } else if ( elem.msRequestFullscreen ) {
+            elem.msRequestFullscreen() ;
+        }
+    } else {
+        // console.log( screenExit ) ;
+        if ( document.exitFullscreen ) {
+            document.exitFullscreen() ;
+        } else if ( document.webkitExitFullscreen ) {
+            document.webkitExitFullscreen() ;
+        } else if ( document.msExitFullscreen ) {
+            document.msExitFullscreen() ;
+        }
     }
-    console.log( "The screen is fullsized." ) ;
+
+    screenExit = ( screenExit == 0 ) ? 1 : 0 ;
 }
 
 
