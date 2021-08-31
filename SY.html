@@ -20,6 +20,10 @@
         <div id="load">
             <p id="load_w">Loading</p>
         </div>
+        <div id="homeBackground">
+            <div id="bottom02"></div>
+            <div id="bottom03"></div>
+        </div>
         <div id="homePage">
             <div id="SY_icon">
                 <img id="SY_img" src="source/sccp.png" width="100%">
@@ -28,22 +32,13 @@
                 <img class="homeBtnImg" src="cutImage/bottom/bottom-04-1@2x.png">
             </div>
             <div id="home_menu">
-                <div class="homeBtn" id="travel">
-                    <img class="homeBtnImg" id="button1-1" src="cutImage/button/button1-1-normal.svg" onclick="showModelControl()">
+                <div class="homeBtn" id="button1-1" onclick="showModelControl()">
+                    <div id="button2-1"></div>
+                    <div id="button2-2"></div>
                 </div>
-                <div class="homeBtn" id="shop">
-                    <img class="homeBtnImg" id="button1-2" src="cutImage/button/button1-2-normal.svg" onclick="goShop()">
+                <div class="homeBtn" id="button1-2" onclick="goShop()">
                 </div>
-                <div class="homeBtn" id="game">
-                    <img class="homeBtnImg" id="button1-6" src="cutImage/button/button1-6-normal.svg" onclick="goGame()">
-                </div>
-            </div>
-            <div id="model_control">
-                <div id="go360">
-                    <img class="modelBtn" id="button2-1" src="cutImage/button/button2-1-normal.svg" onclick="tag_apear( 'w' )">
-                </div>
-                <div id="model">
-                    <img class="modelBtn" id="button2-2" src="cutImage/button/button2-2-normal.svg" onclick="tag_apear( 'm' )">
+                <div class="homeBtn" id="button1-6" onclick="goGame()">
                 </div>
             </div>
             <div id="middle_bottom">
@@ -153,8 +148,8 @@
                     <!-- <a-entity gltf-model="url(/source/model/Songyan_d.glb)" scale="0.5 0.5 0.5"></a-entity> -->
 
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
-                    <a-sky id="sky" transparent="true" color="#fad964"></a-sky>
-                    <a-box id="floor" static-body grabbable color="#2fba90" depth="50" height="0.2" width="50" rotation="0 0 0" position="0 -0.9 0"></a-box>
+                    <!-- <a-sky id="sky" transparent="true" color="#fad964"></a-sky> -->
+                    <a-box id="floor" static-body grabbable color="#2fba90" depth="50" height="0.2" width="20" rotation="0 60 0" position="0 -0.9 0"></a-box>
     
                     <a-box id="b_cube" color="#75a2eb" depth="1" position="2 0.5 5" visible="false"></a-box>
                     <a-box id="g_cube" color="#8cbf82" depth="1" position="-5 0.5 -2" visible="false"></a-box>
