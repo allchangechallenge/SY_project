@@ -29,21 +29,21 @@
             </div>
             <div id="home_menu">
                 <div class="homeBtn" id="travel">
-                    <img class="homeBtnImg" id="button1-1" src="cutImage/button/button1-1-normal@2x.png" onclick="tag_apear( 'w' )">
+                    <img class="homeBtnImg" id="button1-1" src="cutImage/button/button1-1-normal.svg" onclick="showModelControl()">
                 </div>
                 <div class="homeBtn" id="shop">
-                    <img class="homeBtnImg" id="button1-2" src="cutImage/button/button1-2-normal@2x.png">
+                    <img class="homeBtnImg" id="button1-2" src="cutImage/button/button1-2-normal.svg" onclick="goShop()">
                 </div>
                 <div class="homeBtn" id="game">
-                    <img class="homeBtnImg" id="button1-6" src="cutImage/button/button1-6-normal@2x.png">
+                    <img class="homeBtnImg" id="button1-6" src="cutImage/button/button1-6-normal.svg" onclick="goGame()">
                 </div>
             </div>
             <div id="model_control">
-                <div id="model">
-                    <img id="button2-1" src="cutImage/button/button2-1-normal@2x.png" onclick="toOrbit()">
+                <div id="go360">
+                    <img class="modelBtn" id="button2-1" src="cutImage/button/button2-1-normal.svg" onclick="tag_apear( 'w' )">
                 </div>
-                <div id="detail">
-                    <img id="button2-2" src="cutImage/button/button2-2-normal@2x.png" onclick="tag_apear( 'm' )">
+                <div id="model">
+                    <img class="modelBtn" id="button2-2" src="cutImage/button/button2-2-normal.svg" onclick="tag_apear( 'm' )">
                 </div>
             </div>
             <div id="middle_bottom">
@@ -57,12 +57,6 @@
                     <div id="ques_circle">
                         <div id="ques"></div>
                     </div>
-                    <!-- <div id="zoom">
-                        <img id="button4-1-icon-zoom-in" class="middle_bottom_btn" src="cutImage/button/button4-1-icon-zoom-in.png">
-                    </div>
-                    <div id="ques">
-                        <img id="button4-1-icon-ques" class="middle_bottom_btn" src="cutImage/button/button4-1-icon-ques.png">
-                    </div> -->
                 </div>
             </div>
         </div>        
@@ -72,6 +66,13 @@
         </div>
         <div id="SY_icon_360">
             <img id="SY_img_360" src="source/sccp2.png" width="100%">
+        </div>
+        <div id="template_360">
+            <div id="menu_back"></div>
+            <div id="left_control">
+                <div id="toModel"></div>
+                <div id="toShop"></div>
+            </div>
         </div>
         <div id="menu">
             <img id="menu_icon" src="source/menu.png" onclick="click_menu()">
@@ -97,7 +98,6 @@
                 <span class="scroll" onclick="to360('18522ccb12004b1f8b8f3961858c4465')">生態景觀池</span>
                 <span class="scroll">育嬰房</span>
             </div>
-
         </div>
         <div id="down">
             <div id="home">
@@ -150,10 +150,11 @@
 
                 <a-entity id="homeModel">      
                     <!-- For loading Songyan compressed model -->
-                    <a-entity gltf-model="url(/source/model/Songyan_d.glb)" scale="0.5 0.5 0.5"></a-entity>
+                    <!-- <a-entity gltf-model="url(/source/model/Songyan_d.glb)" scale="0.5 0.5 0.5"></a-entity> -->
 
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
-                    <a-sky id="sky" color="#f2cb6f"></a-sky>
+                    <a-sky id="sky" transparent="true"></a-sky>
+                    <a-box id="floor" static-body grabbable color="darkseagreen" depth="50" height="0.2" width="50" rotation="0 0 0" position="0 -0.9 0"></a-box>
     
                     <a-box id="b_cube" color="#75a2eb" depth="1" position="2 0.5 5" visible="false"></a-box>
                     <a-box id="g_cube" color="#8cbf82" depth="1" position="-5 0.5 -2" visible="false"></a-box>

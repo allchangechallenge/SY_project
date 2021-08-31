@@ -23,7 +23,10 @@ let vrInfo = {'g' : g_info, 'o' : o_info } ;
 
 let SY_icon = document.getElementById( 'SY_icon' ) ;
 let SY_icon_360 = document.getElementById( 'SY_icon_360' ) ;
+
 let home_menu = document.getElementById( 'home_menu' ) ;
+let model_control = document.getElementById( 'model_control' ) ;
+let middle_bottom = document.getElementById( 'middle_bottom' ) ;
 let scroll_menu = document.getElementById( 'menu' ) ;
 let scroll_menu_icon = document.getElementById( 'menu_icon' ) ;
 let scroll_bar = document.getElementById( 'scroll_bar' ) ;
@@ -211,7 +214,7 @@ function createScene( makarScenes ) {
             resolve() ;
         } ) ; 
     } ) ;
-    p_arr.push( syModelLoadPromise ) ;     
+    // p_arr.push( syModelLoadPromise ) ;     
 
 
     let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
@@ -453,14 +456,16 @@ function to360( scene_id ) {
         }
     } ) ;
 
-    homePage.style.display = 'none' ;
+    // homePage.style.display = 'none' ;
     tags.style.display = 'none' ;
     down.style.display = 'none' ;
     down_left_360.style.visibility = 'visible' ;
     down_right_360.style.display = 'inline' ;
 
-    SY_icon_360.style.display = 'block' ;
+    // SY_icon_360.style.display = 'block' ;
     home_menu.style.visibility = 'hidden' ;
+    model_control.style.visibility = 'hidden' ;
+
     scroll_menu_icon.style.visibility = 'visible' ;
 
     cam.setAttribute( 'camera', 'active', false ) ;
@@ -635,6 +640,7 @@ function toOrbit() {
     walk_icon.src = 'source/walk.png' ; 
 }
 
+// --- Tag for jumping into models or 360
 function tag_apear( s ) {
     start_tick = 1 ;
     tags.style.display = 'inline' ;
@@ -652,6 +658,7 @@ function tag_apear( s ) {
     }
 }
 
+// ----- 360 map function -----
 class menu { 
     constructor( element, start, end ) {
         this.el = element ;
@@ -681,55 +688,6 @@ function map_func() {
     map_ins.hit_menu() ;
     sizing() ;
 }
-
-// Raycaster API
-function theRaycaster( sceneObjs ) {
-    let mouse = new THREE.Vector2() ;
-    let raycaster = new THREE.Raycaster() ;
-    
-    aScene.canvas.addEventListener( 'mouseup', function( event ){
-        if ( event.changedTouches ) {
-            x = event.changedTouches[ 0 ].pageX ;
-            y = event.changedTouches[ 0 ].pageY ;
-        } else {
-            x = event.clientX ;
-            y = event.clientY ;
-        }
-        mouse.x = ( x / aScene.canvas.clientWidth ) * 2 - 1 ;
-        mouse.y = - ( y / aScene.canvas.clientHeight ) * 2 + 1 ;
-
-        raycaster.setFromCamera( mouse, aScene.camera ) ;
-        let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
-        // console.log( "Intersects : ", intersects ) ;
-        // console.log( 'Intersects : ', intersects[ 0 ].object.el ) ;
-
-        sceneObjs.forEach( obj => { 
-            if ( intersects[ 0 ].object.el ) {
-                if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
-                    if ( obj.behav ) {
-                        obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
-                            console.log( 'hit ' + b.scene_id ) ;
-                            if ( document.getElementById( b.scene_id ) != undefined ) {
-                                // console.log( 'hit ' + b.scene_id ) ;
-                                to360( b.scene_id ) ; 
-                            }
-                            else {
-                                document.getElementById( 'undef' ).style.visibility = 'visible' ;
-                                setTimeout( function(){
-                                    document.getElementById( 'undef' ).style.visibility = 'hidden' ;
-                                }, 2000 ) ;
-                            }
-                                                                                            
-                        } 
-                        } )
-                    }
-                } 
-            }
-
-        } ) ;
-    } ) ;
-}
-
 
 // Dots information for down right map
 let map_dot_pos = {
@@ -779,7 +737,55 @@ function map_jump() {
     purple_dot.create_dot( 'p_tag' ) ;
 }
 
-// ----- Home Page button manipulating -----
+// --- Raycaster API ---
+function theRaycaster( sceneObjs ) {
+    let mouse = new THREE.Vector2() ;
+    let raycaster = new THREE.Raycaster() ;
+    
+    aScene.canvas.addEventListener( 'mouseup', function( event ){
+        if ( event.changedTouches ) {
+            x = event.changedTouches[ 0 ].pageX ;
+            y = event.changedTouches[ 0 ].pageY ;
+        } else {
+            x = event.clientX ;
+            y = event.clientY ;
+        }
+        mouse.x = ( x / aScene.canvas.clientWidth ) * 2 - 1 ;
+        mouse.y = - ( y / aScene.canvas.clientHeight ) * 2 + 1 ;
+
+        raycaster.setFromCamera( mouse, aScene.camera ) ;
+        let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
+        // console.log( "Intersects : ", intersects ) ;
+        // console.log( 'Intersects : ', intersects[ 0 ].object.el ) ;
+
+        sceneObjs.forEach( obj => { 
+            if ( intersects[ 0 ].object.el ) {
+                if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
+                    if ( obj.behav ) {
+                        obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
+                            console.log( 'hit ' + b.scene_id ) ;
+                            if ( document.getElementById( b.scene_id ) != undefined ) {
+                                // console.log( 'hit ' + b.scene_id ) ;
+                                to360( b.scene_id ) ; 
+                            }
+                            else {
+                                document.getElementById( 'undef' ).style.visibility = 'visible' ;
+                                setTimeout( function(){
+                                    document.getElementById( 'undef' ).style.visibility = 'hidden' ;
+                                }, 2000 ) ;
+                            }
+                                                                                            
+                        } 
+                        } )
+                    }
+                } 
+            }
+
+        } ) ;
+    } ) ;
+}
+
+// --- Home Page button manipulating ---
 // hover -> normal -> selected
 buttonSelect = {
     "button1-1" : 0 ,
@@ -803,12 +809,12 @@ var buttonController = function() {
     }
 
     this.changeButton = {
-        "button1-1" : [ "/cutImage/button/button1-1-hover@2x.png", "/cutImage/button/button1-1-normal@2x.png", "/cutImage/button/button1-1-selected@2x.png" ], 
-        "button1-2" : [ "/cutImage/button/button1-2-hover@2x.png", "/cutImage/button/button1-2-normal@2x.png", "/cutImage/button/button1-2-selected@2x.png" ], 
-        "button1-6" : [ "/cutImage/button/button1-6-hover@2x.png", "/cutImage/button/button1-6-normal@2x.png", "/cutImage/button/button1-6-selected@2x.png" ], 
+        "button1-1" : [ "/cutImage/button/button1-1-hover.svg", "/cutImage/button/button1-1-normal.svg", "/cutImage/button/button1-1-click.svg" ], 
+        "button1-2" : [ "/cutImage/button/button1-2-hover.svg", "/cutImage/button/button1-2-normal.svg", "/cutImage/button/button1-2-click.svg" ], 
+        "button1-6" : [ "/cutImage/button/button1-6-hover.svg", "/cutImage/button/button1-6-normal.svg", "/cutImage/button/button1-6-click.svg" ], 
     
-        "button2-1" : [ "/cutImage/button/button2-1-hover@2x.png", "/cutImage/button/button2-1-normal@2x.png", "/cutImage/button/button2-1-selected@2x.png" ], 
-        "button2-2" : [ "/cutImage/button/button2-2-hover@2x.png", "/cutImage/button/button2-2-normal@2x.png", "/cutImage/button/button2-2-selected@2x.png" ],
+        "button2-1" : [ "/cutImage/button/button2-1-hover.svg", "/cutImage/button/button2-1-normal.svg", "/cutImage/button/button2-1-selected.svg" ], 
+        "button2-2" : [ "/cutImage/button/button2-2-hover.svg", "/cutImage/button/button2-2-normal.svg", "/cutImage/button/button2-2-selected.svg" ],
     }
 
 }
@@ -820,6 +826,7 @@ buttonController.prototype.allUnselect = function allUnselect() {
         var getButton = document.getElementById( b ) ;
         getButton.src = this.changeButton[ b ][ 1 ] ;
         buttonSelect[ b ] = 0 ;
+
         // console.log( 'getButton.src : ', getButton.src ) ;
         // console.log( 'btnEle', btnEle ) ;
     } ) ;
@@ -866,6 +873,16 @@ buttonController.prototype.addClickEvent = function() {
     } ) ;
 }
 
+let controlOn = 0 ;
+function showModelControl() {
+    console.log( 'On or Off', controlOn ) ;
+    let modelControl = document.getElementById( 'model_control' ) ;
+    if ( controlOn == 0 ) modelControl.style.display = 'block' ;
+    else modelControl.style.display = 'none' ;
+    controlOn = ( controlOn == 1 ) ? 0 : 1 ;
+}
+
+// Use for activating button events in onload function
 function buttonActive() {
     let btnController = new buttonController() ;
     btnController.addClickEvent() ;
@@ -873,18 +890,40 @@ function buttonActive() {
     btnController.addMouseoutEvent() ;
 }
 
-// ----- Screen Fullsized -----
+// Full screen function
+let screenExit = 0 ;
 function fullScreen() {
-    
     let elem = document.body ;
-    if ( elem.requestFullscreen ) {
-        elem.requestFullscreen() ;
-    } else if ( elem.webkitRequestFullscreen ) {
-        elem.webkitRequestFullscreen() ;
-    } else if ( elem.msRequestFullscreen ) {
-        elem.msRequestFullscreen() ;
+
+    if ( screenExit == 0 ) {
+        if ( elem.requestFullscreen ) {
+            elem.requestFullscreen() ;
+            // console.log( elem.requestFullscreen ) ;
+        } else if ( elem.webkitRequestFullscreen ) {
+            elem.webkitRequestFullscreen() ;
+        } else if ( elem.msRequestFullscreen ) {
+            elem.msRequestFullscreen() ;
+        }
+    } else {
+        // console.log( screenExit ) ;
+        if ( document.exitFullscreen ) {
+            document.exitFullscreen() ;
+        } else if ( document.webkitExitFullscreen ) {
+            document.webkitExitFullscreen() ;
+        } else if ( document.msExitFullscreen ) {
+            document.msExitFullscreen() ;
+        }
     }
-    console.log( "The screen is fullsized." ) ;
+
+    screenExit = ( screenExit == 0 ) ? 1 : 0 ;
+}
+
+function goShop() {
+    if ( controlOn == 1 ) showModelControl() ;
+}
+
+function goGame() {
+    if ( controlOn == 1 ) showModelControl() ;
 }
 
 

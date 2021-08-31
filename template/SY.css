@@ -39,7 +39,12 @@ body {
     pointer-events: none;
 }
 #icon_bottom {
-    width: 17%;
+    position: absolute;
+    z-index: 4;
+    width: 13%;
+    min-width: 203px;
+    top: -2%;
+    left: -1%;
 }
 #SY_icon {
     position: absolute;
@@ -47,6 +52,7 @@ body {
     top: 30px;
     margin-left: 30px;
     width: 11%;
+    min-width: 150px;
     /* margin-left: 7%; */
 }
 #home_menu {
@@ -57,43 +63,45 @@ body {
     min-height: 389px;
     height: 44%;
     display: block;
-    top: 27.778%;
-    left: 2%;
+    top: 20.778%;
+    left: 1%;
     pointer-events: initial;
 }
 #home_menu:hover {
     cursor: pointer;
 }
 .homeBtnImg {
-    width: 100%;
+    width: 125%;
     height: 100%;
 }
 #travel {
     position: absolute;
-    right: -13%;
-    width: 110%;
-    height: 38%;
+    right: 20%;
+    width: 72%;
+    height: 38%; 
 }
 #shop {
     position: absolute;
-    top: 39%;
-    width: 67%;
-    height: 36%;
+    top: 46%;
+    width: 50%;
+    height: 36%; 
 }
 #game {
     position: absolute;
     top: 77%;
-    right: 3%;
+    right: 33%;
     height: 37%;
+    width: 48%;
 }
 #model_control {
     position: absolute;
     z-index: 6;
-    top: 78%;
-    right: 4%;
-    width: 18%;
+    top: 26%;
+    left: 14%;
+    width: 192px;
     height: 18vh;
     pointer-events: initial;
+    display: none;
 }
 #model_control:hover {
     cursor: pointer;
@@ -102,20 +110,25 @@ body {
     position: absolute;
     z-index: 6;
     top: -4%;
-    right: 17%;
+    right: -5%;
     min-width: 140px;
 }
-#button2-1 {
-    width: 109%;
+.modelBtn {
+    width: 112%;
 }
-#button2-2 {
-    width: 109%;
+#button1-1 {
+    width: 133%;
+    height: auto;
 }
-#detail {
+#button1-2 {
+    width: 112%;
+    height: auto;
+}
+#go360 {
     position: absolute;
     z-index: 6;
-    right: -2%;
-    top: 54%;
+    right: 25%;
+    top: 60%;
     min-width: 140px;
 
 }
@@ -237,22 +250,36 @@ body {
     width: 11%;
     display: none;
 }
+#menu_back {
+    background-image: url(../cutImage/bottom/bottom-04-2@2x.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: absolute;
+    z-index: 5;
+    top: 7%;
+    width: 16%;
+    min-width: 250px;
+    height: 76%;
+    min-height: 821px;
+}
 #menu {
     position: absolute;
     z-index: 6;
-    top: 14%;
+    top: 10%;
     height: 80%;
     width: 26%;
-    margin-left: 2%;
     visibility: hidden;
 }
 #menu_icon {
     margin-top: 5%;
     margin-bottom: 2%;
-    /* margin-left: 2px; */
+    margin-left: 30px;
     height: 7%;
     visibility: hidden;
     user-select: none;
+    background-color: #58724E;
+    -webkit-mask: url( "../source/menu.png" ) no-repeat center center;
+    mask: url( "../source/menu.png" ) no-repeat center center;
 }
 #menu_icon:hover {
     cursor: pointer;
@@ -261,8 +288,9 @@ body {
     height: 72%;
     margin-top: 4%;
     margin-left: 2%;
-    padding-left: 4%;
-    color: white;
+    padding-left: 16px;
+    /* color: white; */
+    color: #58724E;
     /* visibility: hidden; */
     overflow: auto;
     direction:rtl;
@@ -270,9 +298,9 @@ body {
 }
 #scroll_bar::-webkit-scrollbar {
     background-color: rgba(220, 220, 220, 0.641);
-    width: 34px;
+    width: 10px;
     max-width: 34px;
-    min-width: 34px;
+    min-width: 10px;
 
 }
 #scroll_bar::-webkit-scrollbar-thumb {
