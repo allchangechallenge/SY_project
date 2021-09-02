@@ -349,6 +349,7 @@ body {
     z-index: 1;
     width: 100%;
     height: 100%;
+    pointer-events: none;
     visibility: hidden;
 }
 #menu {
@@ -357,6 +358,7 @@ body {
     top: 10%;
     height: 80%;
     width: 26%;
+    pointer-events: initial;
     visibility: hidden;
 }
 #menu_icon {
@@ -418,17 +420,7 @@ span.scroll {
     background-image: url( "../cutImage/button/button1-3-normal.svg" );
     background-size: contain;
     background-repeat: no-repeat;
-}
-#down {
-    position: absolute;
-    z-index: 3;
-    top: 90%;
-    right: 10%;
-    width: 13%;
-    user-select: none;
-    display: none;
-}
-#down:hover {
+    pointer-events: initial;
     cursor: pointer;
 }
 #home {
@@ -437,33 +429,6 @@ span.scroll {
 }
 #home_icon {
     width: 100%;
-}
-#mag {
-    width: 32%;
-    float: left;
-}
-#mag_icon {
-    width: 60%;
-    padding-top: 24%;
-    margin-left: 5%;
-}
-#walk {
-    width: 33%;
-    float: left;
-}
-#walk_icon {
-    width: 60%;
-    padding-top: 24%;
-    margin-left: -25%;
-}
-#down_left_360 {
-    visibility: hidden;
-    position: absolute;
-    z-index: 3;
-    top: 92%;
-    margin-left: 2%;
-    width: 6%;
-    user-select: none;
 }
 #lastPage {
     position: absolute;

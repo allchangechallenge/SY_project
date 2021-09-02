@@ -37,13 +37,7 @@ let scroll_menu_back = document.getElementById( 'menu_back' ) ;
 let scroll_menu_icon = document.getElementById( 'menu_icon' ) ;
 let scroll_bar = document.getElementById( 'scroll_bar' ) ;
 
-let down = document.getElementById( 'down' ) ;
-let down_left_360 = document.getElementById( 'down_left_360' ) ;
 let down_right_360 = document.getElementById( 'down_right_360' ) ;
-
-let home_icon = document.getElementById( 'home_icon' ) ;
-let mag_icon = document.getElementById( 'mag_icon' ) ;
-let walk_icon = document.getElementById( 'walk_icon' ) ;
 
 let map = document.getElementById( 'map' ) ;
 let map_area = document.getElementById( 'map_area' ) ;
@@ -433,9 +427,6 @@ function sizing() {
     var scroll_font = document.getElementById( 'scroll_bar' ) ;
     scroll_font.style.fontSize = scroll_font.offsetHeight / 20 + 'px' ;
 
-    let lastPage = document.getElementById( 'lastPage' ) ;
-    lastPage.style.fontSize = lastPage.offsetHeight + 'px' ;
-
     // home_menu.style.fontSize = home_menu.offsetWidth / 6 + 'px' ;
 
 }
@@ -465,8 +456,6 @@ function to360( scene_id ) {
 
     // homePage.style.display = 'none' ;
     tags.style.display = 'none' ;
-    down.style.display = 'none' ;
-    // down_left_360.style.visibility = 'visible' ;
     down_right_360.style.display = 'inline' ;
 
     // Leave SY icon and its back untill the menu button is pressed
@@ -527,7 +516,6 @@ function toOrbit() {
     homePage.style.display = 'block' ;
     icon_bottom.style.display = 'block' ;
 
-    down_left_360.style.visibility = 'hidden' ;
     down_right_360.style.display = 'none' ;
 
     home_menu.style.visibility = 'visible' ;
@@ -542,9 +530,6 @@ function toOrbit() {
 
     icon.style.display = 'flex' ;
     icon_360.style.display = 'none' ;
-
-    mag_icon.style.visibility = 'visible' ;
-    walk_icon.style.visibility = 'visible' ;
 
     cam.setAttribute( 'camera', 'active', true ) ;
     cam_360.setAttribute( 'camera', 'active', false ) ;
@@ -655,9 +640,6 @@ function toOrbit() {
         
     } 
     tag = 0 ;
-    home_icon.src = 'source/home2.png' ;
-    mag_icon.src = 'source/magnifier.png' ;
-    walk_icon.src = 'source/walk.png' ; 
 }
 
 function tag_appear( s ) {
@@ -666,15 +648,11 @@ function tag_appear( s ) {
     tags.style.display = 'inline' ;
     if ( s == 'm' ) {
         tag = 1 ;
-        mag_icon.src = 'source/magnifier2.png' ;
-        home_icon.src = 'source/home.png' ;
-        walk_icon.src = 'source/walk.png' ;   
+
     }
     else {
         tag = 2 ;
-        mag_icon.src = 'source/magnifier.png' ;
-        home_icon.src = 'source/home.png' ; 
-        walk_icon.src = 'source/walk2.png' ;           
+          
     }
 }
 
