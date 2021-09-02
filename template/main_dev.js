@@ -459,7 +459,7 @@ function to360( scene_id ) {
     // down_right_360.style.display = 'inline' ;
 
     // Leave SY icon and its back untill the menu button is pressed
-    home_menu.style.visibility = 'hidden' ;   
+    home_menu.style.display = 'none' ; 
 
     scroll_menu.style.visibility = 'visible' ;
     scroll_menu_icon.style.visibility = 'visible' ;
@@ -515,9 +515,10 @@ function toOrbit() {
     template360.style.visibility = 'hidden' ;
     homePage.style.display = 'block' ;
     icon_bottom.style.display = 'block' ;
+    
 
     // down_right_360.style.display = 'none' ;
-
+    home_menu.style.display = 'block' ; 
     home_menu.style.visibility = 'visible' ;
 
     // Closing each items which its visibility is independent from template360
@@ -934,7 +935,7 @@ const buttonController = {
     addEventToNormal : function() {
         Object.values( this.buttonObj ).forEach( btnEle => {
             btnEle.addEventListener( 'mouseover', function( event ) {
-                btnEle.style.visibility = 'hidden' ;
+                // btnEle.style.visibility = 'hidden' ;
                 let ctrl = buttonController ;
                 ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ] ].style.visibility = 'visible' ;
                 console.log( "34343", ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ] ] ) ;
@@ -981,13 +982,12 @@ const buttonController = {
 
 } ; 
 
-let controlOn = 0 ;
-function showModelControl() {
+function showModelControl( n ) {
     // console.log( 'On or Off', controlOn ) ;
     let enter360 = document.getElementById( 'button2-1' ) ;
     let enterModel = document.getElementById( 'button2-2' ) ;
 
-    if ( controlOn == 0 ) {
+    if ( n == 1 ) {
         enter360.style.display = 'block' ;
         enterModel.style.display = 'block' ;
     }
@@ -996,7 +996,6 @@ function showModelControl() {
         enterModel.style.display = 'none' ;
         tags.style.display = 'none' ;
     }
-    controlOn = ( controlOn == 1 ) ? 0 : 1 ;
 
     toOrbit() ;
 }

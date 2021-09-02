@@ -193,7 +193,7 @@ body {
 }
 #button2-1 {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     right: -45%;
     top: 26%;
     width: 120px;
@@ -205,7 +205,7 @@ body {
 }
 #button2-1-hover {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     right: -45%;
     top: 26%;
     width: 120px;
@@ -217,7 +217,7 @@ body {
 }
 #button2-1-click {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     right: -45%;
     top: 26%;
     width: 120px;
@@ -229,7 +229,7 @@ body {
 }
 #button2-2 {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     top: 74%;
     right: -13%;
     width: 120px;
@@ -241,7 +241,7 @@ body {
 }
 #button2-2-hover {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     top: 74%;
     right: -13%;
     width: 120px;
@@ -253,7 +253,7 @@ body {
 }
 #button2-2-click {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     top: 74%;
     right: -13%;
     width: 120px;
