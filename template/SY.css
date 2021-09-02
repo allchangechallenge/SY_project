@@ -193,75 +193,75 @@ body {
 }
 #button2-1 {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     right: -45%;
     top: 26%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-1-normal.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 #button2-1-hover {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     right: -45%;
     top: 26%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-1-hover.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 #button2-1-click {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     right: -45%;
     top: 26%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-1-click.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 #button2-2 {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     top: 74%;
     right: -13%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-2-normal.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 #button2-2-hover {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     top: 74%;
     right: -13%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-2-hover.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 #button2-2-click {
     position: absolute;
-    z-index: 3;
+    z-index: 4;
     top: 74%;
     right: -13%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-2-click.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 
 #middle_bottom {
