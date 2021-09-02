@@ -28,9 +28,7 @@
             <div id="SY_icon">
                 <img id="SY_img" src="source/sccp.png" width="100%">
             </div>
-            <div id="icon_bottom">
-                <!-- <img class="homeBtnImg" src="cutImage/bottom/bottom-04-1@2x.png"> -->
-            </div>
+            <div id="icon_bottom"></div>
             <div id="home_menu">
                 <div class="homeBtn" id="button1-1" onclick="showModelControl()">
                     <div id="button2-1"></div>
@@ -55,7 +53,7 @@
                 </div>
                 <div id="icon_360">
                     <div id="loc_back">
-                        <div id="location"></div>
+                        <div id="location" onclick="openMapPage()"></div>
                     </div>
                     <div id="vr_back">
                         <div id="vr"></div>
@@ -105,6 +103,13 @@
             </div>
             <div id="backModel" onclick="toOrbit()"></div>
         </div>   
+        <div id="mapPage">
+            <div id="bigMap">
+                <div id="x_circle">
+                    <div id="x" onclick="openMapPage()"></div>
+                </div>
+            </div>
+        </div>
         <div id="down_right_360">
             <div id="map_area" class="down_right">
                 <img id="map" src="source/map/map.jpg">

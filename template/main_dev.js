@@ -456,7 +456,7 @@ function to360( scene_id ) {
 
     // homePage.style.display = 'none' ;
     tags.style.display = 'none' ;
-    down_right_360.style.display = 'inline' ;
+    // down_right_360.style.display = 'inline' ;
 
     // Leave SY icon and its back untill the menu button is pressed
     home_menu.style.visibility = 'hidden' ;   
@@ -516,7 +516,7 @@ function toOrbit() {
     homePage.style.display = 'block' ;
     icon_bottom.style.display = 'block' ;
 
-    down_right_360.style.display = 'none' ;
+    // down_right_360.style.display = 'none' ;
 
     home_menu.style.visibility = 'visible' ;
 
@@ -732,6 +732,15 @@ class map_dot {
         current.style.left = map_dot_pos[ this.sceneId ][ 0 ].toString() + '%' ;
         // console.log( map_dot_pos[ this.sceneId ][ 0 ], map_dot_pos[ this.sceneId ][ 1 ])
     }
+}
+
+// --- Openning Map Page ---
+let mapPage = document.getElementById( 'mapPage' ) ;
+let mapPageOn = 0 ;
+function openMapPage() {
+    if ( mapPageOn == 0 ) mapPage.style.visibility = 'visible' ;
+    else mapPage.style.visibility = 'hidden' ;
+    mapPageOn = ( mapPageOn == 0 ) ? 1 : 0 ;
 }
 
 function map_jump() {
