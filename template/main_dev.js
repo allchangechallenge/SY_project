@@ -23,10 +23,17 @@ let vrInfo = {'g' : g_info, 'o' : o_info } ;
 
 let SY_icon = document.getElementById( 'SY_icon' ) ;
 let SY_icon_360 = document.getElementById( 'SY_icon_360' ) ;
+let icon_bottom = document.getElementById( 'icon_bottom' ) ;
 
 let home_menu = document.getElementById( 'home_menu' ) ;
 let middle_bottom = document.getElementById( 'middle_bottom' ) ;
+
+let template360 = document.getElementById( 'template_360' ) ;
+let icon = document.getElementById( 'icon' ) ;
+let icon_360 = document.getElementById( 'icon_360' ) ;
+
 let scroll_menu = document.getElementById( 'menu' ) ;
+let scroll_menu_back = document.getElementById( 'menu_back' ) ;
 let scroll_menu_icon = document.getElementById( 'menu_icon' ) ;
 let scroll_bar = document.getElementById( 'scroll_bar' ) ;
 
@@ -379,7 +386,6 @@ function loadChinese( obj, sceneObj, position, rotation, scale ) {
 }
 
 // ----- Some flows that needs to go through once the web page is opened -----
-
 function main() {
     sizing() ;
     buttonActive() ;
@@ -437,6 +443,7 @@ function sizing() {
 function to360( scene_id ) {
     homeModel.setAttribute( 'visible', 'false' ) ;
     scene_360.setAttribute( 'visible', 'true' ) ;
+    template360.style.visibility = 'visible' ;
 
     sizing() ;   // At this point, there's no value for the size of down_right_360 corner
     console.log( 'Inside 360 scene' ) ;
@@ -459,13 +466,18 @@ function to360( scene_id ) {
     // homePage.style.display = 'none' ;
     tags.style.display = 'none' ;
     down.style.display = 'none' ;
-    down_left_360.style.visibility = 'visible' ;
+    // down_left_360.style.visibility = 'visible' ;
     down_right_360.style.display = 'inline' ;
 
-    // SY_icon_360.style.display = 'block' ;
-    home_menu.style.visibility = 'hidden' ;
+    // Leave SY icon and its back untill the menu button is pressed
+    home_menu.style.visibility = 'hidden' ;   
 
+    scroll_menu.style.visibility = 'visible' ;
     scroll_menu_icon.style.visibility = 'visible' ;
+
+    // change icon arrangements at middle bottom part 
+    icon.style.display = 'none' ;
+    icon_360.style.display = 'flex' ;
 
     cam.setAttribute( 'camera', 'active', false ) ;
     cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
@@ -511,16 +523,25 @@ function toOrbit() {
         if ( document.getElementById( s.scene_id ) ) document.getElementById( s.scene_id ).setAttribute( 'visible', 'false' ) ;
     } ) ;
 
+    template360.style.visibility = 'hidden' ;
     homePage.style.display = 'block' ;
-    // down.style.display = 'inline' ;
+    icon_bottom.style.display = 'block' ;
+
     down_left_360.style.visibility = 'hidden' ;
     down_right_360.style.display = 'none' ;
 
-    SY_icon_360.style.display = 'none' ;
     home_menu.style.visibility = 'visible' ;
 
+    // Closing each items which its visibility is independent from template360
+    menu_on = 0 ;   // Back to initial state
+    SY_icon_360.style.visibility = 'hidden' ;
+    scroll_menu.style.visibility = 'hidden' ;
     scroll_bar.style.visibility = 'hidden' ;
     scroll_menu_icon.style.visibility = 'hidden' ;
+    scroll_menu_back.style.visibility = 'hidden' ;
+
+    icon.style.display = 'flex' ;
+    icon_360.style.display = 'none' ;
 
     mag_icon.style.visibility = 'visible' ;
     walk_icon.style.visibility = 'visible' ;
@@ -677,9 +698,22 @@ class menu {
     }
 }
 
+let menu_on = 0 ;
 function click_menu() {
     const scroll_menu_ins = new menu( scroll_bar, '0%', '0%' ) ;
     scroll_menu_ins.hit_menu() ;
+    
+    if ( menu_on == 0 ) {
+        SY_icon_360.style.visibility = 'visible' ;
+        scroll_menu_back.style.visibility = 'visible' ;
+        icon_bottom.style.display = 'none' ;
+    } else {
+        SY_icon_360.style.visibility = 'hidden' ;
+        scroll_menu_back.style.visibility = 'hidden' ;
+        icon_bottom.style.display = 'block' ;
+    }
+
+    menu_on = ( menu_on == 0 ) ? 1 : 0 ;
 }
 
 function map_func() {

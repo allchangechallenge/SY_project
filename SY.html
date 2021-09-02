@@ -29,7 +29,7 @@
                 <img id="SY_img" src="source/sccp.png" width="100%">
             </div>
             <div id="icon_bottom">
-                <img class="homeBtnImg" src="cutImage/bottom/bottom-04-1@2x.png">
+                <!-- <img class="homeBtnImg" src="cutImage/bottom/bottom-04-1@2x.png"> -->
             </div>
             <div id="home_menu">
                 <div class="homeBtn" id="button1-1" onclick="showModelControl()">
@@ -53,47 +53,59 @@
                         <div id="ques"></div>
                     </div>
                 </div>
+                <div id="icon_360">
+                    <div id="loc_back">
+                        <div id="location"></div>
+                    </div>
+                    <div id="vr_back">
+                        <div id="vr"></div>
+                    </div>
+                    <div id="zoom_square"> 
+                        <div id="zoom2" onclick="fullScreen()"></div>       
+                    </div>
+                    <div id="ques_circle">
+                        <div id="ques2"></div>
+                    </div>
+                </div>
             </div>
         </div>        
         <div id="up">
             <div class="btn btn-light" id="btn1">Orbit View</div>
             <div class="btn btn-light" id="btn2">VR View</div>
         </div>
-        <div id="SY_icon_360">
-            <img id="SY_img_360" src="source/sccp2.png" width="100%">
-        </div>
-        <div id="template_360">
-            <div id="menu_back"></div>
-            <div id="left_control">
-                <div id="toModel"></div>
-                <div id="toShop"></div>
+        <div id="template_360">      
+            <div id="menu">
+                <div id="SY_icon_360">
+                    <img id="SY_img" src="source/sccp.png" width="100%">
+                </div>
+                <div id="menu_back"></div>
+                <div id="menu_icon" onclick="click_menu()"></div>
+                <div id="scroll_bar" class="scroll_bar">
+                    <span class="scroll" onclick="to360('d8d672ddb5894b9a92480fcf4649dfc4')">松山菸廠歷史回顧</span>
+                    <span class="scroll" onclick="to360('f7878d4894d946ffba58b453e8a13929')">製菸工廠</span>
+                    <span class="scroll" onclick="to360('94d7b04abd6e470ea1d289cb004b3a3c')">理葉工廠</span>
+                    <span class="scroll" onclick="to360('8469b106c80446988d71204a04713fc5')">雪茄工廠</span>
+                    <span class="scroll" onclick="to360('bdc6eda7c23743e8ad5d6d242cf46bc9')">切葉工廠</span>
+                    <span class="scroll">製菸工廠特殊建築</span>  
+                    <span class="scroll" onclick="to360('c0b4f403106442f2a83295a4cb5542b6')">醫護室</span>
+                    <span class="scroll" onclick="to360('3a11c445debc47939074a0c3297694df')">巴洛克花園</span>
+                    <span class="scroll" onclick="to360('99808d3c19b14b3cab81b6821dab447d')">澡堂</span>
+                    <span class="scroll" onclick="to360('15fd655f039d4da3a546ae174333de2f')">多功能展演廳</span>
+                    <span class="scroll">製菸工廠二樓</span>
+                    <span class="scroll" onclick="to360('b5e7eeb146954a73af7a9248cff19543')">松菸口</span>
+                    <span class="scroll" onclick="to360('e6a9716f79fb4dce8fb27136340cba09')">辦公廳舍與正門</span>
+                    <span class="scroll">檢查室</span>
+                    <span class="scroll" onclick="to360('8ed7325295d6420b85f9d796508cacaa')">1-5號倉庫</span>
+                    <span class="scroll" onclick="to360('c7827db770f24a4e908cb81a91021f02')">2號倉庫與輸送帶</span>
+                    <span class="scroll" onclick="to360('faaca8c43d854f1d8c5bf80a612dc8b0')">鍋爐房</span>
+                    <span class="scroll" onclick="to360('fb1c680e707e4126901d4c6837c94c64')">機器修理廠</span>
+                    <span class="scroll" onclick="to360('18522ccb12004b1f8b8f3961858c4465')">生態景觀池</span>
+                    <span class="scroll">育嬰房</span>
+                </div>
             </div>
+            <div id="backModel" onclick="toOrbit()"></div>
         </div>
-        <div id="menu">
-            <img id="menu_icon" src="source/menu.png" onclick="click_menu()">
-            <div id="scroll_bar" class="scroll_bar">
-                <span class="scroll" onclick="to360('d8d672ddb5894b9a92480fcf4649dfc4')">松山菸廠歷史回顧</span>
-                <span class="scroll" onclick="to360('f7878d4894d946ffba58b453e8a13929')">製菸工廠</span>
-                <span class="scroll" onclick="to360('94d7b04abd6e470ea1d289cb004b3a3c')">理葉工廠</span>
-                <span class="scroll" onclick="to360('8469b106c80446988d71204a04713fc5')">雪茄工廠</span>
-                <span class="scroll" onclick="to360('bdc6eda7c23743e8ad5d6d242cf46bc9')">切葉工廠</span>
-                <span class="scroll">製菸工廠特殊建築設施</span>  
-                <span class="scroll" onclick="to360('c0b4f403106442f2a83295a4cb5542b6')">醫護室</span>
-                <span class="scroll" onclick="to360('3a11c445debc47939074a0c3297694df')">巴洛克花園</span>
-                <span class="scroll" onclick="to360('99808d3c19b14b3cab81b6821dab447d')">澡堂</span>
-                <span class="scroll" onclick="to360('15fd655f039d4da3a546ae174333de2f')">多功能展演廳</span>
-                <span class="scroll">製菸工廠二樓</span>
-                <span class="scroll" onclick="to360('b5e7eeb146954a73af7a9248cff19543')">松菸口</span>
-                <span class="scroll" onclick="to360('e6a9716f79fb4dce8fb27136340cba09')">辦公廳舍與正門</span>
-                <span class="scroll">檢查室</span>
-                <span class="scroll" onclick="to360('8ed7325295d6420b85f9d796508cacaa')">1-5號倉庫</span>
-                <span class="scroll" onclick="to360('c7827db770f24a4e908cb81a91021f02')">2號倉庫與輸送帶</span>
-                <span class="scroll" onclick="to360('faaca8c43d854f1d8c5bf80a612dc8b0')">鍋爐房</span>
-                <span class="scroll" onclick="to360('fb1c680e707e4126901d4c6837c94c64')">機器修理廠</span>
-                <span class="scroll" onclick="to360('18522ccb12004b1f8b8f3961858c4465')">生態景觀池</span>
-                <span class="scroll">育嬰房</span>
-            </div>
-        </div>
+
         <div id="down">
             <div id="home">
                 <img src="source/home2.png" id="home_icon" onclick="toOrbit()">
@@ -103,8 +115,8 @@
             </div>
             <div id="walk">
                 <img src="source/walk.png" id="walk_icon" onclick="tag_apear( 'w' )">
-            </div>            
-        </div>
+            </div>
+        </div>    
         <div id="down_left_360">
             <div id="lastPage" onclick="toOrbit()">上一頁</div>
             <img src="source/back.png" id="back_icon" onclick="toOrbit()">
@@ -112,8 +124,7 @@
         <div id="down_right_360">
             <div id="map_area" class="down_right">
                 <img id="map" src="source/map/map.jpg">
-                <div id="dots">
-                </div>
+                <div id="dots"></div>
                 <div id="circle"></div>
             </div>
             <div id="down_right_icon" class="down_right">

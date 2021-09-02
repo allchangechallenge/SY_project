@@ -52,7 +52,7 @@ body {
 }
 #homePage {
     position: absolute;
-    z-index: 3;
+    z-index: 1;
     height: 100%;
     width: 100%;
     user-select: none;
@@ -61,10 +61,14 @@ body {
 #icon_bottom {
     position: absolute;
     z-index: 2;
-    width: 13%;
+    width: 270px;
+    height: 180px;
     min-width: 203px;
-    top: -2%;
-    left: -1%;
+    top: 0%;
+    left: 0%;
+    background-image: url(../cutImage/bottom/bottom-04-1@2x.png);
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 #SY_icon {
     position: absolute;
@@ -176,6 +180,67 @@ body {
     height: 48px;
     /* border: lightseagreen solid 3px; */
 }
+#icon_360 {
+    position: absolute;
+    top: 12%;
+    left: 10%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 48px;
+    display: none;
+}
+#zoom2 {
+    background-color: white;
+    height: 42px;
+    width: 42px;
+    -webkit-mask: url("../cutImage/button/button4-1-icon-zoom-in.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-icon-zoom-in.png") no-repeat center center;
+    pointer-events: initial;
+    cursor: pointer;
+}
+#ques2 {
+    background-color: white;
+    height: 42px;
+    width: 42px;
+    -webkit-mask: url("../cutImage/button/button4-1-icon-ques.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-icon-ques.png") no-repeat center center;
+    pointer-events: initial;
+    cursor: pointer;                                                                                                                                
+}
+#loc_back {
+    margin-right: 20px;
+    background-color: #88AB85;
+    height: 40px;
+    width: 40px;
+    -webkit-mask: url("../cutImage/button/button4-1-bottom-gps.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-bottom-gps.png") no-repeat center center;
+}
+#location {
+    background-color: white;
+    height: 42px;
+    width: 42px;
+    -webkit-mask: url("../cutImage/button/button4-1-icon-gps.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-icon-gps.png") no-repeat center center;
+    pointer-events: initial;
+    cursor: pointer;
+}
+#vr_back {
+    margin-right: 20px;
+    background-color: #959c92;
+    height: 40px;
+    width: 40px;
+    -webkit-mask: url("../cutImage/button/button4-1-bottom-vr.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-bottom-vr.png") no-repeat center center;
+}
+#vr {
+    background-color: white;
+    height: 42px;
+    width: 42px;
+    -webkit-mask: url("../cutImage/button/button4-1-icon-vr.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-icon-vr.png") no-repeat center center;
+    pointer-events: initial;
+}
 #zoom_square {
     margin-right: 20px;
     background-color: #88AB85;
@@ -249,7 +314,7 @@ body {
 }
 #tags {
     position: absolute;
-    z-index: 3;
+    z-index: 6;
     font-size: 60px;
     cursor: pointer;
 }
@@ -261,53 +326,63 @@ body {
 #SY_icon_360 {
     position: absolute;
     z-index: 3;
-    top: 30px;
+    top: -9%;
     margin-left: 30px;
-    width: 11%;
-    display: none;
+    width: 42%;
+    min-width: 150px;
+    /* margin-left: 7%; */
+    visibility: hidden;
 }
 #menu_back {
-    /* background-image: url(../cutImage/bottom/bottom-04-2@2x.png); */
+    background-image: url(../cutImage/bottom/bottom-04-2@2x.png);
     background-size: contain;
     background-repeat: no-repeat;
     position: absolute;
-    z-index: 2;
-    top: 7%;
-    width: 16%;
-    min-width: 250px;
-    height: 76%;
-    min-height: 821px;
+    z-index: 0;
+    top: -13%;
+    width: 260px;
+    height: 760px;
+    visibility: hidden;
+}
+#template_360 {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
 }
 #menu {
     position: absolute;
-    z-index: 3;
+    z-index: 0;
     top: 10%;
     height: 80%;
     width: 26%;
     visibility: hidden;
 }
 #menu_icon {
-    margin-top: 5%;
+    margin-top: 2%;
     margin-bottom: 2%;
     margin-left: 30px;
-    height: 7%;
+    height: 40px;
+    width: 40px;
+    z-index: 1;
     visibility: hidden;
     user-select: none;
-    background-color: #58724E;
-    -webkit-mask: url( "../source/menu.png" ) no-repeat center center;
-    mask: url( "../source/menu.png" ) no-repeat center center;
+    background-color: #2A4C24;
+    -webkit-mask: url( "../cutImage/button/button4-3-ham.png" ) no-repeat center center;
+    mask: url( "../cutImage/button/button4-3-ham.png" ) no-repeat center center;
 }
 #menu_icon:hover {
     cursor: pointer;
 }
 #scroll_bar {
-    height: 72%;
+    height: 420px;
     margin-top: 4%;
-    margin-left: 2%;
-    padding-left: 16px;
+    margin-left: 13px;
+    padding-left: 20px;
     /* color: white; */
     color: #58724E;
-    /* visibility: hidden; */
+    visibility: hidden;
     overflow: auto;
     direction:rtl;
     user-select: none;
@@ -327,11 +402,22 @@ body {
 }
 span.scroll {
     display: block;
-    height: 13%;
-    font-size: 120%;
+    height: 47px;
+    font-size: 100%;
+    font-weight: 600;
 }
 .scroll {
     direction:ltr;
+}
+#backModel {
+    position: absolute;
+    top: 90%;
+    left: 50px;
+    width: 96px;
+    height: 72px;
+    background-image: url( "../cutImage/button/button1-3-normal.svg" );
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 #down {
     position: absolute;
