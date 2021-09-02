@@ -30,14 +30,27 @@
             </div>
             <div id="icon_bottom"></div>
             <div id="home_menu">
-                <div class="homeBtn" id="button1-1" onclick="showModelControl()">
+                <div class="homeBtn" id="button1-1">
+                </div>
+                <div class="homeBtn" id="button1-2">
+                </div>
+                <div class="homeBtn" id="button1-6">
+                </div>
+
+                <div id="button1-1-hover" onclick="showModelControl()"></div>
+                <div id="button1-2-hover" onclick="goShop()"></div>
+                <div id="button1-6-hover" onclick="goGame()"></div>
+                
+                <div id="button1-1-click">
                     <div id="button2-1"></div>
+                    <div id="button2-1-click"></div>
+                    <div id="button2-1-hover"></div>
                     <div id="button2-2"></div>
+                    <div id="button2-2-click"></div> 
+                    <div id="button2-2-hover"></div>
                 </div>
-                <div class="homeBtn" id="button1-2" onclick="goShop()">
-                </div>
-                <div class="homeBtn" id="button1-6" onclick="goGame()">
-                </div>
+                <div id="button1-2-click"></div>
+                <div id="button1-6-click"></div>
             </div>
             <div id="middle_bottom">
                 <div id="bottom_paint">
@@ -145,7 +158,7 @@
 
                 <a-entity id="homeModel">      
                     <!-- For loading Songyan compressed model -->
-                    <!-- <a-entity gltf-model="url(/source/model/Songyan_d.glb)" scale="0.5 0.5 0.5"></a-entity> -->
+                    <a-entity gltf-model="url(/source/model/Songyan_d.glb)" scale="0.5 0.5 0.5"></a-entity>
 
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
                     <!-- <a-sky id="sky" transparent="true" color="#fad964"></a-sky> -->

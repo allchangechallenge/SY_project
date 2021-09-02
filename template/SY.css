@@ -79,6 +79,7 @@ body {
     min-width: 150px;
     /* margin-left: 7%; */
 }
+
 #home_menu {
     position: absolute;
     z-index: 3;
@@ -106,6 +107,26 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
 }
+#button1-1-hover {
+    position: absolute;
+    left: 14%;
+    width: 91%;
+    height: 56%;
+    background-image: url(../cutImage/button/button1-1-hover.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    visibility: hidden;
+}
+#button1-1-click {
+    position: absolute;
+    left: 14%;
+    width: 91%;
+    height: 56%;
+    background-image: url(../cutImage/button/button1-1-click.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    visibility: hidden;
+}
 #button1-2 {
     position: absolute;
     top: 38%;
@@ -114,6 +135,26 @@ body {
     background-image: url(../cutImage/button/button1-2-normal.svg);
     background-repeat: no-repeat;
     background-size: contain;
+}
+#button1-2-hover {
+    position: absolute;
+    top: 38%;
+    width: 58%;
+    height: 36%; 
+    background-image: url(../cutImage/button/button1-2-hover.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    visibility: hidden;
+}
+#button1-2-click {
+    position: absolute;
+    top: 38%;
+    width: 58%;
+    height: 36%; 
+    background-image: url(../cutImage/button/button1-2-click.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    visibility: hidden;
 }
 #button1-6 {
     position: absolute;
@@ -124,6 +165,28 @@ body {
     background-image: url(../cutImage/button/button1-6-normal.svg);
     background-repeat: no-repeat;
     background-size: contain;
+}
+#button1-6-hover {
+    position: absolute;
+    top: 73%;
+    right: 17%;
+    height: 37%;
+    width: 59%;
+    background-image: url(../cutImage/button/button1-6-hover.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    visibility: hidden;
+}
+#button1-6-click {
+    position: absolute;
+    top: 73%;
+    right: 17%;
+    height: 37%;
+    width: 59%;
+    background-image: url(../cutImage/button/button1-6-click.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    visibility: hidden;
 }
 .modelBtn {
     width: 112%;
@@ -140,6 +203,30 @@ body {
     background-repeat: no-repeat;
     display: none;
 }
+#button2-1-hover {
+    position: absolute;
+    z-index: 3;
+    right: -45%;
+    top: 26%;
+    width: 120px;
+    height: 200px;
+    background-image: url(../cutImage/button/button2-1-hover.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: none;
+}
+#button2-1-click {
+    position: absolute;
+    z-index: 3;
+    right: -45%;
+    top: 26%;
+    width: 120px;
+    height: 200px;
+    background-image: url(../cutImage/button/button2-1-click.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: none;
+}
 #button2-2 {
     position: absolute;
     z-index: 3;
@@ -152,6 +239,31 @@ body {
     background-repeat: no-repeat;
     display: none;
 }
+#button2-2-hover {
+    position: absolute;
+    z-index: 3;
+    top: 74%;
+    right: -13%;
+    width: 120px;
+    height: 200px;
+    background-image: url(../cutImage/button/button2-2-hover.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: none;
+}
+#button2-2-click {
+    position: absolute;
+    z-index: 3;
+    top: 74%;
+    right: -13%;
+    width: 120px;
+    height: 200px;
+    background-image: url(../cutImage/button/button2-2-click.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: none;
+}
+
 #middle_bottom {
     position: absolute;
     top: 93%;

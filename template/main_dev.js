@@ -826,6 +826,44 @@ const buttonController = {
         "button2-2" : document.getElementById( "button2-2" ),
     },
 
+    buttonObj_hover : {
+        "button1-1-hover" : document.getElementById( "button1-1-hover" ),
+        "button1-2-hover" : document.getElementById( "button1-2-hover" ),
+        "button1-6-hover" : document.getElementById( "button1-6-hover" ),
+
+        "button2-1-hover" : document.getElementById( "button2-1-hover" ),
+        "button2-2-hover" : document.getElementById( "button2-2-hover" ),
+    },
+
+    buttonObj_click : {
+        "button1-1-click" : document.getElementById( "button1-1-click" ),
+        "button1-2-click" : document.getElementById( "button1-2-click" ),
+        "button1-6-click" : document.getElementById( "button1-6-click" ),
+
+        "button2-1-click" : document.getElementById( "button2-1-click" ),
+        "button2-2-click" : document.getElementById( "button2-2-click" ),
+    },
+
+    buttonChange : {
+        'button1-1' : 'button1-1-hover',
+        'button1-2' : 'button1-2-hover',
+        'button1-6' : 'button1-6-hover',
+        'button2-1' : 'button2-1-hover',
+        'button2-2' : 'button2-2-hover',
+        
+        'button1-1-hover' : [ 'button1-1', 'button1-1-click' ], 
+        'button1-2-hover' : [ 'button1-2', 'button1-2-click' ], 
+        'button1-6-hover' : [ 'button1-6', 'button1-6-click' ], 
+        'button2-1-hover' : [ 'button2-1', 'button2-1-click' ], 
+        'button2-2-hover' : [ 'button2-2', 'button2-2-click' ], 
+
+        'button1-1-click' : 'button1-1', 
+        'button1-2-click' : 'button1-2', 
+        'button1-6-click' : 'button1-6', 
+        'button2-1-click' : 'button2-1', 
+        'button2-2-click' : 'button2-2', 
+    },
+
     changeButton : {
         "button1-1" : [ "url(../cutImage/button/button1-1-hover.svg)", "url(../cutImage/button/button1-1-normal.svg)", "url(../cutImage/button/button1-1-click.svg)" ], 
         "button1-2" : [ "url(../cutImage/button/button1-2-hover.svg)", "url(../cutImage/button/button1-2-normal.svg)", "url(../cutImage/button/button1-2-click.svg)" ], 
@@ -836,13 +874,14 @@ const buttonController = {
     },
 
     allUnselect : function() {
-        Object.keys( this.changeButton ).forEach( b => {
-            var getButton = document.getElementById( b ) ;
-            getButton.style.backgroundImage = buttonController.changeButton[ b ][ 1 ] ;
-            buttonController.buttonSelect[ b ] = 0 ;
-    
-            // console.log( 'getButton.src : ', getButton.src ) ;
-            // console.log( 'btnEle', btnEle ) ;
+        Object.values( this.buttonObj ).forEach( b => {
+            b.style.visibility = 'visible' ;
+        } ) ;
+        Object.values( this.buttonObj_hover ).forEach( b => {
+            b.style.visibility = 'hidden' ;
+        } ) ;
+        Object.values( this.buttonObj_click ).forEach( b => {
+            b.style.visibility = 'hidden' ;
         } ) ;
     }, 
 
@@ -891,6 +930,55 @@ const buttonController = {
         } ) ;
     }, 
 
+    // --- Add hover event to normal button ---
+    addEventToNormal : function() {
+        Object.values( this.buttonObj ).forEach( btnEle => {
+            btnEle.addEventListener( 'mouseover', function( event ) {
+                btnEle.style.visibility = 'hidden' ;
+                let ctrl = buttonController ;
+                ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ] ].style.visibility = 'visible' ;
+                console.log( "34343", ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ] ] ) ;
+
+                event.stopPropagation() ;
+            } ) ;
+        } ) ;
+    }, 
+
+    // --- Add mouseout & click event to hover button ---
+    addEventToHover : function() {
+        Object.values( this.buttonObj_hover ).forEach( btnEle => {
+            btnEle.addEventListener( 'mouseout', function( event ) {
+                btnEle.style.visibility = 'hidden' ;
+                let ctrl = buttonController ;
+                ctrl.buttonObj[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
+                
+                event.stopPropagation() ;
+            } ) ;
+            btnEle.addEventListener( 'click', function( event ) {
+                btnEle.style.visibility = 'hidden' ;
+                let ctrl = buttonController ;
+                ctrl.allUnselect() ;
+                ctrl.buttonObj_click[ ctrl.buttonChange[ btnEle.id ][ 1 ] ].style.visibility = 'visible' ;
+                
+                event.stopPropagation() ;
+            } ) ;
+        } ) ;
+    }, 
+
+    // --- Add click event to selected button ---
+    addEventToSelect : function() {
+        Object.values( this.buttonObj_click ).forEach( btnEle => {
+            btnEle.addEventListener( 'click', function( event ) {
+                btnEle.style.visibility = 'hidden' ;
+                let ctrl = buttonController ;
+                ctrl.allUnselect() ;
+                ctrl.buttonObj[ ctrl.buttonChange[ btnEle.id ] ].style.visibility = 'visible' ;
+                
+                event.stopPropagation() ;
+            } ) ;
+        } ) ;
+    }, 
+
 } ; 
 
 let controlOn = 0 ;
@@ -916,9 +1004,12 @@ function showModelControl() {
 // let btnController = new buttonController() ;
 // Use for activating button events in onload function
 function buttonActive() {
-    buttonController.addClickEvent() ;
-    buttonController.addHoverEvent() ;
-    buttonController.addMouseoutEvent() ;
+    // buttonController.addHoverEvent() ;
+    // buttonController.addClickEvent() ;
+    // buttonController.addMouseoutEvent() ;
+    buttonController.addEventToNormal() ;
+    buttonController.addEventToHover() ;
+    buttonController.addEventToSelect() ;
 }
 
 // --- Attach tag_appearing function to button2-1 and button2-2
