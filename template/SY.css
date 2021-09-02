@@ -197,11 +197,11 @@ body {
     right: -45%;
     top: 26%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-1-normal.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 #button2-1-hover {
     position: absolute;
@@ -209,11 +209,11 @@ body {
     right: -45%;
     top: 26%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-1-hover.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 #button2-1-click {
     position: absolute;
@@ -221,11 +221,11 @@ body {
     right: -45%;
     top: 26%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-1-click.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 #button2-2 {
     position: absolute;
@@ -233,11 +233,11 @@ body {
     top: 74%;
     right: -13%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-2-normal.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 #button2-2-hover {
     position: absolute;
@@ -245,11 +245,11 @@ body {
     top: 74%;
     right: -13%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-2-hover.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 #button2-2-click {
     position: absolute;
@@ -257,11 +257,11 @@ body {
     top: 74%;
     right: -13%;
     width: 120px;
-    height: 200px;
+    height: 96px;
     background-image: url(../cutImage/button/button2-2-click.svg);
     background-size: contain;
     background-repeat: no-repeat;
-    display: none;
+    visibility: hidden;
 }
 
 #middle_bottom {

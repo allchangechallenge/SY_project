@@ -214,7 +214,7 @@ function createScene( makarScenes ) {
             resolve() ;
         } ) ; 
     } ) ;
-    // p_arr.push( syModelLoadPromise ) ;     
+    p_arr.push( syModelLoadPromise ) ;     
 
 
     let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
@@ -935,10 +935,9 @@ const buttonController = {
     addEventToNormal : function() {
         Object.values( this.buttonObj ).forEach( btnEle => {
             btnEle.addEventListener( 'mouseover', function( event ) {
-                // btnEle.style.visibility = 'hidden' ;
+                btnEle.style.visibility = 'hidden' ;
                 let ctrl = buttonController ;
                 ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ] ].style.visibility = 'visible' ;
-                console.log( "34343", ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ] ] ) ;
 
                 event.stopPropagation() ;
             } ) ;
@@ -1014,11 +1013,11 @@ function buttonActive() {
 // --- Attach tag_appearing function to button2-1 and button2-2
 function tagAppear() {
     // console.log( btnController.buttonObj[ 'button2-1' ] ) ;
-    let tagControll = [ buttonController.buttonObj[ 'button2-1' ], buttonController.buttonObj[ 'button2-2' ] ] ;
+    let tagControll = [ buttonController.buttonObj_hover[ 'button2-1-hover' ], buttonController.buttonObj_hover[ 'button2-2-hover' ] ] ;
     tagControll.forEach( t => {
         t.addEventListener( 'click', function( event ) {
             // console.log( "222", tag ) ;
-            if ( t.id == 'button2-1' ) tag = 2 ;
+            if ( t.id == 'button2-1-hover' ) tag = 2 ;
             else tag = 1 ;
 
             start_tick = 1 ;
