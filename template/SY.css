@@ -58,9 +58,18 @@ body {
     user-select: none;
     pointer-events: none;
 }
-#icon_bottom {
+#SY_icon {
     position: absolute;
     z-index: 2;
+    top: 30px;
+    margin-left: 30px;
+    width: 11%;
+    min-width: 150px;
+    /* margin-left: 7%; */
+}
+#icon_bottom {
+    position: absolute;
+    z-index: 0;
     width: 270px;
     height: 180px;
     min-width: 203px;
@@ -70,21 +79,11 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
 }
-#SY_icon {
-    position: absolute;
-    z-index: 3;
-    top: 30px;
-    margin-left: 30px;
-    width: 11%;
-    min-width: 150px;
-    /* margin-left: 7%; */
-}
-
 #home_menu {
     position: absolute;
     z-index: 3;
     width: 295px;
-    height: 400px;
+    height: 430px;
     min-height: 389px;
     display: block;
     top: 27.778%;
@@ -94,15 +93,15 @@ body {
 #home_menu:hover {
     cursor: pointer;
 }
-.homeBtnImg {
-    width: 125%;
+.homeBtn {
+    width: 100%;
     height: 100%;
 }
 #button1-1 {
     position: absolute;
     left: 14%;
     width: 91%;
-    height: 56%;
+    height: 44%;
     background-image: url(../cutImage/button/button1-1-normal.svg);
     background-repeat: no-repeat;
     background-size: contain;
@@ -111,7 +110,7 @@ body {
     position: absolute;
     left: 14%;
     width: 91%;
-    height: 56%;
+    height: 44%;
     background-image: url(../cutImage/button/button1-1-hover.svg);
     background-repeat: no-repeat;
     background-size: contain;
@@ -121,7 +120,7 @@ body {
     position: absolute;
     left: 14%;
     width: 91%;
-    height: 56%;
+    height: 44%;
     background-image: url(../cutImage/button/button1-1-click.svg);
     background-repeat: no-repeat;
     background-size: contain;
@@ -129,7 +128,7 @@ body {
 }
 #button1-2 {
     position: absolute;
-    top: 38%;
+    top: 42%;
     width: 58%;
     height: 36%; 
     background-image: url(../cutImage/button/button1-2-normal.svg);
@@ -138,7 +137,7 @@ body {
 }
 #button1-2-hover {
     position: absolute;
-    top: 38%;
+    top: 42%;
     width: 58%;
     height: 36%; 
     background-image: url(../cutImage/button/button1-2-hover.svg);
@@ -148,7 +147,7 @@ body {
 }
 #button1-2-click {
     position: absolute;
-    top: 38%;
+    top: 42%;
     width: 58%;
     height: 36%; 
     background-image: url(../cutImage/button/button1-2-click.svg);
@@ -158,9 +157,9 @@ body {
 }
 #button1-6 {
     position: absolute;
-    top: 73%;
+    top: 78%;
     right: 17%;
-    height: 37%;
+    height: 27%;
     width: 59%;
     background-image: url(../cutImage/button/button1-6-normal.svg);
     background-repeat: no-repeat;
@@ -168,9 +167,9 @@ body {
 }
 #button1-6-hover {
     position: absolute;
-    top: 73%;
+    top: 78%;
     right: 17%;
-    height: 37%;
+    height: 27%;
     width: 59%;
     background-image: url(../cutImage/button/button1-6-hover.svg);
     background-repeat: no-repeat;
@@ -179,9 +178,9 @@ body {
 }
 #button1-6-click {
     position: absolute;
-    top: 73%;
+    top: 78%;
     right: 17%;
-    height: 37%;
+    height: 27%;
     width: 59%;
     background-image: url(../cutImage/button/button1-6-click.svg);
     background-repeat: no-repeat;
@@ -194,8 +193,8 @@ body {
 #button2-1 {
     position: absolute;
     z-index: 4;
-    right: -45%;
-    top: 26%;
+    right: -47%;
+    top: 33%;
     width: 120px;
     height: 96px;
     background-image: url(../cutImage/button/button2-1-normal.svg);
@@ -206,8 +205,8 @@ body {
 #button2-1-hover {
     position: absolute;
     z-index: 4;
-    right: -45%;
-    top: 26%;
+    right: -47%;
+    top: 33%;
     width: 120px;
     height: 96px;
     background-image: url(../cutImage/button/button2-1-hover.svg);
@@ -218,8 +217,8 @@ body {
 #button2-1-click {
     position: absolute;
     z-index: 4;
-    right: -45%;
-    top: 26%;
+    right: -47%;
+    top: 33%;
     width: 120px;
     height: 96px;
     background-image: url(../cutImage/button/button2-1-click.svg);
@@ -230,8 +229,8 @@ body {
 #button2-2 {
     position: absolute;
     z-index: 4;
-    top: 74%;
-    right: -13%;
+    top: 93%;
+    right: -18%;
     width: 120px;
     height: 96px;
     background-image: url(../cutImage/button/button2-2-normal.svg);
@@ -242,8 +241,8 @@ body {
 #button2-2-hover {
     position: absolute;
     z-index: 4;
-    top: 74%;
-    right: -13%;
+    top: 93%;
+    right: -18%;
     width: 120px;
     height: 96px;
     background-image: url(../cutImage/button/button2-2-hover.svg);
@@ -254,8 +253,8 @@ body {
 #button2-2-click {
     position: absolute;
     z-index: 4;
-    top: 74%;
-    right: -13%;
+    top: 93%;
+    right: -18%;
     width: 120px;
     height: 96px;
     background-image: url(../cutImage/button/button2-2-click.svg);
@@ -279,9 +278,6 @@ body {
 #bottom-05 {
     width: 100%;
 }
-#button3-2 {
-    width: 100%;
-}
 #icon {
     position: absolute;
     top: 12%;
@@ -292,66 +288,8 @@ body {
     height: 48px;
     /* border: lightseagreen solid 3px; */
 }
-#icon_360 {
-    position: absolute;
-    top: 12%;
-    left: 10%;
-    display: flex;
-    flex-direction: row;
+#button3-2 {
     width: 100%;
-    height: 48px;
-    display: none;
-}
-#zoom2 {
-    background-color: white;
-    height: 42px;
-    width: 42px;
-    -webkit-mask: url("../cutImage/button/button4-1-icon-zoom-in.png") no-repeat center center;
-    mask: url("../cutImage/button/button4-1-icon-zoom-in.png") no-repeat center center;
-    pointer-events: initial;
-    cursor: pointer;
-}
-#ques2 {
-    background-color: white;
-    height: 42px;
-    width: 42px;
-    -webkit-mask: url("../cutImage/button/button4-1-icon-ques.png") no-repeat center center;
-    mask: url("../cutImage/button/button4-1-icon-ques.png") no-repeat center center;
-    pointer-events: initial;
-    cursor: pointer;                                                                                                                                
-}
-#loc_back {
-    margin-right: 20px;
-    background-color: #88AB85;
-    height: 40px;
-    width: 40px;
-    -webkit-mask: url("../cutImage/button/button4-1-bottom-gps.png") no-repeat center center;
-    mask: url("../cutImage/button/button4-1-bottom-gps.png") no-repeat center center;
-}
-#location {
-    background-color: white;
-    height: 42px;
-    width: 42px;
-    -webkit-mask: url("../cutImage/button/button4-1-icon-gps.png") no-repeat center center;
-    mask: url("../cutImage/button/button4-1-icon-gps.png") no-repeat center center;
-    pointer-events: initial;
-    cursor: pointer;
-}
-#vr_back {
-    margin-right: 20px;
-    background-color: #959c92;
-    height: 40px;
-    width: 40px;
-    -webkit-mask: url("../cutImage/button/button4-1-bottom-vr.png") no-repeat center center;
-    mask: url("../cutImage/button/button4-1-bottom-vr.png") no-repeat center center;
-}
-#vr {
-    background-color: white;
-    height: 42px;
-    width: 42px;
-    -webkit-mask: url("../cutImage/button/button4-1-icon-vr.png") no-repeat center center;
-    mask: url("../cutImage/button/button4-1-icon-vr.png") no-repeat center center;
-    pointer-events: initial;
 }
 #zoom_square {
     margin-right: 20px;
@@ -387,62 +325,125 @@ body {
     pointer-events: initial;
     cursor: pointer;
 }
-#up {
+#icon_360 {
     position: absolute;
-    right: 4%;
-    top: 3%;
-    z-index: 3;
-    width: 17%;
+    top: 12%;
+    left: 10%;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 48px;
 }
-.btn {
-    font-size: 50px;
-    text-align: center;
-    width: 50%;
-    height: 0;
-    float: left;
-    padding-top: 5%;
-    padding-bottom: 14%;
+#loc_back {
+    margin-right: 20px;
+    background-color: #88AB85;
+    height: 40px;
+    width: 40px;
+    -webkit-mask: url("../cutImage/button/button4-1-bottom-gps.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-bottom-gps.png") no-repeat center center;
 }
-.btn:hover {
-    /* background-color: darksalmon;
-    border-color: darksalmon;
-    opacity: 90%; */
-    cursor: -webkit-grab;
-}
-#btn1 {
-    background-color: darksalmon;
-    /* padding: 3rem; */
-    /* padding-top: 2rem;
-    padding-bottom: 2rem; */
-
-}
-#btn2 {
-    /* padding: 3rem; */
-    /* padding-top: 2rem;
-    padding-bottom: 2rem; */
-    /* width: 50%;
-    height: 0;
-    float: left; */
-}
-#tags {
-    position: absolute;
-    z-index: 6;
-    font-size: 60px;
+#location {
+    background-color: white;
+    height: 42px;
+    width: 42px;
+    -webkit-mask: url("../cutImage/button/button4-1-icon-gps.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-icon-gps.png") no-repeat center center;
+    pointer-events: initial;
     cursor: pointer;
 }
-.tag {
+#vr_back {
+    margin-right: 20px;
+    background-color: #959c92;
+    height: 40px;
+    width: 40px;
+    -webkit-mask: url("../cutImage/button/button4-1-bottom-vr.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-bottom-vr.png") no-repeat center center;
+}
+#vr {
+    background-color: white;
+    height: 42px;
+    width: 42px;
+    -webkit-mask: url("../cutImage/button/button4-1-icon-vr.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-icon-vr.png") no-repeat center center;
+    pointer-events: initial;
+}
+#zoom2 {
+    background-color: white;
+    height: 42px;
+    width: 42px;
+    -webkit-mask: url("../cutImage/button/button4-1-icon-zoom-in.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-icon-zoom-in.png") no-repeat center center;
+    pointer-events: initial;
+    cursor: pointer;
+}
+#ques2 {
+    background-color: white;
+    height: 42px;
+    width: 42px;
+    -webkit-mask: url("../cutImage/button/button4-1-icon-ques.png") no-repeat center center;
+    mask: url("../cutImage/button/button4-1-icon-ques.png") no-repeat center center;
+    pointer-events: initial;
+    cursor: pointer;                                                                                                                                
+}
+
+#template_vr {
     position: absolute;
-    visibility: hidden;
-    padding: 12px;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: none;
+}
+#backModel {
+    position: absolute;
+    top: 90%;
+    left: 50px;
+    width: 96px;
+    height: 72px;
+    background-image: url( "../cutImage/button/button1-3-normal.svg" );
+    background-size: contain;
+    background-repeat: no-repeat;
+    pointer-events: initial;
+    cursor: pointer;
+}
+
+#template_360 {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    display: none;
 }
 #SY_icon_360 {
     position: absolute;
-    z-index: 3;
-    top: -9%;
+    z-index: 2;
+    top: 30px;
     margin-left: 30px;
-    width: 42%;
+    width: 11%;
     min-width: 150px;
     /* margin-left: 7%; */
+}
+#icon_bottom_360 {
+    position: absolute;
+    z-index: 0;
+    width: 270px;
+    height: 180px;
+    min-width: 203px;
+    top: 0%;
+    left: 0%;
+    background-image: url(../cutImage/bottom/bottom-04-1@2x.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#menu {
+    position: absolute;
+    z-index: 0;
+    top: 10%;
+    height: 80%;
+    width: 26%;
+    pointer-events: initial;
     visibility: hidden;
 }
 #menu_back {
@@ -454,63 +455,6 @@ body {
     top: -13%;
     width: 260px;
     height: 760px;
-    visibility: hidden;
-}
-#template_360 {
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    visibility: hidden;
-}
-#mapPage {
-    position: absolute;
-    z-index: 2;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(108, 102, 102, 0.752);
-    visibility: hidden;
-}
-#bigMap {
-    background-image: url( ../cutImage/window/window-map@2x.png );
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 52%;
-    height: 58%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-#x_circle {
-    -webkit-mask: url( ../cutImage/button/button4-2-bottom.png ) no-repeat center center;
-    mask: url( ../cutImage/button/button4-2-bottom.png ) no-repeat center center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-color: #eac788;
-    position: absolute;
-    right: -2%;
-    top: -3%;
-    width: 40px;
-    height: 40px;
-}
-#x {
-    background-color: white;
-    -webkit-mask: url( ../cutImage/button/button4-2-del.png ) no-repeat center center;
-    mask: url( ../cutImage/button/button4-2-del.png ) no-repeat center center;
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-}
-#menu {
-    position: absolute;
-    z-index: 0;
-    top: 10%;
-    height: 80%;
-    width: 26%;
-    pointer-events: initial;
     visibility: hidden;
 }
 #menu_icon {
@@ -528,25 +472,25 @@ body {
 }
 #menu_icon:hover {
     cursor: pointer;
+    background-color: #88AB85;
 }
 #scroll_bar {
     height: 420px;
-    margin-top: 4%;
+    margin-top: 9%;
     margin-left: 13px;
     padding-left: 20px;
     /* color: white; */
     color: #58724E;
-    visibility: hidden;
     overflow: auto;
     direction:rtl;
     user-select: none;
+    visibility: hidden;
 }
 #scroll_bar::-webkit-scrollbar {
     background-color: rgba(220, 220, 220, 0.641);
     width: 10px;
     max-width: 34px;
     min-width: 10px;
-
 }
 #scroll_bar::-webkit-scrollbar-thumb {
     background-color: rgba(108, 102, 102, 0.752);
@@ -557,43 +501,75 @@ body {
 span.scroll {
     display: block;
     height: 47px;
-    font-size: 100%;
+    font-size: 20px;
     font-weight: 600;
+    cursor: pointer;
 }
 .scroll {
     direction:ltr;
 }
-#backModel {
+.scroll:hover {
+    color: #88AB85;
+}
+#middle_bottom_360 {
     position: absolute;
-    top: 90%;
-    left: 50px;
-    width: 96px;
-    height: 72px;
-    background-image: url( "../cutImage/button/button1-3-normal.svg" );
-    background-size: contain;
-    background-repeat: no-repeat;
+    top: 93%;
+    left: 42%;
+    width: 17%;
+    min-width: 293px;
     pointer-events: initial;
-    cursor: pointer;
+    /* border: lightcoral solid 8px; */
 }
-#home {
-    width: 33%;
-    float: left;
-}
-#home_icon {
+#bottom_paint_360 {
     width: 100%;
 }
-#lastPage {
+
+#mapPage {
     position: absolute;
-    color: white;
-    height: 77%;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(108, 102, 102, 0.752);
+    visibility: hidden;
+}
+#bigMap {
+    background-image: url( ../cutImage/window/window-map@2x.png );
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 52%;
+    max-width: 1001px;
+    height: 58%;
+    max-height: 626px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#x_circle {
+    -webkit-mask: url( ../cutImage/button/button4-2-bottom.png ) no-repeat center center;
+    mask: url( ../cutImage/button/button4-2-bottom.png ) no-repeat center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: #eac788;
+    position: absolute;
+    right: -2%;
+    top: -3%;
+    width: 40px;
+    height: 40px;
+}
+#x_circle:hover {
+    background-color: #88AB85;
+}
+#x {
+    background-color: white;
+    -webkit-mask: url( ../cutImage/button/button4-2-del.png ) no-repeat center center;
+    mask: url( ../cutImage/button/button4-2-del.png ) no-repeat center center;
+    position: absolute;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
 }
-#back_icon {
-    Width: 26%;
-    margin-left: 83%; 
-    margin-top: 7%;
-    cursor: pointer;
-}
+
 #down_right_360 {
     /* border: palevioletred solid; */
     display: none;
@@ -615,6 +591,19 @@ span.scroll {
     right: 16%;
     /* border: deepskyblue solid; */
 }
+#map {
+    width: 100%;
+    height: 100%;
+}
+#circle {
+    position: absolute;
+    z-index: 9;
+    border-radius: 50%;
+    border: gold solid 5px;
+    background-color: gold;
+    width: 3rem;
+    height: 3rem;
+}
 #down_right_icon {
     position: absolute;
     width: 15%;
@@ -631,10 +620,6 @@ span.scroll {
 .down_right_icon {
     float: left;
 }
-#map {
-    width: 100%;
-    height: 100%;
-}
 #loc_icon {
     width: 48%;
     cursor: pointer;
@@ -644,25 +629,19 @@ span.scroll {
     margin-left: 4%;
     cursor: pointer;
 }
-.points {
+
+#tags {
     position: absolute;
-    height: 5%;
-    width: 5%;
-    font-weight: bolder;
-    top: 2px;
+    z-index: 6;
+    font-size: 60px;
     cursor: pointer;
-    /* border:coral solid; */
-    /* color: transparent; */
 }
-#circle {
+.tag {
     position: absolute;
-    z-index: 9;
-    border-radius: 50%;
-    border: gold solid 5px;
-    background-color: gold;
-    width: 3rem;
-    height: 3rem;
+    visibility: hidden;
+    padding: 12px;
 }
+
 #undef {
     width: 100%;
     height: 100%;
@@ -677,4 +656,15 @@ span.scroll {
 #undefined_cap {
     position: relative;
     top: 50%;
+}
+
+.points {
+    position: absolute;
+    height: 5%;
+    width: 5%;
+    font-weight: bolder;
+    top: 2px;
+    cursor: pointer;
+    /* border:coral solid; */
+    /* color: transparent; */
 }
