@@ -162,7 +162,8 @@
         <script src="template/tick.js"></script>
 
         <div>
-            <a-scene tag-monitor debug gltf-model="dracoDecoderPath: /template/draco/;" loading-screen="enabled: false">
+            <a-scene tag-monitor debug gltf-model="dracoDecoderPath: /template/draco/;" loading-screen="enabled: false" 
+            renderer='antialias: true; colorManagement: false; sortObjects: false; physicallyCorrectLights: false; logarithmicDepthBuffer: true; '>
                 <a-assets>
                     <img id="arrow" src="source/arrow.png">
                     <!-- <a-asset-item id="sy_model" src="/source/model/Songyan.glb"></a-asset-item> -->
@@ -170,7 +171,7 @@
 
                 <a-entity id="homeModel">      
                     <!-- For loading Songyan compressed model -->
-                    <a-entity gltf-model="url(/source/model/s_0903_d.glb)" scale="0.5 0.5 0.5"></a-entity>
+                    <!-- <a-entity gltf-model="url(/source/model/s_0903_d.glb)" scale="0.5 0.5 0.5"></a-entity> -->
 
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
                     <!-- <a-sky id="sky" transparent="true" color="#fad964"></a-sky> -->
@@ -183,7 +184,7 @@
                     <a-box id="r_cube" color="#c4372d" depth="1.2" position="4 0.5 -2" visible="false"></a-box>
                     <a-box id="p_cube" color="#bf2ca7" depth="1.2" position="-5 0.5 7" visible="false"></a-box>
     
-                    <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 21; initialPosition: -18 7 6; maxPolarAngle: 80; minPolarAngle: 40">
+                    <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: 0 0 0; minDistance: 0.05; maxDistance: 210; initialPosition: -18 7 6; maxPolarAngle: 80; minPolarAngle: 4">
                     </a-entity>     
                 </a-entity>
 
@@ -194,6 +195,10 @@
         </div>
 
         <script src="template/main_dev.js"></script>
+
+        <script src="template/threejs/loadModel.js"></script>
+        <script src="template/threejs/MIFLY_THREE_FBXLoader.js"></script>
+        <script src="template/threejs/inflate.min.js"></script>
 
     </body>
 </html>

@@ -228,18 +228,18 @@ function createScene( makarScenes ) {
     scene_360.appendChild( sceneObjs ) ;
 
     let p_arr = [] ;     // Collecting object loading promises from everything needs loading
-    let syModelLoadPromise = new Promise ( ( resolve, reject ) => {
-        document.getElementById( 'homeModel' ).addEventListener( 'model-loaded', ( evt ) => {
-            console.log( "model-loaded" ) ;
-            resolve() ;
-        } ) ; 
-    } ) ;
+    // let syModelLoadPromise = new Promise ( ( resolve, reject ) => {
+    //     document.getElementById( 'homeModel' ).addEventListener( 'model-loaded', ( evt ) => {
+    //         console.log( "model-loaded" ) ;
+    //         resolve() ;
+    //     } ) ; 
+    // } ) ;
     // p_arr.push( syModelLoadPromise ) ;     
 
-    // create all scene elements but oonly create the scenes on menu
-    let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
+    // create all scene DOM elements but only create objects of the scenes on menu
+    let menuSceneObjLoaded = new Promise( ( resolve, reject ) => {
         for ( var i = 0 ; i < makarScenes.length ; i++ ) {
-            if ( i > 5 ) break ; 
+            // if ( i > 10 ) break ; 
             let sceneObj = document.createElement( 'a-entity' ) ;
     
             sceneObj.setAttribute( 'id', makarScenes[ i ].scene_id ) ;
@@ -249,56 +249,54 @@ function createScene( makarScenes ) {
     
             let asky = document.createElement( 'a-sky' ) ;
             asky.setAttribute( 'id', makarScenes[ i ].scene_id + '_sky' ) ;
-            asky.setAttribute( 'material', { 'src' : makarScenes[ i ].scene_skybox_url } ) ;
+            
             sceneObj.appendChild( asky ) ;
-            // asky.addEventListener( 'loaded', ( e ) => { resolve( true ) } ) ;
-    
-            for ( var j = 0 ; j < makarScenes[ i ].objs.length ; j ++ ) {
-                sceneObjsLoad( makarScenes[ i ], sceneObj ) ;
-                // let obj = makarScenes[ i ].objs[ j ] ;
-    
-                // let position = new THREE.Vector3().fromArray( obj.transform[ 0 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
-                // let rotation = new THREE.Vector3().fromArray( obj.transform[ 1 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
-                // let scale = new THREE.Vector3().fromArray( obj.transform[ 2 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
-    
-                // switch( obj.main_type ) {
-                //     case 'image' :
-                //         let imgReturn = loadImage( obj, sceneObj, position, rotation, scale ) ; 
-                //         p_arr.push( imgReturn ) ;
-                //         break ;
-                //     case 'text' :
-                //         loadChinese( obj, sceneObj, position, rotation, scale ) ;
-                //         break ;
-                // }  
-              
+
+            if ( Object.values( scene_in_menu ).includes( makarScenes[ i ].scene_id ) ) {
+                asky.setAttribute( 'material', { 'src' : makarScenes[ i ].scene_skybox_url } ) ;
+                let oneSceneLoadPromise = sceneObjsLoad( makarScenes[ i ], sceneObj ) ;  
+                p_arr.push( oneSceneLoadPromise ) ;
+
+                // console.log( makarScenes[ i ].scene_id ) ;
+                // console.log( oneSceneLoadPromise , makarScenes[ i ].scene_id ) ;
             }
+    
             if ( i == ( makarScenes.length - 1 ) ) resolve() ;
         } 
     } ) ;
-    // allSceneObjLoaded.then( () => { console.log( 'true' ) ; loadPage.style.visibility = 'hidden' } ) ;
+
     Promise.all( p_arr ).then( () => {
-        console.log( 'sceneObjs promise resolved' ) ; loadPage.style.visibility = 'hidden' ;
+        console.log( 'sceneObjs promise resolved' ) ; 
+        console.log( p_arr ) ;
+        loadPage.style.visibility = 'hidden' ;
     } ) ;
 }
 
 function sceneObjsLoad( oneSceneObj, sceneObj ) {
-    for ( var i = 0 ; i < oneSceneObj.objs.length ; i ++ ) {
-        let obj = oneSceneObj.objs[ i ] ;
-
-        let position = new THREE.Vector3().fromArray( obj.transform[ 0 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
-        let rotation = new THREE.Vector3().fromArray( obj.transform[ 1 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
-        let scale = new THREE.Vector3().fromArray( obj.transform[ 2 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
-    
-        switch( obj.main_type ) {
-            case 'image' :
-                let imgReturn = loadImage( obj, sceneObj, position, rotation, scale ) ; 
-                // p_arr.push( imgReturn ) ;
-                break ;
-            case 'text' :
-                loadChinese( obj, sceneObj, position, rotation, scale ) ;
-                break ;
+    let img_p = [] ;
+    this.sceneObjsLoadPromise = new Promise( ( resolve, reject ) => {
+            for ( var i = 0 ; i < oneSceneObj.objs.length ; i ++ ) {
+                let obj = oneSceneObj.objs[ i ] ;
+        
+                let position = new THREE.Vector3().fromArray( obj.transform[ 0 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
+                let rotation = new THREE.Vector3().fromArray( obj.transform[ 1 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
+                let scale = new THREE.Vector3().fromArray( obj.transform[ 2 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
+            
+                switch( obj.main_type ) {
+                    case 'image' :
+                        let imgReturn = loadImage( obj, sceneObj, position, rotation, scale ) ; 
+                        img_p.push( imgReturn ) ;
+                        // console.log( oneSceneObj.scene_name, imgReturn ) ;
+                        // p_arr.push( imgReturn ) ;
+                        break ;
+                    case 'text' :
+                        loadChinese( obj, sceneObj, position, rotation, scale ) ;
+                        break ;
+                }
+            }
+            Promise.all( img_p ).then( () => { resolve() ; } ) ;
         }
-    }
+    ) ;
 
     function setTransform( obj, position, rotation, scale ) {
         let pos = position.clone() ;
@@ -414,7 +412,7 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
         }
         else sceneObj.appendChild( anchor ) ;
     }
-
+    return sceneObjsLoadPromise ;
 }
 
 // function loadImage( obj, sceneObj, position, rotation, scale ) {
