@@ -234,7 +234,7 @@ function createScene( makarScenes ) {
             resolve() ;
         } ) ; 
     } ) ;
-    p_arr.push( syModelLoadPromise ) ;     
+    // p_arr.push( syModelLoadPromise ) ;     
 
     // create all scene elements but oonly create the scenes on menu
     let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
@@ -254,21 +254,22 @@ function createScene( makarScenes ) {
             // asky.addEventListener( 'loaded', ( e ) => { resolve( true ) } ) ;
     
             for ( var j = 0 ; j < makarScenes[ i ].objs.length ; j ++ ) {
-                let obj = makarScenes[ i ].objs[ j ] ;
+                sceneObjsLoad( makarScenes[ i ], sceneObj ) ;
+                // let obj = makarScenes[ i ].objs[ j ] ;
     
-                let position = new THREE.Vector3().fromArray( obj.transform[ 0 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
-                let rotation = new THREE.Vector3().fromArray( obj.transform[ 1 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
-                let scale = new THREE.Vector3().fromArray( obj.transform[ 2 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
+                // let position = new THREE.Vector3().fromArray( obj.transform[ 0 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
+                // let rotation = new THREE.Vector3().fromArray( obj.transform[ 1 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
+                // let scale = new THREE.Vector3().fromArray( obj.transform[ 2 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
     
-                switch( obj.main_type ) {
-                    case 'image' :
-                        let imgReturn = loadImage( obj, sceneObj, position, rotation, scale ) ; 
-                        p_arr.push( imgReturn ) ;
-                        break ;
-                    case 'text' :
-                        loadChinese( obj, sceneObj, position, rotation, scale ) ;
-                        break ;
-                }  
+                // switch( obj.main_type ) {
+                //     case 'image' :
+                //         let imgReturn = loadImage( obj, sceneObj, position, rotation, scale ) ; 
+                //         p_arr.push( imgReturn ) ;
+                //         break ;
+                //     case 'text' :
+                //         loadChinese( obj, sceneObj, position, rotation, scale ) ;
+                //         break ;
+                // }  
               
             }
             if ( i == ( makarScenes.length - 1 ) ) resolve() ;
@@ -280,120 +281,244 @@ function createScene( makarScenes ) {
     } ) ;
 }
 
-function setTransform( obj, position, rotation, scale ) {
-    let pos = position.clone() ;
-    pos.multiply( new THREE.Vector3( -1, 1, 1 ) ) ;
+function sceneObjsLoad( oneSceneObj, sceneObj ) {
+    for ( var i = 0 ; i < oneSceneObj.objs.length ; i ++ ) {
+        let obj = oneSceneObj.objs[ i ] ;
 
-    let rot = rotation.clone() ;
-    rot.multiply( new THREE.Vector3( 1, -1, -1 ) ) ;
-
-    obj.setAttribute( 'position', pos ) ;
-    obj.setAttribute( 'rotation', rot ) ;
-    obj.setAttribute( 'scale', scale ) ;
-}
-
-function loadImage( obj, sceneObj, position, rotation, scale ) {
+        let position = new THREE.Vector3().fromArray( obj.transform[ 0 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
+        let rotation = new THREE.Vector3().fromArray( obj.transform[ 1 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
+        let scale = new THREE.Vector3().fromArray( obj.transform[ 2 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
     
-    this.loadPromise = function ( texture ) {
-        var texture = new THREE.TextureLoader().load( obj.res_url ) ;
-        // console.log( texture ) ;
-        
-        let url_split_length = obj.res_url.split( '.' ).length ;
-        let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
-        let oneLoadPromise = new Promise( ( resolve, reject ) => {
-            let plane ;
-            if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
-                        
-                plane = document.createElement( 'a-plane' ) ;
-                plane.setAttribute( 'src', obj.res_url ) ;
-                plane.setAttribute( 'id', obj.obj_id ) ;
-                plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
-    
-                plane.addEventListener( 'loaded', function( evt ) {
-                    // console.log( texture ) ; 
-                    if ( evt.target == evt.currentTarget ) {
-                        if ( texture.image ) {
-                            plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
-                        }
-                        
-                        plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
-                    }
-                } ) ;
-    
-                setTransform( plane, position, rotation, scale ) ;
-                
-                sceneObj.appendChild( plane ) ; 
-                // console.log( 'append a-plane' ) ;
-                resolve() ;
-            }    
-        } ) ; 
-        return oneLoadPromise ;
-    }
-
-    return loadPromise() ;
-}
-
-// Time to load some Chinese text
-function loadChinese( obj, sceneObj, position, rotation, scale ) {
-    let anchor = document.createElement( 'a-entity' ) ;
-    setTransform( anchor, position, rotation, scale ) ;
-    anchor.setAttribute( 'id', obj.obj_id ) ;
-
-    let text = document.createElement( 'a-text' ) ;
-    textList = obj.content ;
-    const chinese_regex = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
-    const isChinese = ( str ) => chinese_regex.test( str ) ;
-
-    let str_len = 0 ;
-    for ( var i = 0 ; i < textList.length ; i ++ ) {
-        let c = textList[ i ] ;
-        if ( isChinese( c ) ) str_len += 1.6 ;
-        else if ( c == c.toUpperCase() && c != c.toLowerCase() ) str_len += 1 ;
-        else if ( c == c.toLowerCase() && c != c.toUpperCase() ) str_len += 1 ;
-        else str_len += 1.25 ;
-    }
-
-    text.setAttribute( 'value', obj.content ) ;
-    text.setAttribute( 'width', str_len ) ;
-    text.setAttribute( 'anchor', 'center' ) ;
-    text.setAttribute( 'back-color', obj.back_color ) ;
-    text.setAttribute( 'side', 'double' ) ;
-    
-    var fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/" ;
-    fonts = [ fontUrl + "1-msdf.json", fontUrl + "2-msdf.json", fontUrl + "3-msdf.json", fontUrl + "4-msdf.json", 
-              fontUrl + "5-msdf.json", fontUrl + "6-msdf.json", fontUrl + "7-msdf.json", fontUrl + "8-msdf.json", 
-              fontUrl + "9-msdf.json", fontUrl + "10-msdf.json", fontUrl + "11-msdf.json", fontUrl + "12-msdf.json" ] ;
-    text.setAttribute( 'font', fonts ) ; 
-    text.setAttribute( "negate", "false" ) ;
-    text.setAttribute( 'crossorigin', 'anonymous' ) ;
-
-    let rgb = obj.color.split( ',' ) ;
-    let color = new THREE.Color( parseFloat( rgb[ 0 ] ), parseFloat( rgb[ 1 ] ), parseFloat( [ 2 ] ) ) ;
-    text.setAttribute( 'color', '#' + color.getHexString() ) ;
-
-    text.addEventListener( 'loaded', function( evt ) {
-        if ( evt.target == evt.currentTarget ) {
-            let r = new THREE.Vector3() ;
-            r.set( 0, Math.PI, 0 ) ;
-            text.object3D.rotation.setFromVector3( r ) ;
+        switch( obj.main_type ) {
+            case 'image' :
+                let imgReturn = loadImage( obj, sceneObj, position, rotation, scale ) ; 
+                // p_arr.push( imgReturn ) ;
+                break ;
+            case 'text' :
+                loadChinese( obj, sceneObj, position, rotation, scale ) ;
+                break ;
         }
-    } ) ;
-
-    anchor.appendChild( text ) ;
-
-    if ( obj.obj_parent_id ) {
-        let timeout = setInterval( function() {
-            let parent = document.getElementById( obj.obj_parent_id ) ;
-            if ( parent ) {
-                if ( parent.object3D.children.length > 0 ) {
-                    parent.appendChild( anchor ) ;
-                    window.clearInterval( timeout ) ;
-                }
-            }
-        }, 1 ) ;
     }
-    else sceneObj.appendChild( anchor ) ;
+
+    function setTransform( obj, position, rotation, scale ) {
+        let pos = position.clone() ;
+        pos.multiply( new THREE.Vector3( -1, 1, 1 ) ) ;
+    
+        let rot = rotation.clone() ;
+        rot.multiply( new THREE.Vector3( 1, -1, -1 ) ) ;
+    
+        obj.setAttribute( 'position', pos ) ;
+        obj.setAttribute( 'rotation', rot ) ;
+        obj.setAttribute( 'scale', scale ) ;
+    }
+
+    function loadImage( obj, sceneObj, position, rotation, scale ) {
+    
+        this.loadPromise = function ( texture ) {
+            var texture = new THREE.TextureLoader().load( obj.res_url ) ;
+            // console.log( texture ) ;
+            
+            let url_split_length = obj.res_url.split( '.' ).length ;
+            let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
+            let oneLoadPromise = new Promise( ( resolve, reject ) => {
+                let plane ;
+                if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
+                            
+                    plane = document.createElement( 'a-plane' ) ;
+                    plane.setAttribute( 'src', obj.res_url ) ;
+                    plane.setAttribute( 'id', obj.obj_id ) ;
+                    plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
+        
+                    plane.addEventListener( 'loaded', function( evt ) {
+                        // console.log( texture ) ; 
+                        if ( evt.target == evt.currentTarget ) {
+                            if ( texture.image ) {
+                                plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
+                            }
+                            
+                            plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
+                        }
+                    } ) ;
+        
+                    setTransform( plane, position, rotation, scale ) ;
+                    
+                    sceneObj.appendChild( plane ) ; 
+                    // console.log( 'append a-plane' ) ;
+                    resolve() ;
+                }    
+            } ) ; 
+            return oneLoadPromise ;
+        }
+    
+        return loadPromise() ;
+    }
+    
+    // Time to load some Chinese text
+    function loadChinese( obj, sceneObj, position, rotation, scale ) {
+        let anchor = document.createElement( 'a-entity' ) ;
+        setTransform( anchor, position, rotation, scale ) ;
+        anchor.setAttribute( 'id', obj.obj_id ) ;
+    
+        let text = document.createElement( 'a-text' ) ;
+        textList = obj.content ;
+        const chinese_regex = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
+        const isChinese = ( str ) => chinese_regex.test( str ) ;
+    
+        let str_len = 0 ;
+        for ( var i = 0 ; i < textList.length ; i ++ ) {
+            let c = textList[ i ] ;
+            if ( isChinese( c ) ) str_len += 1.6 ;
+            else if ( c == c.toUpperCase() && c != c.toLowerCase() ) str_len += 1 ;
+            else if ( c == c.toLowerCase() && c != c.toUpperCase() ) str_len += 1 ;
+            else str_len += 1.25 ;
+        }
+    
+        text.setAttribute( 'value', obj.content ) ;
+        text.setAttribute( 'width', str_len ) ;
+        text.setAttribute( 'anchor', 'center' ) ;
+        text.setAttribute( 'back-color', obj.back_color ) ;
+        text.setAttribute( 'side', 'double' ) ;
+        
+        var fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/" ;
+        fonts = [ fontUrl + "1-msdf.json", fontUrl + "2-msdf.json", fontUrl + "3-msdf.json", fontUrl + "4-msdf.json", 
+                  fontUrl + "5-msdf.json", fontUrl + "6-msdf.json", fontUrl + "7-msdf.json", fontUrl + "8-msdf.json", 
+                  fontUrl + "9-msdf.json", fontUrl + "10-msdf.json", fontUrl + "11-msdf.json", fontUrl + "12-msdf.json" ] ;
+        text.setAttribute( 'font', fonts ) ; 
+        text.setAttribute( "negate", "false" ) ;
+        text.setAttribute( 'crossorigin', 'anonymous' ) ;
+    
+        let rgb = obj.color.split( ',' ) ;
+        let color = new THREE.Color( parseFloat( rgb[ 0 ] ), parseFloat( rgb[ 1 ] ), parseFloat( [ 2 ] ) ) ;
+        text.setAttribute( 'color', '#' + color.getHexString() ) ;
+    
+        text.addEventListener( 'loaded', function( evt ) {
+            if ( evt.target == evt.currentTarget ) {
+                let r = new THREE.Vector3() ;
+                r.set( 0, Math.PI, 0 ) ;
+                text.object3D.rotation.setFromVector3( r ) ;
+            }
+        } ) ;
+    
+        anchor.appendChild( text ) ;
+    
+        if ( obj.obj_parent_id ) {
+            let timeout = setInterval( function() {
+                let parent = document.getElementById( obj.obj_parent_id ) ;
+                if ( parent ) {
+                    if ( parent.object3D.children.length > 0 ) {
+                        parent.appendChild( anchor ) ;
+                        window.clearInterval( timeout ) ;
+                    }
+                }
+            }, 1 ) ;
+        }
+        else sceneObj.appendChild( anchor ) ;
+    }
+
 }
+
+// function loadImage( obj, sceneObj, position, rotation, scale ) {
+    
+//     this.loadPromise = function ( texture ) {
+//         var texture = new THREE.TextureLoader().load( obj.res_url ) ;
+//         // console.log( texture ) ;
+        
+//         let url_split_length = obj.res_url.split( '.' ).length ;
+//         let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
+//         let oneLoadPromise = new Promise( ( resolve, reject ) => {
+//             let plane ;
+//             if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
+                        
+//                 plane = document.createElement( 'a-plane' ) ;
+//                 plane.setAttribute( 'src', obj.res_url ) ;
+//                 plane.setAttribute( 'id', obj.obj_id ) ;
+//                 plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
+    
+//                 plane.addEventListener( 'loaded', function( evt ) {
+//                     // console.log( texture ) ; 
+//                     if ( evt.target == evt.currentTarget ) {
+//                         if ( texture.image ) {
+//                             plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
+//                         }
+                        
+//                         plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
+//                     }
+//                 } ) ;
+    
+//                 setTransform( plane, position, rotation, scale ) ;
+                
+//                 sceneObj.appendChild( plane ) ; 
+//                 // console.log( 'append a-plane' ) ;
+//                 resolve() ;
+//             }    
+//         } ) ; 
+//         return oneLoadPromise ;
+//     }
+
+//     return loadPromise() ;
+// }
+
+// // Time to load some Chinese text
+// function loadChinese( obj, sceneObj, position, rotation, scale ) {
+//     let anchor = document.createElement( 'a-entity' ) ;
+//     setTransform( anchor, position, rotation, scale ) ;
+//     anchor.setAttribute( 'id', obj.obj_id ) ;
+
+//     let text = document.createElement( 'a-text' ) ;
+//     textList = obj.content ;
+//     const chinese_regex = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
+//     const isChinese = ( str ) => chinese_regex.test( str ) ;
+
+//     let str_len = 0 ;
+//     for ( var i = 0 ; i < textList.length ; i ++ ) {
+//         let c = textList[ i ] ;
+//         if ( isChinese( c ) ) str_len += 1.6 ;
+//         else if ( c == c.toUpperCase() && c != c.toLowerCase() ) str_len += 1 ;
+//         else if ( c == c.toLowerCase() && c != c.toUpperCase() ) str_len += 1 ;
+//         else str_len += 1.25 ;
+//     }
+
+//     text.setAttribute( 'value', obj.content ) ;
+//     text.setAttribute( 'width', str_len ) ;
+//     text.setAttribute( 'anchor', 'center' ) ;
+//     text.setAttribute( 'back-color', obj.back_color ) ;
+//     text.setAttribute( 'side', 'double' ) ;
+    
+//     var fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/" ;
+//     fonts = [ fontUrl + "1-msdf.json", fontUrl + "2-msdf.json", fontUrl + "3-msdf.json", fontUrl + "4-msdf.json", 
+//               fontUrl + "5-msdf.json", fontUrl + "6-msdf.json", fontUrl + "7-msdf.json", fontUrl + "8-msdf.json", 
+//               fontUrl + "9-msdf.json", fontUrl + "10-msdf.json", fontUrl + "11-msdf.json", fontUrl + "12-msdf.json" ] ;
+//     text.setAttribute( 'font', fonts ) ; 
+//     text.setAttribute( "negate", "false" ) ;
+//     text.setAttribute( 'crossorigin', 'anonymous' ) ;
+
+//     let rgb = obj.color.split( ',' ) ;
+//     let color = new THREE.Color( parseFloat( rgb[ 0 ] ), parseFloat( rgb[ 1 ] ), parseFloat( [ 2 ] ) ) ;
+//     text.setAttribute( 'color', '#' + color.getHexString() ) ;
+
+//     text.addEventListener( 'loaded', function( evt ) {
+//         if ( evt.target == evt.currentTarget ) {
+//             let r = new THREE.Vector3() ;
+//             r.set( 0, Math.PI, 0 ) ;
+//             text.object3D.rotation.setFromVector3( r ) ;
+//         }
+//     } ) ;
+
+//     anchor.appendChild( text ) ;
+
+//     if ( obj.obj_parent_id ) {
+//         let timeout = setInterval( function() {
+//             let parent = document.getElementById( obj.obj_parent_id ) ;
+//             if ( parent ) {
+//                 if ( parent.object3D.children.length > 0 ) {
+//                     parent.appendChild( anchor ) ;
+//                     window.clearInterval( timeout ) ;
+//                 }
+//             }
+//         }, 1 ) ;
+//     }
+//     else sceneObj.appendChild( anchor ) ;
+// }
 
 // ----- Some flows that needs to go through once the web page is opened -----
 function main() {
@@ -798,12 +923,12 @@ function theRaycaster( sceneObjs ) {
 const buttonController = {
 
     buttonSelect : {
-        "button1-1-hover" : 0 ,
-        "button1-2-hover" : 0 ,
-        "button1-6-hover" : 0 ,
+        "button1-1-click" : 0 ,
+        "button1-2-click" : 0 ,
+        "button1-6-click" : 0 ,
     
-        "button2-1-hover" : 0 ,
-        "button2-2-hover" : 0 ,
+        "button2-1-click" : 0 ,
+        "button2-2-click" : 0 ,
     },
 
     buttonObj : {
@@ -892,19 +1017,21 @@ const buttonController = {
         let ctrl = buttonController ;
         Object.values( this.buttonObj_hover ).forEach( btnEle => {
             btnEle.addEventListener( 'mouseout', function( event ) {      
-                if ( ctrl.buttonSelect[ btnEle.id ] == 0 ) {
+                if ( ctrl.buttonSelect[ ctrl.buttonChange[ btnEle.id ][ 1 ] ] == 0 ) {
                     btnEle.style.visibility = 'hidden' ;
                     ctrl.buttonObj[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
-                    console.log( 'MOUSE OUT', event ) ;
+                    // console.log( 'MOUSE OUT', event ) ;
                 }  
                 event.stopPropagation() ;
             } ) ;
 
             btnEle.addEventListener( 'click', function( event ) {
-                ctrl.buttonSelect[ btnEle.id ] = 1 ;
+                ctrl.buttonSelect[ ctrl.buttonChange[ btnEle.id ][ 1 ] ] = 1 ;
                 ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ] ) ;
                 btnEle.style.visibility = 'hidden' ;
                 ctrl.buttonObj_click[ ctrl.buttonChange[ btnEle.id ][ 1 ] ].style.visibility = 'visible' ;
+
+                // console.log( '222', ctrl.buttonSelect ) ;
                 
                 event.stopPropagation() ;
             } ) ;
@@ -919,6 +1046,8 @@ const buttonController = {
                 let ctrl = buttonController ;
                 ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ]  ) ;
                 ctrl.buttonObj[ ctrl.buttonChange[ btnEle.id ] ].style.visibility = 'visible' ;
+
+                // console.log( '222', ctrl.buttonSelect ) ;
                 
                 event.stopPropagation() ;
             } ) ;
@@ -958,7 +1087,6 @@ function tagAppear() {
     let tagControll = [ buttonController.buttonObj_hover[ 'button2-1-hover' ], buttonController.buttonObj_hover[ 'button2-2-hover' ] ] ;
     tagControll.forEach( t => {
         t.addEventListener( 'click', function( event ) {
-            // console.log( "222", tag ) ;
             if ( t.id == 'button2-1-hover' ) tag = 2 ;
             else tag = 1 ;
 
@@ -966,7 +1094,7 @@ function tagAppear() {
             tags.style.display = 'inline' ;
             event.stopPropagation() ;
 
-            buttonController.buttonSelect[ t.id ] = 1 ;
+            buttonController.buttonSelect[ buttonController.buttonChange[ t.id ][ 1 ] ] = 1 ;
         } ) ;
     } ) ;
 }
