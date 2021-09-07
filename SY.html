@@ -21,28 +21,27 @@
         <div id="load">
             <p id="load_w">Loading</p>
         </div>
+
         <div id="homeBackground">
             <div id="bottom02"></div>
             <div id="bottom03"></div>
         </div>
+
         <div id="homePage">
             <div id="SY_icon">
                 <img id="SY_img" src="source/sccp.png" width="100%">
             </div>
             <div id="icon_bottom"></div>
             <div id="home_menu">
-                <div class="homeBtn" id="button1-1">
-                </div>
-                <div class="homeBtn" id="button1-2">
-                </div>
-                <div class="homeBtn" id="button1-6">
-                </div>
+                <div class="homeBtn" id="button1-1" onclick="showModelControl( 1 )"></div>
+                <div class="homeBtn" id="button1-2"></div>
+                <div class="homeBtn" id="button1-6"></div>
 
                 <div id="button1-1-hover" onclick="showModelControl( 1 )"></div>
                 <div id="button1-2-hover" onclick="goShop()"></div>
                 <div id="button1-6-hover" onclick="goGame()"></div>
                 
-                <div id="button1-1-click" onclick="showModelControl( 0 )">
+                <div id="button1-1-click" onclick="showModelControl( 1 )">
                     <div id="button2-1"></div>
                     <div id="button2-1-click"></div>
                     <div id="button2-1-hover"></div>
@@ -65,6 +64,51 @@
                         <div id="ques"></div>
                     </div>
                 </div>
+            </div>
+        </div>    
+
+        <div id="template_vr">
+            <div id="SY_icon">
+                <img id="SY_img" src="source/sccp.png" width="100%">
+            </div>
+            <div id="icon_bottom"></div>
+            <div id="backModel" onclick="toOrbit()"></div>
+        </div>    
+
+        <div id="template_360"> 
+            <div id="SY_icon_360">
+                <img id="SY_img" src="source/sccp.png" width="100%">
+            </div>
+            <div id="icon_bottom_360"></div>     
+            <div id="menu">
+                <div id="menu_back"></div>
+                <div id="menu_icon" onclick="click_menu()"></div>
+                <div id="scroll_bar" class="scroll_bar">
+                    <span class="scroll" onclick="to360('d8d672ddb5894b9a92480fcf4649dfc4')">松山菸廠歷史回顧</span>
+                    <span class="scroll" onclick="to360('f7878d4894d946ffba58b453e8a13929')">製菸工廠</span>
+                    <span class="scroll" onclick="to360('94d7b04abd6e470ea1d289cb004b3a3c')">理葉工廠</span>
+                    <span class="scroll" onclick="to360('8469b106c80446988d71204a04713fc5')">雪茄工廠</span>
+                    <span class="scroll" onclick="to360('bdc6eda7c23743e8ad5d6d242cf46bc9')">切葉工廠</span>
+                    <span class="scroll" onclick="to360('c0b4f403106442f2a83295a4cb5542b6')">醫護室</span>
+                    <span class="scroll" onclick="to360('3a11c445debc47939074a0c3297694df')">巴洛克花園</span>
+                    <span class="scroll" onclick="to360('99808d3c19b14b3cab81b6821dab447d')">澡堂</span>
+                    <span class="scroll" onclick="to360('15fd655f039d4da3a546ae174333de2f')">多功能展演廳</span>
+                    <!-- <span class="scroll">製菸工廠二樓</span> -->
+                    <span class="scroll" onclick="to360('b5e7eeb146954a73af7a9248cff19543')">松菸口</span>
+                    <span class="scroll" onclick="to360('e6a9716f79fb4dce8fb27136340cba09')">辦公廳舍與正門</span>
+                    <!-- <span class="scroll">檢查室</span> -->
+                    <span class="scroll" onclick="to360('8ed7325295d6420b85f9d796508cacaa')">1-5號倉庫</span>
+                    <span class="scroll" onclick="to360('c7827db770f24a4e908cb81a91021f02')">2號倉庫與輸送帶</span>
+                    <span class="scroll" onclick="to360('faaca8c43d854f1d8c5bf80a612dc8b0')">鍋爐房</span>
+                    <span class="scroll" onclick="to360('fb1c680e707e4126901d4c6837c94c64')">機器修理廠</span>
+                    <span class="scroll" onclick="to360('18522ccb12004b1f8b8f3961858c4465')">生態景觀池</span>
+                    <span class="scroll" onclick="to360('c9d3fda09cf444aa8e1e90798e92997f')">育嬰室</span>
+                </div>
+            </div>
+            <div id="middle_bottom_360">
+                <div id="bottom_paint_360">
+                    <img id="bottom-05" src="cutImage/bottom/bottom-05@2x.png">
+                </div>
                 <div id="icon_360">
                     <div id="loc_back">
                         <div id="location" onclick="openMapPage()"></div>
@@ -80,43 +124,9 @@
                     </div>
                 </div>
             </div>
-        </div>        
-        <div id="up">
-            <div class="btn btn-light" id="btn1">Orbit View</div>
-            <div class="btn btn-light" id="btn2">VR View</div>
-        </div>
-        <div id="template_360">      
-            <div id="menu">
-                <div id="SY_icon_360">
-                    <img id="SY_img" src="source/sccp.png" width="100%">
-                </div>
-                <div id="menu_back"></div>
-                <div id="menu_icon" onclick="click_menu()"></div>
-                <div id="scroll_bar" class="scroll_bar">
-                    <span class="scroll" onclick="to360('d8d672ddb5894b9a92480fcf4649dfc4')">松山菸廠歷史回顧</span>
-                    <span class="scroll" onclick="to360('f7878d4894d946ffba58b453e8a13929')">製菸工廠</span>
-                    <span class="scroll" onclick="to360('94d7b04abd6e470ea1d289cb004b3a3c')">理葉工廠</span>
-                    <span class="scroll" onclick="to360('8469b106c80446988d71204a04713fc5')">雪茄工廠</span>
-                    <span class="scroll" onclick="to360('bdc6eda7c23743e8ad5d6d242cf46bc9')">切葉工廠</span>
-                    <span class="scroll">製菸工廠特殊建築</span>  
-                    <span class="scroll" onclick="to360('c0b4f403106442f2a83295a4cb5542b6')">醫護室</span>
-                    <span class="scroll" onclick="to360('3a11c445debc47939074a0c3297694df')">巴洛克花園</span>
-                    <span class="scroll" onclick="to360('99808d3c19b14b3cab81b6821dab447d')">澡堂</span>
-                    <span class="scroll" onclick="to360('15fd655f039d4da3a546ae174333de2f')">多功能展演廳</span>
-                    <span class="scroll">製菸工廠二樓</span>
-                    <span class="scroll" onclick="to360('b5e7eeb146954a73af7a9248cff19543')">松菸口</span>
-                    <span class="scroll" onclick="to360('e6a9716f79fb4dce8fb27136340cba09')">辦公廳舍與正門</span>
-                    <span class="scroll">檢查室</span>
-                    <span class="scroll" onclick="to360('8ed7325295d6420b85f9d796508cacaa')">1-5號倉庫</span>
-                    <span class="scroll" onclick="to360('c7827db770f24a4e908cb81a91021f02')">2號倉庫與輸送帶</span>
-                    <span class="scroll" onclick="to360('faaca8c43d854f1d8c5bf80a612dc8b0')">鍋爐房</span>
-                    <span class="scroll" onclick="to360('fb1c680e707e4126901d4c6837c94c64')">機器修理廠</span>
-                    <span class="scroll" onclick="to360('18522ccb12004b1f8b8f3961858c4465')">生態景觀池</span>
-                    <span class="scroll">育嬰房</span>
-                </div>
-            </div>
             <div id="backModel" onclick="toOrbit()"></div>
         </div>   
+
         <div id="mapPage">
             <div id="bigMap">
                 <div id="x_circle">
@@ -124,6 +134,7 @@
                 </div>
             </div>
         </div>
+
         <div id="down_right_360">
             <div id="map_area" class="down_right">
                 <img id="map" src="source/map/map.jpg">
@@ -135,6 +146,7 @@
                 <img id="help_icon" class="down_right_icon" src="source/help.png">
             </div>
         </div>
+
         <div id="tags">
             <div id="b_tag" class="tag" style="background-color: #f5c542; " onclick="to360( 'b5e7eeb146954a73af7a9248cff19543' )">◈Blue box</div>
             <div id="g_tag" class="tag" style="background-color: #42bcf5; " onclick="toVR('g')">Green box</div>
@@ -143,6 +155,7 @@
             <div id="r_tag" class="tag" style="background-color: #f5c542; " onclick="to360( '18522ccb12004b1f8b8f3961858c4465' )">◈Red box</div>
             <div id="p_tag" class="tag" style="background-color: #f5c542; " onclick="to360( '673149e6f1b24354a949ff60415c5481' )">◈Purple box</div>
         </div>
+
         <div id="undef">
             <p id="undefined_cap">This scene hasn't been defined</p>
         </div>
@@ -150,13 +163,8 @@
         <script src="template/tick.js"></script>
 
         <div>
-
-            <a-scene tag-monitor debug gltf-model="dracoDecoderPath: /template/draco/;" loading-screen="enabled: false"
-                   renderer='antialias: true;
-                             colorManagement: false;
-                             sortObjects: false;
-                             physicallyCorrectLights: false;
-                             logarithmicDepthBuffer: true; ' >
+            <a-scene tag-monitor debug gltf-model="dracoDecoderPath: /template/draco/;" loading-screen="enabled: false" 
+            renderer='antialias: true; colorManagement: false; sortObjects: false; physicallyCorrectLights: false; logarithmicDepthBuffer: true; '>
                 <a-assets>
                     <img id="arrow" src="source/arrow.png">
                     <!-- <a-asset-item id="sy_model" src="/source/model/Songyan.glb"></a-asset-item> -->
@@ -164,7 +172,7 @@
 
                 <a-entity id="homeModel">      
                     <!-- For loading Songyan compressed model -->
-                    <!-- <a-entity id = 'root0' gltf-model="url(/source/model/s_0903_d.glb)" scale="0.5 0.5 0.5"></a-entity> -->
+                    <!-- <a-entity gltf-model="url(/source/model/s_0903_d.glb)" scale="0.5 0.5 0.5"></a-entity> -->
 
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
                     <!-- <a-sky id="sky" transparent="true" color="#fad964"></a-sky> -->
@@ -177,24 +185,21 @@
                     <a-box id="r_cube" color="#c4372d" depth="1.2" position="4 0.5 -2" visible="false"></a-box>
                     <a-box id="p_cube" color="#bf2ca7" depth="1.2" position="-5 0.5 7" visible="false"></a-box>
     
-                    <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: 0 0 0; minDistance: 0.05; maxDistance: 210; initialPosition: -18 7 6; maxPolarAngle: 89; minPolarAngle: 5">
+                    <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: 0 0 0; minDistance: 0.05; maxDistance: 210; initialPosition: -18 7 6; maxPolarAngle: 80; minPolarAngle: 4">
                     </a-entity>     
                 </a-entity>
 
                 <a-entity id="360Scene" visible="false" arrow-monitor>
- 
                     <a-entity camera id="360_cam" look-controls="enabled: true" wasd-controls position="0 0 0"></a-entity>
-  
                 </a-entity>
             </a-scene>
         </div>
+
         <script src="template/main_dev.js"></script>
 
-        <script src="template/loadModel.js"></script>
+        <script src="template/threejs/loadModel.js"></script>
         <script src="template/threejs/MIFLY_THREE_FBXLoader.js"></script>
         <script src="template/threejs/inflate.min.js"></script>
-
-
 
     </body>
 </html>

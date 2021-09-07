@@ -1,5 +1,6 @@
 let aScene = document.getElementsByTagName( 'a-scene' )[ 0 ] ;   // 1315, 898
-let homePage = document.getElementById( 'homePage' ) ;
+let loadPage = document.getElementById( 'load' ) ;
+
 let homeModel = document.getElementById( 'homeModel' ) ;
 let scene_360 = document.getElementById( '360Scene' ) ;
 let tags = document.getElementById( 'tags' ) ;
@@ -21,23 +22,25 @@ let o_info = { 'vr_pos' : oCube.object3D.position,
 
 let vrInfo = {'g' : g_info, 'o' : o_info } ;
 
+let homePage = document.getElementById( 'homePage' ) ;
 let SY_icon = document.getElementById( 'SY_icon' ) ;
 let SY_icon_360 = document.getElementById( 'SY_icon_360' ) ;
 let icon_bottom = document.getElementById( 'icon_bottom' ) ;
-
 let home_menu = document.getElementById( 'home_menu' ) ;
 let middle_bottom = document.getElementById( 'middle_bottom' ) ;
+let icon = document.getElementById( 'icon' ) ;
+
+let templateVR = document.getElementById( 'template_vr' ) ;
 
 let template360 = document.getElementById( 'template_360' ) ;
-let icon = document.getElementById( 'icon' ) ;
-let icon_360 = document.getElementById( 'icon_360' ) ;
-
 let scroll_menu = document.getElementById( 'menu' ) ;
 let scroll_menu_back = document.getElementById( 'menu_back' ) ;
 let scroll_menu_icon = document.getElementById( 'menu_icon' ) ;
 let scroll_bar = document.getElementById( 'scroll_bar' ) ;
+let icon_360 = document.getElementById( 'icon_360' ) ;
+let mapPage = document.getElementById( 'mapPage' ) ;
 
-let down_right_360 = document.getElementById( 'down_right_360' ) ;
+let down_right = document.getElementById( 'down_right_360' ) ;
 
 let map = document.getElementById( 'map' ) ;
 let map_area = document.getElementById( 'map_area' ) ;
@@ -67,8 +70,31 @@ let id_to_scene = { 'b_tag' : 'b5e7eeb146954a73af7a9248cff19543',    // 導覽�
                     'r_tag' : '18522ccb12004b1f8b8f3961858c4465',    // 生態景觀池
                     'p_tag' : '673149e6f1b24354a949ff60415c5481' }   // 琉璃工坊-1
 
+let scene_in_menu = {
+                    '松山菸廠歷史回顧' : 'd8d672ddb5894b9a92480fcf4649dfc4', 
+                    '製菸工廠' : 'f7878d4894d946ffba58b453e8a13929',
+                    '理葉工廠' : '94d7b04abd6e470ea1d289cb004b3a3c',
+                    '雪茄工廠' : '8469b106c80446988d71204a04713fc5',
+                    '切葉工廠' : 'bdc6eda7c23743e8ad5d6d242cf46bc9',
+                    '醫護室' : 'c0b4f403106442f2a83295a4cb5542b6',
+                    '巴洛克花園' : '3a11c445debc47939074a0c3297694df',
+                    '澡堂' : '99808d3c19b14b3cab81b6821dab447d',
+                    '多功能展演廳' : '15fd655f039d4da3a546ae174333de2f',
+                    '松菸口' : 'b5e7eeb146954a73af7a9248cff19543',
+                    '辦公廳舍與正門' : 'e6a9716f79fb4dce8fb27136340cba09',
+                    '1-5號倉庫' : '8ed7325295d6420b85f9d796508cacaa',
+                    '2號倉庫與輸送帶' : 'c7827db770f24a4e908cb81a91021f02',
+                    '鍋爐房' : 'faaca8c43d854f1d8c5bf80a612dc8b0',
+                    '機器修理廠' : 'fb1c680e707e4126901d4c6837c94c64',
+                    '生態景觀池' : '18522ccb12004b1f8b8f3961858c4465',
+                    '育嬰室' : 'c9d3fda09cf444aa8e1e90798e92997f' }
+
 function toVR( s ) {
     if ( vr != 1 ) {
+        // --- UI ---
+        homePage.style.display = 'none' ;
+        templateVR.style.display = 'block' ;
+
         // --- Into VR camera ---
         cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
         cam.object3D.children[0].rotation.reorder( 'YXZ' ) ;  
@@ -145,11 +171,6 @@ function toVR( s ) {
             }
         } ) ;
 
-        btn1.style.backgroundColor = 'white' ;
-        btn1.style.opacity = '100%' ;
-        btn2.style.backgroundColor = 'darksalmon' ;
-        btn2.style.opacity = '90%' ;
-
         for ( var i = 0 ; i < tag_obj.length ; i ++ ) tag_obj[ i ].style.visibility = "hidden" ;
 
         vr = 1 ;
@@ -200,7 +221,6 @@ makarData.then( function( resolvedData ) {
 
 let sceneIdArr = [] ;   // Storing scene ids
 
-let loadPage = document.getElementById( 'load' ) ;
 // Prepare for scene
 function createScene( makarScenes ) {  
     let sceneObjs = document.createElement( 'a-entity' ) ;
@@ -209,17 +229,17 @@ function createScene( makarScenes ) {
 
     let p_arr = [] ;     // Collecting object loading promises from everything needs loading
     // let syModelLoadPromise = new Promise ( ( resolve, reject ) => {
-    //     document.querySelector( 'a-entity' ).addEventListener( 'model-loaded', ( evt ) => {
+    //     document.getElementById( 'homeModel' ).addEventListener( 'model-loaded', ( evt ) => {
     //         console.log( "model-loaded" ) ;
     //         resolve() ;
     //     } ) ; 
     // } ) ;
     // p_arr.push( syModelLoadPromise ) ;     
 
-
-    let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
+    // create all scene DOM elements but only create objects of the scenes on menu
+    let menuSceneObjLoaded = new Promise( ( resolve, reject ) => {
         for ( var i = 0 ; i < makarScenes.length ; i++ ) {
-            if ( i > 10 ) break ; 
+            // if ( i > 10 ) break ; 
             let sceneObj = document.createElement( 'a-entity' ) ;
     
             sceneObj.setAttribute( 'id', makarScenes[ i ].scene_id ) ;
@@ -228,156 +248,275 @@ function createScene( makarScenes ) {
             sceneIdArr.push( makarScenes[ i ].scene_id ) ;
     
             let asky = document.createElement( 'a-sky' ) ;
-            asky.setAttribute( 'material', { 'src' : makarScenes[ i ].scene_skybox_url } ) ;
             asky.setAttribute( 'id', makarScenes[ i ].scene_id + '_sky' ) ;
+            
             sceneObj.appendChild( asky ) ;
-            // asky.addEventListener( 'loaded', ( e ) => { resolve( true ) } ) ;
+
+            if ( Object.values( scene_in_menu ).includes( makarScenes[ i ].scene_id ) ) {
+                asky.setAttribute( 'material', { 'src' : makarScenes[ i ].scene_skybox_url } ) ;
+                let oneSceneLoadPromise = sceneObjsLoad( makarScenes[ i ], sceneObj ) ;  
+                p_arr.push( oneSceneLoadPromise ) ;
+
+                // console.log( makarScenes[ i ].scene_id ) ;
+                // console.log( oneSceneLoadPromise , makarScenes[ i ].scene_id ) ;
+            }
     
-            for ( var j = 0 ; j < makarScenes[ i ].objs.length ; j ++ ) {
-                let obj = makarScenes[ i ].objs[ j ] ;
-    
+            if ( i == ( makarScenes.length - 1 ) ) resolve() ;
+        } 
+    } ) ;
+
+    Promise.all( p_arr ).then( () => {
+        console.log( 'sceneObjs promise resolved' ) ; 
+        console.log( p_arr ) ;
+        loadPage.style.visibility = 'hidden' ;
+    } ) ;
+}
+
+function sceneObjsLoad( oneSceneObj, sceneObj ) {
+    let img_p = [] ;
+    this.sceneObjsLoadPromise = new Promise( ( resolve, reject ) => {
+            for ( var i = 0 ; i < oneSceneObj.objs.length ; i ++ ) {
+                let obj = oneSceneObj.objs[ i ] ;
+        
                 let position = new THREE.Vector3().fromArray( obj.transform[ 0 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
                 let rotation = new THREE.Vector3().fromArray( obj.transform[ 1 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
                 let scale = new THREE.Vector3().fromArray( obj.transform[ 2 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
-    
+            
                 switch( obj.main_type ) {
                     case 'image' :
                         let imgReturn = loadImage( obj, sceneObj, position, rotation, scale ) ; 
-                        p_arr.push( imgReturn ) ;
+                        img_p.push( imgReturn ) ;
+                        // console.log( oneSceneObj.scene_name, imgReturn ) ;
+                        // p_arr.push( imgReturn ) ;
                         break ;
                     case 'text' :
                         loadChinese( obj, sceneObj, position, rotation, scale ) ;
                         break ;
-                }  
-              
-            }
-            if ( i == ( makarScenes.length - 1 ) ) resolve() ;
-        } 
-    } ) ;
-    // allSceneObjLoaded.then( () => { console.log( 'true' ) ; loadPage.style.visibility = 'hidden' } ) ;
-    Promise.all( p_arr ).then( () => {
-        console.log( 'sceneObjs promise resolved' ) ; loadPage.style.visibility = 'hidden' ;
-    } ) ;
-}
-
-function setTransform( obj, position, rotation, scale ) {
-    let pos = position.clone() ;
-    pos.multiply( new THREE.Vector3( -1, 1, 1 ) ) ;
-
-    let rot = rotation.clone() ;
-    rot.multiply( new THREE.Vector3( 1, -1, -1 ) ) ;
-
-    obj.setAttribute( 'position', pos ) ;
-    obj.setAttribute( 'rotation', rot ) ;
-    obj.setAttribute( 'scale', scale ) ;
-}
-
-function loadImage( obj, sceneObj, position, rotation, scale ) {
-    
-
-    
-    this.loadPromise = function ( texture ) {
-        var texture = new THREE.TextureLoader().load( obj.res_url ) ;
-        // console.log( texture ) ;
-        
-    
-        let url_split_length = obj.res_url.split( '.' ).length ;
-        let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
-        let oneLoadPromise = new Promise( ( resolve, reject ) => {
-            let plane ;
-            if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
-               
-                
-                plane = document.createElement( 'a-plane' ) ;
-                plane.setAttribute( 'src', obj.res_url ) ;
-                plane.setAttribute( 'id', obj.obj_id ) ;
-                plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
-    
-                plane.addEventListener( 'loaded', function( evt ) {
-                    // console.log( texture ) ; 
-                    if ( evt.target == evt.currentTarget ) {
-                        if ( texture.image ) {
-                            plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
-                        }
-                        
-                        plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
-                    }
-                } ) ;
-    
-                setTransform( plane, position, rotation, scale ) ;
-                
-                sceneObj.appendChild( plane ) ; 
-                // console.log( 'append a-plane' ) ;
-                resolve() ;
-            }    
-        } ) ; 
-        return oneLoadPromise ;
-    }
-
-    return loadPromise() ;
-}
-
-// Time to load some Chinese text
-function loadChinese( obj, sceneObj, position, rotation, scale ) {
-    let anchor = document.createElement( 'a-entity' ) ;
-    setTransform( anchor, position, rotation, scale ) ;
-    anchor.setAttribute( 'id', obj.obj_id ) ;
-
-    let text = document.createElement( 'a-text' ) ;
-    textList = obj.content ;
-    const chinese_regex = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
-    const isChinese = ( str ) => chinese_regex.test( str ) ;
-
-    let str_len = 0 ;
-    for ( var i = 0 ; i < textList.length ; i ++ ) {
-        let c = textList[ i ] ;
-        if ( isChinese( c ) ) str_len += 1.6 ;
-        else if ( c == c.toUpperCase() && c != c.toLowerCase() ) str_len += 1 ;
-        else if ( c == c.toLowerCase() && c != c.toUpperCase() ) str_len += 1 ;
-        else str_len += 1.25 ;
-    }
-
-    text.setAttribute( 'value', obj.content ) ;
-    text.setAttribute( 'width', str_len ) ;
-    text.setAttribute( 'anchor', 'center' ) ;
-    text.setAttribute( 'back-color', obj.back_color ) ;
-    text.setAttribute( 'side', 'double' ) ;
-    
-    var fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/" ;
-    fonts = [ fontUrl + "1-msdf.json", fontUrl + "2-msdf.json", fontUrl + "3-msdf.json", fontUrl + "4-msdf.json", 
-              fontUrl + "5-msdf.json", fontUrl + "6-msdf.json", fontUrl + "7-msdf.json", fontUrl + "8-msdf.json", 
-              fontUrl + "9-msdf.json", fontUrl + "10-msdf.json", fontUrl + "11-msdf.json", fontUrl + "12-msdf.json" ] ;
-    text.setAttribute( 'font', fonts ) ; 
-    text.setAttribute( "negate", "false" ) ;
-    text.setAttribute( 'crossorigin', 'anonymous' ) ;
-
-    let rgb = obj.color.split( ',' ) ;
-    let color = new THREE.Color( parseFloat( rgb[ 0 ] ), parseFloat( rgb[ 1 ] ), parseFloat( [ 2 ] ) ) ;
-    text.setAttribute( 'color', '#' + color.getHexString() ) ;
-
-    text.addEventListener( 'loaded', function( evt ) {
-        if ( evt.target == evt.currentTarget ) {
-            let r = new THREE.Vector3() ;
-            r.set( 0, Math.PI, 0 ) ;
-            text.object3D.rotation.setFromVector3( r ) ;
-        }
-    } ) ;
-
-    anchor.appendChild( text ) ;
-
-    if ( obj.obj_parent_id ) {
-        let timeout = setInterval( function() {
-            let parent = document.getElementById( obj.obj_parent_id ) ;
-            if ( parent ) {
-                if ( parent.object3D.children.length > 0 ) {
-                    parent.appendChild( anchor ) ;
-                    window.clearInterval( timeout ) ;
                 }
             }
-        }, 1 ) ;
+            Promise.all( img_p ).then( () => { resolve() ; } ) ;
+        }
+    ) ;
+
+    function setTransform( obj, position, rotation, scale ) {
+        let pos = position.clone() ;
+        pos.multiply( new THREE.Vector3( -1, 1, 1 ) ) ;
+    
+        let rot = rotation.clone() ;
+        rot.multiply( new THREE.Vector3( 1, -1, -1 ) ) ;
+    
+        obj.setAttribute( 'position', pos ) ;
+        obj.setAttribute( 'rotation', rot ) ;
+        obj.setAttribute( 'scale', scale ) ;
     }
-    else sceneObj.appendChild( anchor ) ;
+
+    function loadImage( obj, sceneObj, position, rotation, scale ) {
+    
+        this.loadPromise = function ( texture ) {
+            var texture = new THREE.TextureLoader().load( obj.res_url ) ;
+            // console.log( texture ) ;
+            
+            let url_split_length = obj.res_url.split( '.' ).length ;
+            let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
+            let oneLoadPromise = new Promise( ( resolve, reject ) => {
+                let plane ;
+                if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
+                            
+                    plane = document.createElement( 'a-plane' ) ;
+                    plane.setAttribute( 'src', obj.res_url ) ;
+                    plane.setAttribute( 'id', obj.obj_id ) ;
+                    plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
+        
+                    plane.addEventListener( 'loaded', function( evt ) {
+                        // console.log( texture ) ; 
+                        if ( evt.target == evt.currentTarget ) {
+                            if ( texture.image ) {
+                                plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
+                            }
+                            
+                            plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
+                        }
+                    } ) ;
+        
+                    setTransform( plane, position, rotation, scale ) ;
+                    
+                    sceneObj.appendChild( plane ) ; 
+                    // console.log( 'append a-plane' ) ;
+                    resolve() ;
+                }    
+            } ) ; 
+            return oneLoadPromise ;
+        }
+    
+        return loadPromise() ;
+    }
+    
+    // Time to load some Chinese text
+    function loadChinese( obj, sceneObj, position, rotation, scale ) {
+        let anchor = document.createElement( 'a-entity' ) ;
+        setTransform( anchor, position, rotation, scale ) ;
+        anchor.setAttribute( 'id', obj.obj_id ) ;
+    
+        let text = document.createElement( 'a-text' ) ;
+        textList = obj.content ;
+        const chinese_regex = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
+        const isChinese = ( str ) => chinese_regex.test( str ) ;
+    
+        let str_len = 0 ;
+        for ( var i = 0 ; i < textList.length ; i ++ ) {
+            let c = textList[ i ] ;
+            if ( isChinese( c ) ) str_len += 1.6 ;
+            else if ( c == c.toUpperCase() && c != c.toLowerCase() ) str_len += 1 ;
+            else if ( c == c.toLowerCase() && c != c.toUpperCase() ) str_len += 1 ;
+            else str_len += 1.25 ;
+        }
+    
+        text.setAttribute( 'value', obj.content ) ;
+        text.setAttribute( 'width', str_len ) ;
+        text.setAttribute( 'anchor', 'center' ) ;
+        text.setAttribute( 'back-color', obj.back_color ) ;
+        text.setAttribute( 'side', 'double' ) ;
+        
+        var fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/" ;
+        fonts = [ fontUrl + "1-msdf.json", fontUrl + "2-msdf.json", fontUrl + "3-msdf.json", fontUrl + "4-msdf.json", 
+                  fontUrl + "5-msdf.json", fontUrl + "6-msdf.json", fontUrl + "7-msdf.json", fontUrl + "8-msdf.json", 
+                  fontUrl + "9-msdf.json", fontUrl + "10-msdf.json", fontUrl + "11-msdf.json", fontUrl + "12-msdf.json" ] ;
+        text.setAttribute( 'font', fonts ) ; 
+        text.setAttribute( "negate", "false" ) ;
+        text.setAttribute( 'crossorigin', 'anonymous' ) ;
+    
+        let rgb = obj.color.split( ',' ) ;
+        let color = new THREE.Color( parseFloat( rgb[ 0 ] ), parseFloat( rgb[ 1 ] ), parseFloat( [ 2 ] ) ) ;
+        text.setAttribute( 'color', '#' + color.getHexString() ) ;
+    
+        text.addEventListener( 'loaded', function( evt ) {
+            if ( evt.target == evt.currentTarget ) {
+                let r = new THREE.Vector3() ;
+                r.set( 0, Math.PI, 0 ) ;
+                text.object3D.rotation.setFromVector3( r ) ;
+            }
+        } ) ;
+    
+        anchor.appendChild( text ) ;
+    
+        if ( obj.obj_parent_id ) {
+            let timeout = setInterval( function() {
+                let parent = document.getElementById( obj.obj_parent_id ) ;
+                if ( parent ) {
+                    if ( parent.object3D.children.length > 0 ) {
+                        parent.appendChild( anchor ) ;
+                        window.clearInterval( timeout ) ;
+                    }
+                }
+            }, 1 ) ;
+        }
+        else sceneObj.appendChild( anchor ) ;
+    }
+    return sceneObjsLoadPromise ;
 }
+
+// function loadImage( obj, sceneObj, position, rotation, scale ) {
+    
+//     this.loadPromise = function ( texture ) {
+//         var texture = new THREE.TextureLoader().load( obj.res_url ) ;
+//         // console.log( texture ) ;
+        
+//         let url_split_length = obj.res_url.split( '.' ).length ;
+//         let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
+//         let oneLoadPromise = new Promise( ( resolve, reject ) => {
+//             let plane ;
+//             if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
+                        
+//                 plane = document.createElement( 'a-plane' ) ;
+//                 plane.setAttribute( 'src', obj.res_url ) ;
+//                 plane.setAttribute( 'id', obj.obj_id ) ;
+//                 plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
+    
+//                 plane.addEventListener( 'loaded', function( evt ) {
+//                     // console.log( texture ) ; 
+//                     if ( evt.target == evt.currentTarget ) {
+//                         if ( texture.image ) {
+//                             plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
+//                         }
+                        
+//                         plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
+//                     }
+//                 } ) ;
+    
+//                 setTransform( plane, position, rotation, scale ) ;
+                
+//                 sceneObj.appendChild( plane ) ; 
+//                 // console.log( 'append a-plane' ) ;
+//                 resolve() ;
+//             }    
+//         } ) ; 
+//         return oneLoadPromise ;
+//     }
+
+//     return loadPromise() ;
+// }
+
+// // Time to load some Chinese text
+// function loadChinese( obj, sceneObj, position, rotation, scale ) {
+//     let anchor = document.createElement( 'a-entity' ) ;
+//     setTransform( anchor, position, rotation, scale ) ;
+//     anchor.setAttribute( 'id', obj.obj_id ) ;
+
+//     let text = document.createElement( 'a-text' ) ;
+//     textList = obj.content ;
+//     const chinese_regex = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
+//     const isChinese = ( str ) => chinese_regex.test( str ) ;
+
+//     let str_len = 0 ;
+//     for ( var i = 0 ; i < textList.length ; i ++ ) {
+//         let c = textList[ i ] ;
+//         if ( isChinese( c ) ) str_len += 1.6 ;
+//         else if ( c == c.toUpperCase() && c != c.toLowerCase() ) str_len += 1 ;
+//         else if ( c == c.toLowerCase() && c != c.toUpperCase() ) str_len += 1 ;
+//         else str_len += 1.25 ;
+//     }
+
+//     text.setAttribute( 'value', obj.content ) ;
+//     text.setAttribute( 'width', str_len ) ;
+//     text.setAttribute( 'anchor', 'center' ) ;
+//     text.setAttribute( 'back-color', obj.back_color ) ;
+//     text.setAttribute( 'side', 'double' ) ;
+    
+//     var fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/" ;
+//     fonts = [ fontUrl + "1-msdf.json", fontUrl + "2-msdf.json", fontUrl + "3-msdf.json", fontUrl + "4-msdf.json", 
+//               fontUrl + "5-msdf.json", fontUrl + "6-msdf.json", fontUrl + "7-msdf.json", fontUrl + "8-msdf.json", 
+//               fontUrl + "9-msdf.json", fontUrl + "10-msdf.json", fontUrl + "11-msdf.json", fontUrl + "12-msdf.json" ] ;
+//     text.setAttribute( 'font', fonts ) ; 
+//     text.setAttribute( "negate", "false" ) ;
+//     text.setAttribute( 'crossorigin', 'anonymous' ) ;
+
+//     let rgb = obj.color.split( ',' ) ;
+//     let color = new THREE.Color( parseFloat( rgb[ 0 ] ), parseFloat( rgb[ 1 ] ), parseFloat( [ 2 ] ) ) ;
+//     text.setAttribute( 'color', '#' + color.getHexString() ) ;
+
+//     text.addEventListener( 'loaded', function( evt ) {
+//         if ( evt.target == evt.currentTarget ) {
+//             let r = new THREE.Vector3() ;
+//             r.set( 0, Math.PI, 0 ) ;
+//             text.object3D.rotation.setFromVector3( r ) ;
+//         }
+//     } ) ;
+
+//     anchor.appendChild( text ) ;
+
+//     if ( obj.obj_parent_id ) {
+//         let timeout = setInterval( function() {
+//             let parent = document.getElementById( obj.obj_parent_id ) ;
+//             if ( parent ) {
+//                 if ( parent.object3D.children.length > 0 ) {
+//                     parent.appendChild( anchor ) ;
+//                     window.clearInterval( timeout ) ;
+//                 }
+//             }
+//         }, 1 ) ;
+//     }
+//     else sceneObj.appendChild( anchor ) ;
+// }
 
 // ----- Some flows that needs to go through once the web page is opened -----
 function main() {
@@ -388,7 +527,6 @@ function main() {
 
 window.onresize = sizing ;
 
-let down_right = document.getElementById( 'down_right_360' ) ;
 let down_right_h ;   // Initially equals to 0
 let down_right_w ;
 let dots = document.getElementById( 'dots' ) ;
@@ -396,10 +534,6 @@ let dots = document.getElementById( 'dots' ) ;
 function sizing() {
     // left corner font-size adjusting
     // console.log( 'sizing' ) ;
-    var btn1 = document.getElementById( 'btn1' ) ;
-    var btn2 = document.getElementById( 'btn2' ) ;
-    btn1.style.fontSize = btn1.offsetWidth / 6.8 + 'px' ;
-    btn2.style.fontSize = btn2.offsetWidth / 6.8 + 'px' ;
 
     let cur_down_right_h = down_right.clientHeight ;
     let cur_down_right_w = down_right.clientWidth ;
@@ -424,8 +558,7 @@ function sizing() {
     dots.style.width = map_area.style.width ;
     dots.style.height = map_area.style.height ;
 
-    var scroll_font = document.getElementById( 'scroll_bar' ) ;
-    scroll_font.style.fontSize = scroll_font.offsetHeight / 20 + 'px' ;
+    scroll_bar.style.fontSize = scroll_bar.offsetHeight / 20 + 'px' ;
 
     // home_menu.style.fontSize = home_menu.offsetWidth / 6 + 'px' ;
 
@@ -434,10 +567,9 @@ function sizing() {
 function to360( scene_id ) {
     homeModel.setAttribute( 'visible', 'false' ) ;
     scene_360.setAttribute( 'visible', 'true' ) ;
-    template360.style.visibility = 'visible' ;
 
-    sizing() ;   // At this point, there's no value for the size of down_right_360 corner
-    console.log( 'Inside 360 scene' ) ;
+    sizing() ;   
+    // console.log( 'Inside 360 scene' ) ;
 
     // Set all 360 scenes to false
     // Get the camera rotation
@@ -454,19 +586,16 @@ function to360( scene_id ) {
         }
     } ) ;
 
-    // homePage.style.display = 'none' ;
+    // --- UI ---
+    homePage.style.display = 'none' ;
+    templateVR.style.display = 'none' ;
+    template360.style.display = 'block' ;
+    SY_icon_360.style.visibility = 'visible' ;
+    icon_bottom_360.style.visibility = 'visible' ;
     tags.style.display = 'none' ;
-    // down_right_360.style.display = 'inline' ;
-
-    // Leave SY icon and its back untill the menu button is pressed
-    home_menu.style.display = 'none' ; 
 
     scroll_menu.style.visibility = 'visible' ;
     scroll_menu_icon.style.visibility = 'visible' ;
-
-    // change icon arrangements at middle bottom part 
-    icon.style.display = 'none' ;
-    icon_360.style.display = 'flex' ;
 
     cam.setAttribute( 'camera', 'active', false ) ;
     cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
@@ -477,8 +606,6 @@ function to360( scene_id ) {
     // console.log( 'cam_rot : ', cam_rot ) ;
     cam_360.components['look-controls'].pitchObject.rotation.x = cam_rot.x ;
     cam_360.components['look-controls'].yawObject.rotation.y = cam_rot.y ;
-
-    document.getElementById( 'btn1' ).innerHTML = '360 View' ;
 
     // Active the right scene
     // Use an array to keep scene ids
@@ -512,30 +639,23 @@ function toOrbit() {
         if ( document.getElementById( s.scene_id ) ) document.getElementById( s.scene_id ).setAttribute( 'visible', 'false' ) ;
     } ) ;
 
-    template360.style.visibility = 'hidden' ;
+    template360.style.display = 'none' ;
+    templateVR.style.display = 'none' ;
     homePage.style.display = 'block' ;
-    icon_bottom.style.display = 'block' ;
     
-
-    // down_right_360.style.display = 'none' ;
     home_menu.style.display = 'block' ; 
     home_menu.style.visibility = 'visible' ;
 
     // Closing each items which its visibility is independent from template360
     menu_on = 0 ;   // Back to initial state
-    SY_icon_360.style.visibility = 'hidden' ;
     scroll_menu.style.visibility = 'hidden' ;
     scroll_bar.style.visibility = 'hidden' ;
     scroll_menu_icon.style.visibility = 'hidden' ;
     scroll_menu_back.style.visibility = 'hidden' ;
 
-    icon.style.display = 'flex' ;
-    icon_360.style.display = 'none' ;
-
     cam.setAttribute( 'camera', 'active', true ) ;
     cam_360.setAttribute( 'camera', 'active', false ) ;
-
-    document.getElementById( 'btn1' ).innerHTML = 'Orbit View' ;      
+   
     if ( vr != 0 ) {
         cam.setAttribute( 'look-controls', 'enabled : false' ) ;
  
@@ -624,18 +744,13 @@ function toOrbit() {
                     cam.object3D.children[0].rotation.y = persRot.y ;
                     cam.object3D.children[0].rotation.z = persRot.z ;
 
-                    // console.log( cam.object3D.children[0].rotation ) ;
-                                                  
+                    // console.log( cam.object3D.children[0].rotation ) ;                                      
                 },
                 
                 complete : function() {
                     cam.setAttribute( 'orbit-controls', 'enabled : true' ) ;
                 }
         } ) ;
-        btn2.style.backgroundColor = 'white' ;
-        btn2.style.opacity = '100%' ;
-        btn1.style.backgroundColor = 'darksalmon' ;
-        btn1.style.opacity = '90%' ;
 
         vr = 0 ;
         
@@ -644,16 +759,14 @@ function toOrbit() {
 }
 
 function tag_appear( s ) {
-    console.log( "TAG APPEAR FUNC", document.getElementById( 'button2-1' ).style.display ) ;
+    // console.log( "TAG APPEAR FUNC", document.getElementById( 'button2-1' ).style.display ) ;
     start_tick = 1 ;
     tags.style.display = 'inline' ;
     if ( s == 'm' ) {
         tag = 1 ;
-
     }
     else {
-        tag = 2 ;
-          
+        tag = 2 ;  
     }
 }
 
@@ -683,13 +796,11 @@ function click_menu() {
     scroll_menu_ins.hit_menu() ;
     
     if ( menu_on == 0 ) {
-        SY_icon_360.style.visibility = 'visible' ;
         scroll_menu_back.style.visibility = 'visible' ;
-        icon_bottom.style.display = 'none' ;
+        icon_bottom_360.style.visibility = 'hidden' ;
     } else {
-        SY_icon_360.style.visibility = 'hidden' ;
         scroll_menu_back.style.visibility = 'hidden' ;
-        icon_bottom.style.display = 'block' ;
+        icon_bottom_360.style.visibility = 'visible' ;
     }
 
     menu_on = ( menu_on == 0 ) ? 1 : 0 ;
@@ -736,7 +847,6 @@ class map_dot {
 }
 
 // --- Openning Map Page ---
-let mapPage = document.getElementById( 'mapPage' ) ;
 let mapPageOn = 0 ;
 function openMapPage() {
     if ( mapPageOn == 0 ) mapPage.style.visibility = 'visible' ;
@@ -779,8 +889,9 @@ function theRaycaster( sceneObjs ) {
 
         raycaster.setFromCamera( mouse, aScene.camera ) ;
         let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
-        // console.log( "Intersects : ", intersects ) ;
-        // console.log( 'Intersects : ', intersects[ 0 ].object.el ) ;
+        console.log( "Intersects : ", intersects ) ;
+        console.log( 'First Intersect : ', intersects[ 0 ].object.el ) ;
+        console.log( '\n' ) ;
 
         if (intersects.length > 0 ){
             sceneObjs.forEach( obj => { 
@@ -817,12 +928,12 @@ function theRaycaster( sceneObjs ) {
 const buttonController = {
 
     buttonSelect : {
-        "button1-1" : 0 ,
-        "button1-2" : 0 ,
-        "button1-6" : 0 ,
+        "button1-1-click" : 0 ,
+        "button1-2-click" : 0 ,
+        "button1-6-click" : 0 ,
     
-        "button2-1" : 0 ,
-        "button2-2" : 0 ,
+        "button2-1-click" : 0 ,
+        "button2-2-click" : 0 ,
     },
 
     buttonObj : {
@@ -872,70 +983,25 @@ const buttonController = {
         'button2-2-click' : 'button2-2', 
     },
 
-    changeButton : {
-        "button1-1" : [ "url(../cutImage/button/button1-1-hover.svg)", "url(../cutImage/button/button1-1-normal.svg)", "url(../cutImage/button/button1-1-click.svg)" ], 
-        "button1-2" : [ "url(../cutImage/button/button1-2-hover.svg)", "url(../cutImage/button/button1-2-normal.svg)", "url(../cutImage/button/button1-2-click.svg)" ], 
-        "button1-6" : [ "url(../cutImage/button/button1-6-hover.svg)", "url(../cutImage/button/button1-6-normal.svg)", "url(../cutImage/button/button1-6-click.svg)" ], 
-    
-        "button2-1" : [ "url(../cutImage/button/button2-1-hover.svg)", "url(../cutImage/button/button2-1-normal.svg)", "url(../cutImage/button/button2-1-click.svg)" ], 
-        "button2-2" : [ "url(../cutImage/button/button2-2-hover.svg)", "url(../cutImage/button/button2-2-normal.svg)", "url(../cutImage/button/button2-2-click.svg)" ],
-    },
-
-    allUnselect : function() {
-        Object.values( this.buttonObj ).forEach( b => {
-            b.style.visibility = 'visible' ;
-        } ) ;
-        Object.values( this.buttonObj_hover ).forEach( b => {
-            b.style.visibility = 'hidden' ;
-        } ) ;
-        Object.values( this.buttonObj_click ).forEach( b => {
-            b.style.visibility = 'hidden' ;
-        } ) ;
-    }, 
-
-    addHoverEvent : function() {
-        Object.values( this.buttonObj ).forEach( btnEle => {
-            // let tempBtnControll = new buttonController() ;
-            btnEle.addEventListener( 'mouseover', function( event ) {
-                console.log( "OVER : ", btnEle.id, buttonController.buttonSelect[ btnEle.id ] ) ;  
-                if ( buttonController.buttonSelect[ btnEle.id ] != 1 ) {
-                    // console.log( "HOVER", tempBtnControll.changeButton[ event.target.id ][ 0 ] ) ;
-                    event.target.style.backgroundImage = buttonController.changeButton[ event.target.id ][ 0 ] ;
+    allUnselect : function( clickBtn ) {
+        if ( clickBtn == 'button2-1-click' || clickBtn == 'button2-2-click' ) {   // The small two buttons can set all buttons to normal
+            Object.keys( this.buttonObj_click ).forEach( b => {
+                if ( b != clickBtn ) {
+                    this.buttonObj_click[ b ].style.visibility = 'hidden' ;
+                    this.buttonObj[ this.buttonChange[ b ] ].style.visibility = 'visible' ;
+                    this.buttonSelect[ b ] = 0 ;
                 }
-                event.stopPropagation() ;
             } ) ;
-        } ) ;
-    }, 
-
-    addMouseoutEvent : function() {
-        Object.values( this.buttonObj ).forEach( btnEle => {
-            // let tempBtnControll = new buttonController() ;
-    
-            btnEle.addEventListener( 'mouseout', function( event ) {
-                // console.log( 'button select : ', buttonSelect ) ;
-                console.log( "MOUSEOUT : ", btnEle.id, buttonController.buttonSelect[ btnEle.id ] ) ;  
-                if ( buttonController.buttonSelect[ btnEle.id ] != 1 ) {
-                    // console.log( 'btn1-1 : ', buttonSelect[ btnEle.id ] ) ;
-                    event.target.style.backgroundImage = buttonController.changeButton[ event.target.id ][ 1 ] ;
+        } else {
+            Object.keys( this.buttonObj_click ).forEach( b => {   // Big three buttons should remove the small two buttons 
+                if ( b != clickBtn ) {
+                    this.buttonObj_click[ b ].style.visibility = 'hidden' ;
+                    if ( b != 'button2-1-click' && b != 'button2-2-click' ) this.buttonObj[ this.buttonChange[ b ] ].style.visibility = 'visible' ;
+                    this.buttonSelect[ b ] = 0 ;
                 }
-                event.stopPropagation() ;
             } ) ;
-        } ) ;     
-    }, 
+        }
 
-    addClickEvent : function() {
-        Object.values( this.buttonObj ).forEach( btnEle => {
-            btnEle.addEventListener( 'click', function( event ) {
-    
-                // ------ Change for the selected one ------
-                // let tempBtnControll = new buttonController() ;
-                buttonController.allUnselect() ;     // Unselect all buttons
-                btnEle.style.backgroundImage = buttonController.changeButton[ btnEle.id ][ 2 ] ;     // Change to selected img
-    
-                buttonController.buttonSelect[ btnEle.id ] = 1 ;
-                
-            } ) ;
-        } ) ;
     }, 
 
     // --- Add hover event to normal button ---
@@ -953,19 +1019,24 @@ const buttonController = {
 
     // --- Add mouseout & click event to hover button ---
     addEventToHover : function() {
+        let ctrl = buttonController ;
         Object.values( this.buttonObj_hover ).forEach( btnEle => {
-            btnEle.addEventListener( 'mouseout', function( event ) {
-                btnEle.style.visibility = 'hidden' ;
-                let ctrl = buttonController ;
-                ctrl.buttonObj[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
-                
+            btnEle.addEventListener( 'mouseout', function( event ) {      
+                if ( ctrl.buttonSelect[ ctrl.buttonChange[ btnEle.id ][ 1 ] ] == 0 ) {
+                    btnEle.style.visibility = 'hidden' ;
+                    ctrl.buttonObj[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
+                    // console.log( 'MOUSE OUT', event ) ;
+                }  
                 event.stopPropagation() ;
             } ) ;
+
             btnEle.addEventListener( 'click', function( event ) {
+                ctrl.buttonSelect[ ctrl.buttonChange[ btnEle.id ][ 1 ] ] = 1 ;
+                ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ] ) ;
                 btnEle.style.visibility = 'hidden' ;
-                let ctrl = buttonController ;
-                ctrl.allUnselect() ;
                 ctrl.buttonObj_click[ ctrl.buttonChange[ btnEle.id ][ 1 ] ].style.visibility = 'visible' ;
+
+                // console.log( '222', ctrl.buttonSelect ) ;
                 
                 event.stopPropagation() ;
             } ) ;
@@ -978,8 +1049,10 @@ const buttonController = {
             btnEle.addEventListener( 'click', function( event ) {
                 btnEle.style.visibility = 'hidden' ;
                 let ctrl = buttonController ;
-                ctrl.allUnselect() ;
+                ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ]  ) ;
                 ctrl.buttonObj[ ctrl.buttonChange[ btnEle.id ] ].style.visibility = 'visible' ;
+
+                // console.log( '222', ctrl.buttonSelect ) ;
                 
                 event.stopPropagation() ;
             } ) ;
@@ -988,30 +1061,26 @@ const buttonController = {
 
 } ; 
 
-function showModelControl( n ) {
-    // console.log( 'On or Off', controlOn ) ;
-    let enter360 = document.getElementById( 'button2-1' ) ;
-    let enterModel = document.getElementById( 'button2-2' ) ;
+function showModelControl( n ) {   // n == 1 => SongYan Travel
+    let b = buttonController ;
+    let enter360 = [ b.buttonObj[ 'button2-1' ], b.buttonObj_hover[ 'button2-1-hover' ], b.buttonObj_click[ 'button2-1-click' ] ] ;
+    let enterModel = [ b.buttonObj[ 'button2-2' ], b.buttonObj_hover[ 'button2-2-hover' ], b.buttonObj_click[ 'button2-2-click' ] ] ;
 
-    if ( n == 1 ) {
-        enter360.style.display = 'block' ;
-        enterModel.style.display = 'block' ;
-    }
-    else {
-        enter360.style.display = 'none' ;
-        enterModel.style.display = 'none' ;
+    if ( enter360[ 0 ].style.visibility == 'visible' || enterModel[ 0 ].style.visibility == 'visible' || n == 0 ) {
+        enter360.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
+        enterModel.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
         tags.style.display = 'none' ;
+    } else {
+        enter360[ 0 ].style.visibility = 'visible' ;
+        enterModel[ 0 ].style.visibility = 'visible' ;
     }
 
-    toOrbit() ;
+    if ( n == 1 ) toOrbit() ;
+ 
 }
 
-// let btnController = new buttonController() ;
 // Use for activating button events in onload function
 function buttonActive() {
-    // buttonController.addHoverEvent() ;
-    // buttonController.addClickEvent() ;
-    // buttonController.addMouseoutEvent() ;
     buttonController.addEventToNormal() ;
     buttonController.addEventToHover() ;
     buttonController.addEventToSelect() ;
@@ -1023,7 +1092,6 @@ function tagAppear() {
     let tagControll = [ buttonController.buttonObj_hover[ 'button2-1-hover' ], buttonController.buttonObj_hover[ 'button2-2-hover' ] ] ;
     tagControll.forEach( t => {
         t.addEventListener( 'click', function( event ) {
-            // console.log( "222", tag ) ;
             if ( t.id == 'button2-1-hover' ) tag = 2 ;
             else tag = 1 ;
 
@@ -1031,7 +1099,7 @@ function tagAppear() {
             tags.style.display = 'inline' ;
             event.stopPropagation() ;
 
-            buttonController.buttonSelect[ t.id ] = 1 ;
+            buttonController.buttonSelect[ buttonController.buttonChange[ t.id ][ 1 ] ] = 1 ;
         } ) ;
     } ) ;
 }
@@ -1066,12 +1134,12 @@ function fullScreen() {
 
 function goShop() {
     console.log( 'INSEDE GOSHOP' ) ;
-    if ( controlOn == 1 ) showModelControl() ;
+    showModelControl( 0 ) ;
 }
 
 function goGame() {
     console.log( 'INSEDE GOGAME' ) ;
-    if ( controlOn == 1 ) showModelControl() ;
+    showModelControl( 0 ) ;
 }
 
 
