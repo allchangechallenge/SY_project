@@ -26,9 +26,10 @@
             <div id="bottom03"></div>
         </div>
 
+        <!-- Home Page for Computer -->
         <div id="homePage">
             <div id="SY_icon">
-                <img id="SY_img" src="source/sccp.png" width="100%">
+                <img id="SY_img" src="source/cutImage/logo/logo-02@2x.png" width="100%">
             </div>
             <div id="icon_bottom"></div>
             <div id="home_menu">
@@ -66,9 +67,32 @@
             </div>
         </div>    
 
+        <!-- Home Page for Mobile -->
+        <div id="homeMobile">
+            <div id="SY_icon">
+                <img id="SY_img" src="source/cutImage/logo/logo-02@2x.png" width="100%">
+            </div>
+            <div id="icon_bottom"></div>
+            <div id="up">
+                <div class="homeBtn" id="rwd-button1-3"></div>
+                <div id="rwd-button1-3-click"></div>
+                <div class="homeBtn" id="rwd-button1-4"></div>
+                <div id="rwd-button1-4-click"></div>
+            </div>
+            <div id="down">
+                <div class="homeBtn" id="rwd-button1-1"></div>
+                <div id="rwd-button1-1-click"></div>
+                <div class="homeBtn" id="rwd-button1-2"></div>
+                <div id="rwd-button1-2-click"></div>
+                <div id="ques_circle">
+                    <div id="ques"></div>
+                </div>
+            </div>
+        </div>
+
         <div id="template_vr">
             <div id="SY_icon">
-                <img id="SY_img" src="source/sccp.png" width="100%">
+                <img id="SY_img" src="source/cutImage/logo/logo-02@2x.png" width="100%">
             </div>
             <div id="icon_bottom"></div>
             <div id="backModel" onclick="toOrbit()"></div>
@@ -76,7 +100,7 @@
 
         <div id="template_360"> 
             <div id="SY_icon_360">
-                <img id="SY_img" src="source/sccp.png" width="100%">
+                <img id="SY_img" src="source/cutImage/logo/logo-02@2x.png" width="100%">
             </div>
             <div id="icon_bottom_360"></div>     
             <div id="menu">
@@ -175,7 +199,7 @@
 
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
                     <!-- <a-sky id="sky" transparent="true" color="#fad964"></a-sky> -->
-                    <!-- <a-box id="floor" static-body grabbable color="#2fba90" depth="50" height="0.2" width="20" rotation="0 60 0" position="0 -0.9 0"></a-box> -->
+                    <a-box id="floor" static-body grabbable color="#2fba90" depth="50" height="0.2" width="20" rotation="0 60 0" position="0 -0.9 0"></a-box>
     
                     <a-box id="b_cube" color="#75a2eb" depth="1" position="2 0.5 5" visible="false"></a-box>
                     <a-box id="g_cube" color="#8cbf82" depth="1" position="-5 0.5 -2" visible="false"></a-box>
@@ -195,8 +219,8 @@
         </div>
 
         <script src="template/main_dev.js"></script>
-<!-- 
-        <script src="template/threejs/loadModel.js"></script>
+
+        <!-- <script src="template/threejs/loadModel.js"></script>
         <script src="template/threejs/MIFLY_THREE_FBXLoader.js"></script>
         <script src="template/threejs/inflate.min.js"></script> -->
 
