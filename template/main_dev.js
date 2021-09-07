@@ -208,18 +208,18 @@ function createScene( makarScenes ) {
     scene_360.appendChild( sceneObjs ) ;
 
     let p_arr = [] ;     // Collecting object loading promises from everything needs loading
-    let syModelLoadPromise = new Promise ( ( resolve, reject ) => {
-        document.querySelector( 'a-entity' ).addEventListener( 'model-loaded', ( evt ) => {
-            console.log( "model-loaded" ) ;
-            resolve() ;
-        } ) ; 
-    } ) ;
-    p_arr.push( syModelLoadPromise ) ;     
+    // let syModelLoadPromise = new Promise ( ( resolve, reject ) => {
+    //     document.querySelector( 'a-entity' ).addEventListener( 'model-loaded', ( evt ) => {
+    //         console.log( "model-loaded" ) ;
+    //         resolve() ;
+    //     } ) ; 
+    // } ) ;
+    // p_arr.push( syModelLoadPromise ) ;     
 
 
     let allSceneObjLoaded = new Promise( ( resolve, reject ) => {
         for ( var i = 0 ; i < makarScenes.length ; i++ ) {
-            // if ( i > 20 ) break ; 
+            if ( i > 10 ) break ; 
             let sceneObj = document.createElement( 'a-entity' ) ;
     
             sceneObj.setAttribute( 'id', makarScenes[ i ].scene_id ) ;
@@ -764,6 +764,9 @@ function theRaycaster( sceneObjs ) {
     let raycaster = new THREE.Raycaster() ;
     
     aScene.canvas.addEventListener( 'mouseup', function( event ){
+
+        console.log('  111111111   ' , sceneObjs );
+
         if ( event.changedTouches ) {
             x = event.changedTouches[ 0 ].pageX ;
             y = event.changedTouches[ 0 ].pageY ;
@@ -779,30 +782,34 @@ function theRaycaster( sceneObjs ) {
         // console.log( "Intersects : ", intersects ) ;
         // console.log( 'Intersects : ', intersects[ 0 ].object.el ) ;
 
-        sceneObjs.forEach( obj => { 
-            if ( intersects[ 0 ].object.el ) {
-                if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
-                    if ( obj.behav ) {
-                        obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
-                            console.log( 'hit ' + b.scene_id ) ;
-                            if ( document.getElementById( b.scene_id ) != undefined ) {
-                                // console.log( 'hit ' + b.scene_id ) ;
-                                to360( b.scene_id ) ; 
-                            }
-                            else {
-                                document.getElementById( 'undef' ).style.visibility = 'visible' ;
-                                setTimeout( function(){
-                                    document.getElementById( 'undef' ).style.visibility = 'hidden' ;
-                                }, 2000 ) ;
-                            }
-                                                                                            
-                        } 
-                        } )
-                    }
-                } 
-            }
+        if (intersects.length > 0 ){
+            sceneObjs.forEach( obj => { 
+                if ( intersects[ 0 ].object.el ) {
+                    if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
+                        if ( obj.behav ) {
+                            obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
+                                console.log( 'hit ' + b.scene_id ) ;
+                                if ( document.getElementById( b.scene_id ) != undefined ) {
+                                    // console.log( 'hit ' + b.scene_id ) ;
+                                    to360( b.scene_id ) ; 
+                                }
+                                else {
+                                    document.getElementById( 'undef' ).style.visibility = 'visible' ;
+                                    setTimeout( function(){
+                                        document.getElementById( 'undef' ).style.visibility = 'hidden' ;
+                                    }, 2000 ) ;
+                                }
+                                                                                                
+                            } 
+                            } )
+                        }
+                    } 
+                }
+    
+            } ) ;
+        }
 
-        } ) ;
+        
     } ) ;
 }
 
