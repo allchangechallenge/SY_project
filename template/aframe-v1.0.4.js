@@ -54963,8 +54963,9 @@ module.exports = anime;
 		},
 		addAttribute: function ( name, attribute ) {
 
-			console.warn( 'THREE.BufferGeometry: .addAttribute() has been renamed to .setAttribute().' );
-
+//[start-20210903-fei 0105-remove]//
+			// console.warn( 'THREE.BufferGeometry: .addAttribute() has been renamed to .setAttribute().' );
+//[end---20210903-fei 0105-remove]//
 			if ( ! ( attribute && attribute.isBufferAttribute ) && ! ( attribute && attribute.isInterleavedBufferAttribute ) ) {
 
 				console.warn( 'THREE.BufferGeometry: .addAttribute() now expects ( name, attribute ).' );

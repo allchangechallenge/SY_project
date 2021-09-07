@@ -777,6 +777,9 @@ function theRaycaster( sceneObjs ) {
     let raycaster = new THREE.Raycaster() ;
     
     aScene.canvas.addEventListener( 'mouseup', function( event ){
+
+        console.log('  111111111   ' , sceneObjs );
+
         if ( event.changedTouches ) {
             x = event.changedTouches[ 0 ].pageX ;
             y = event.changedTouches[ 0 ].pageY ;
@@ -793,30 +796,34 @@ function theRaycaster( sceneObjs ) {
         console.log( 'First Intersect : ', intersects[ 0 ].object.el ) ;
         console.log( '\n' ) ;
 
-        sceneObjs.forEach( obj => { 
-            if ( intersects[ 0 ].object.el ) {
-                if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
-                    if ( obj.behav ) {
-                        obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
-                            console.log( 'hit ' + b.scene_id ) ;
-                            if ( document.getElementById( b.scene_id ) != undefined ) {
-                                // console.log( 'hit ' + b.scene_id ) ;
-                                to360( b.scene_id ) ; 
-                            }
-                            else {
-                                document.getElementById( 'undef' ).style.visibility = 'visible' ;
-                                setTimeout( function(){
-                                    document.getElementById( 'undef' ).style.visibility = 'hidden' ;
-                                }, 2000 ) ;
-                            }
-                                                                                            
-                        } 
-                        } )
-                    }
-                } 
-            }
+        if (intersects.length > 0 ){
+            sceneObjs.forEach( obj => { 
+                if ( intersects[ 0 ].object.el ) {
+                    if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
+                        if ( obj.behav ) {
+                            obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
+                                console.log( 'hit ' + b.scene_id ) ;
+                                if ( document.getElementById( b.scene_id ) != undefined ) {
+                                    // console.log( 'hit ' + b.scene_id ) ;
+                                    to360( b.scene_id ) ; 
+                                }
+                                else {
+                                    document.getElementById( 'undef' ).style.visibility = 'visible' ;
+                                    setTimeout( function(){
+                                        document.getElementById( 'undef' ).style.visibility = 'hidden' ;
+                                    }, 2000 ) ;
+                                }
+                                                                                                
+                            } 
+                            } )
+                        }
+                    } 
+                }
+    
+            } ) ;
+        }
 
-        } ) ;
+        
     } ) ;
 }
 
@@ -990,6 +997,7 @@ const buttonController = {
 
     // --- Add click event to selected button ---
     addEventToSelect : function() {
+
         let ctrl = buttonController ;
         if ( getComputedStyle( homePage ).display == 'block' ) {
             Object.values( this.buttonObj_click ).forEach( btnEle => {
@@ -999,6 +1007,7 @@ const buttonController = {
                     ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
     
                     // console.log( '222', ctrl.buttonSelect ) ;
+                    cameraViewControl.hideTags( btnEle );
                     
                     event.stopPropagation() ;
                 } ) ;
@@ -1057,6 +1066,9 @@ function tagAppear() {
             start_tick = 1 ;
             tags.style.display = 'inline' ;
             event.stopPropagation() ;
+
+            console.log('button2 click ', t  );
+            cameraViewControl.setAndshowTags( t );
 
             buttonController.buttonSelect[ buttonController.buttonChange[ t.id ][ 1 ] ] = 1 ;
         } ) ;
