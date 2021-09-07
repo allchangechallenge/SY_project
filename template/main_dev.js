@@ -213,6 +213,7 @@ let makarData = new Promise( ( resolve, reject ) => {
 } ) ;
 
 let makarScenes = [] ;
+let sceneObjLoadList = {} ;
 makarData.then( function( resolvedData ) {
     makarScenes = resolvedData.map( ( x ) => x ) ;
     createScene( resolvedData ) ; 
@@ -976,11 +977,11 @@ const buttonController = {
         'button2-1-hover' : [ 'button2-1', 'button2-1-click' ], 
         'button2-2-hover' : [ 'button2-2', 'button2-2-click' ], 
 
-        'button1-1-click' : 'button1-1', 
-        'button1-2-click' : 'button1-2', 
-        'button1-6-click' : 'button1-6', 
-        'button2-1-click' : 'button2-1', 
-        'button2-2-click' : 'button2-2', 
+        'button1-1-click' : [ 'button1-1-hover', 'button1-1' ], 
+        'button1-2-click' : [ 'button1-2-hover', 'button1-2' ],
+        'button1-6-click' : [ 'button1-6-hover', 'button1-6' ],
+        'button2-1-click' : [ 'button2-1-hover', 'button2-1' ],
+        'button2-2-click' : [ 'button2-2-hover', 'button2-2' ]
     },
 
     allUnselect : function( clickBtn ) {
@@ -988,7 +989,7 @@ const buttonController = {
             Object.keys( this.buttonObj_click ).forEach( b => {
                 if ( b != clickBtn ) {
                     this.buttonObj_click[ b ].style.visibility = 'hidden' ;
-                    this.buttonObj[ this.buttonChange[ b ] ].style.visibility = 'visible' ;
+                    this.buttonObj[ this.buttonChange[ b ][ 1 ] ].style.visibility = 'visible' ;
                     this.buttonSelect[ b ] = 0 ;
                 }
             } ) ;
@@ -996,7 +997,7 @@ const buttonController = {
             Object.keys( this.buttonObj_click ).forEach( b => {   // Big three buttons should remove the small two buttons 
                 if ( b != clickBtn ) {
                     this.buttonObj_click[ b ].style.visibility = 'hidden' ;
-                    if ( b != 'button2-1-click' && b != 'button2-2-click' ) this.buttonObj[ this.buttonChange[ b ] ].style.visibility = 'visible' ;
+                    if ( b != 'button2-1-click' && b != 'button2-2-click' ) this.buttonObj[ this.buttonChange[ b ][ 1 ] ].style.visibility = 'visible' ;
                     this.buttonSelect[ b ] = 0 ;
                 }
             } ) ;
@@ -1050,9 +1051,11 @@ const buttonController = {
                 btnEle.style.visibility = 'hidden' ;
                 let ctrl = buttonController ;
                 ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ]  ) ;
-                ctrl.buttonObj[ ctrl.buttonChange[ btnEle.id ] ].style.visibility = 'visible' ;
+                ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
 
                 // console.log( '222', ctrl.buttonSelect ) ;
+
+                cameraViewControl.hideTags( btnEle );
                 
                 event.stopPropagation() ;
             } ) ;

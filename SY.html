@@ -157,8 +157,8 @@
             <div id="r_tag" class="tag360" onclick="to360( '18522ccb12004b1f8b8f3961858c4465' )">◈Red box</div>
             <div id="p_tag" class="tag360" onclick="to360( '673149e6f1b24354a949ff60415c5481' )">◈Purple box</div>
 
-            <div id="g_tag" class="tagModel" style="background-color: #42bcf5; " onclick="toVR('g')">Green box</div>
-            <div id="o_tag" class="tagModel" style="background-color: #42bcf5; " onclick="toVR('o')">Orange box</div>
+            <div id="g_tag" class="tagModel" onclick="toVR('g')">Green box</div>
+            <div id="o_tag" class="tagModel" onclick="toVR('o')">Orange box</div>
         </div>
 
         <div id="undef">
@@ -181,7 +181,7 @@
 
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
                     <!-- <a-sky id="sky" transparent="true" color="#fad964"></a-sky> -->
-                    <!-- <a-box id="floor" static-body grabbable color="#2fba90" depth="50" height="0.2" width="20" rotation="0 60 0" position="0 -0.9 0"></a-box> -->
+                    <a-box id="floor" static-body grabbable color="#2fba90" depth="50" height="0.2" width="20" rotation="0 60 0" position="0 -0.9 0"></a-box>
     
                     <a-entity id = 'cube360s' visible = 'true' >
                         <a-box id="b_cube" color="#75a2eb" width='0.2' height='0.2' depth="0.2" position="2 1 4" visible="true"></a-box>
@@ -208,7 +208,7 @@
         <script src="template/main_dev.js"></script>
 
         <script src="template/threejs/cameraSceneControl.js"></script>
-        <script src="template/threejs/loadModel.js"></script>
+        <!-- <script src="template/threejs/loadModel.js"></script> -->
         <script src="template/threejs/MIFLY_THREE_FBXLoader.js"></script>
         <script src="template/threejs/inflate.min.js"></script>
 

@@ -667,7 +667,7 @@ span.scroll {
     /* background-color: #f5c542 */
 
     border-radius: 5000px;
-    border: 1px solid #D8D9BC;
+    border: 2px solid #b5f1c2;
 
 }
 
@@ -676,6 +676,13 @@ span.scroll {
     position: absolute;
     visibility: hidden;
     padding: 12px;
+
+    width: 40px;
+    height: 40px;
+
+    border-radius: 5000px;
+    border: 2px solid #85d4e7;
+
 }
 
 
@@ -709,7 +716,6 @@ span.scroll {
 #g_tag{
     top: 0%;
     left: 0%;
-    
     
 }
 
