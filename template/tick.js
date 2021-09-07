@@ -10,6 +10,8 @@ var start_tick = 0 ;
 
 AFRAME.registerComponent( 'tag-monitor', {
      tick : function( time, timeDelta ) {
+        return;
+
       
         let point3D = new THREE.Vector3() ;
         let point2D = new THREE.Vector2() ;

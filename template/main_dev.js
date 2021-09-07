@@ -1099,6 +1099,9 @@ function tagAppear() {
             tags.style.display = 'inline' ;
             event.stopPropagation() ;
 
+            console.log('button2 click ', t  );
+            cameraViewControl.setAndshowTags( t );
+
             buttonController.buttonSelect[ buttonController.buttonChange[ t.id ][ 1 ] ] = 1 ;
         } ) ;
     } ) ;
