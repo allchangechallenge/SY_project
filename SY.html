@@ -12,7 +12,10 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
         <script src="https://cdn.jsdelivr.net/npm/animejs@3.0.1/lib/anime.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js"></script>
+        
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.0/gsap.min.js"></script> -->
+        <script src="template/GSAP/gsap.min.js"></script>
+
 
         <link rel="stylesheet" href="template/SY.css"></link>
     </head>
@@ -76,7 +79,8 @@
                 <img id="SY_img" src="source/sccp.png" width="100%">
             </div>
             <div id="icon_bottom"></div>
-            <div id="backModel" onclick="toOrbit()"></div>
+            <!-- <div id="VRModelbackModel" onclick="toOrbit()"></div> -->
+            <div id="VRModelbackModel"></div>
         </div>    
 
         <div id="template_360"> 
@@ -128,7 +132,7 @@
                     </div>
                 </div>
             </div>
-            <div id="backModel" onclick="toOrbit()"></div>
+            <div id="VR360BackModel" onclick="toOrbit()"></div>
         </div>   
 
         <div id="mapPage">
@@ -181,7 +185,7 @@
 
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
                     <!-- <a-sky id="sky" transparent="true" color="#fad964"></a-sky> -->
-                    <a-box id="floor" static-body grabbable color="#2fba90" depth="50" height="0.2" width="20" rotation="0 60 0" position="0 -0.9 0"></a-box>
+                    <a-box id="floor" static-body grabbable color="#2fba90" depth="34" height="0.2" width="22" rotation="0 90 0" position="0 -0.05 0"></a-box>
     
                     <a-entity id = 'cube360s' visible = 'true' >
                         <a-box id="b_cube" color="#75a2eb" width='0.2' height='0.2' depth="0.2" position="2 1 4" visible="true"></a-box>
@@ -190,17 +194,19 @@
                         <a-box id="p_cube" color="#bf2ca7" width='0.2' height='0.2' depth="0.2" position="-14 1 4" visible="true"></a-box>                        
                     </a-entity>
 
-
-                    <a-box id="g_cube" color="#8cbf82" depth="1" position="-5 0.5 -2" visible="false"></a-box>
-                    <a-box id="o_cube" color="#edbc40" depth="1.2" position="2 0.5 -5" visible="false"></a-box>
+                    <a-entity id = 'cubeModels' visible = 'true' >
+                        <a-box id="g_cube" color="#8cbf82" width='0.2' height='0.2' depth="0.2" position="-5 0.5 -2" visible="true"></a-box>
+                        <a-box id="o_cube" color="#edbc40" width='0.2' height='0.2' depth="0.2" position="2 0.5 -5" visible="true"></a-box>
+                    </a-entity>
+                    
 
     
-                    <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: 0 0 0; minDistance: 0.05; maxDistance: 210; initialPosition: -18 7 6; maxPolarAngle: 80; minPolarAngle: 4">
+                    <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: -9 4 2.5 ; minDistance: 10; maxDistance: 60; initialPosition: 16 23 27; maxPolarAngle: 80; minPolarAngle: 4">
                     </a-entity>     
                 </a-entity>
 
-                <a-entity id="360Scene" visible="false" arrow-monitor>
-                    <a-entity camera id="360_cam" look-controls="enabled: true" wasd-controls position="0 0 0"></a-entity>
+                <a-entity id="scene_360" visible="false" arrow-monitor>
+                    <a-entity camera id="cam_360" look-controls="enabled: true" wasd-controls position="0 0 0"></a-entity>
                 </a-entity>
             </a-scene>
         </div>
@@ -208,7 +214,9 @@
         <script src="template/main_dev.js"></script>
 
         <script src="template/threejs/cameraSceneControl.js"></script>
+
         <!-- <script src="template/threejs/loadModel.js"></script> -->
+
         <script src="template/threejs/MIFLY_THREE_FBXLoader.js"></script>
         <script src="template/threejs/inflate.min.js"></script>
 

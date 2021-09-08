@@ -2,7 +2,7 @@ let aScene = document.getElementsByTagName( 'a-scene' )[ 0 ] ;   // 1315, 898
 let loadPage = document.getElementById( 'load' ) ;
 
 let homeModel = document.getElementById( 'homeModel' ) ;
-let scene_360 = document.getElementById( '360Scene' ) ;
+let scene_360 = document.getElementById( 'scene_360' ) ;
 let tags = document.getElementById( 'tags' ) ;
 
 let bCube = document.getElementById( 'b_cube' ) ;
@@ -48,7 +48,7 @@ let loc_icon = document.getElementById( 'loc_icon' ) ;
 let help_icon = document.getElementById( 'help_icon' ) ;
 
 var cam = document.getElementById( 'cam' ) ;
-var cam_360 = document.getElementById( '360_cam' ) ;
+var cam_360 = document.getElementById( 'cam_360' ) ;
 
 var cam_obj = document.getElementById( 'cam_obj' ) ;
 var pers = document.getElementById( 'pers' ) ;
@@ -87,7 +87,10 @@ let scene_in_menu = {
                     '鍋爐房' : 'faaca8c43d854f1d8c5bf80a612dc8b0',
                     '機器修理廠' : 'fb1c680e707e4126901d4c6837c94c64',
                     '生態景觀池' : '18522ccb12004b1f8b8f3961858c4465',
-                    '育嬰室' : 'c9d3fda09cf444aa8e1e90798e92997f' }
+                    '育嬰室' : 'c9d3fda09cf444aa8e1e90798e92997f' ,
+                    '琉璃工坊-1' : '673149e6f1b24354a949ff60415c5481' ,
+                    
+                }
 
 function toVR( s ) {
     if ( vr != 1 ) {
@@ -745,6 +748,8 @@ function toOrbit() {
                     cam.object3D.children[0].rotation.y = persRot.y ;
                     cam.object3D.children[0].rotation.z = persRot.z ;
 
+                    console.log( '***', cam.object3D.rotation , cam.object3D.children[0].rotation ) ;    
+
                     // console.log( cam.object3D.children[0].rotation ) ;                                      
                 },
                 
@@ -1055,7 +1060,7 @@ const buttonController = {
 
                 // console.log( '222', ctrl.buttonSelect ) ;
 
-                cameraViewControl.hideTags( btnEle );
+                cameraViewControl.hideTagsAndEnableOrbitControl( btnEle );
                 
                 event.stopPropagation() ;
             } ) ;
@@ -1087,6 +1092,17 @@ function buttonActive() {
     buttonController.addEventToNormal() ;
     buttonController.addEventToHover() ;
     buttonController.addEventToSelect() ;
+
+
+    //// 從 VR360 / VRModel 返回到原本狀態
+    
+    VRModelbackModel.onclick = function(){
+        cameraViewControl.VRModelBackEvent();
+    }
+
+    VR360BackModel.onclick = function(){
+        cameraViewControl.VR360BackEvent();
+    }
 }
 
 // --- Attach tag_appearing function to button2-1 and button2-2
@@ -1103,7 +1119,7 @@ function tagAppear() {
             event.stopPropagation() ;
 
             console.log('button2 click ', t  );
-            cameraViewControl.setAndshowTags( t );
+            cameraViewControl.setShowTagsAndDisableOrbitControl( t );
 
             buttonController.buttonSelect[ buttonController.buttonChange[ t.id ][ 1 ] ] = 1 ;
         } ) ;

@@ -406,7 +406,7 @@ body {
     pointer-events: none;
     display: none;
 }
-#backModel {
+#VRModelbackModel, #VR360BackModel {
     position: absolute;
     top: 90%;
     left: 50px;
@@ -659,15 +659,19 @@ span.scroll {
 .tag360 {
     position: absolute;
     visibility: hidden;
-    padding: 12px;
+    /* padding: 12px; */
 
     width: 40px;
     height: 40px;
 
     /* background-color: #f5c542 */
+    /* border-radius: 5000px; */
+    /* border: 2px solid #b5f1c2; */
 
-    border-radius: 5000px;
-    border: 2px solid #b5f1c2;
+    background-image: url('/cutImage/button/button-Button3-2-hover-farme.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 
 }
 
@@ -680,8 +684,13 @@ span.scroll {
     width: 40px;
     height: 40px;
 
-    border-radius: 5000px;
-    border: 2px solid #85d4e7;
+    /* border-radius: 5000px; */
+    /* border: 2px solid #85d4e7; */
+
+    background-image: url('/cutImage/button/button-Button3-2-hover-farme.png');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
 
 }
 
