@@ -89,6 +89,7 @@ let scene_in_menu = {
                     '生態景觀池' : '18522ccb12004b1f8b8f3961858c4465',
                     '育嬰室' : 'c9d3fda09cf444aa8e1e90798e92997f' ,
                     '琉璃工坊-1' : '673149e6f1b24354a949ff60415c5481' ,
+                    '閱樂書店':'a344d7bf16d140879724eb2e62a440aa',
                     
                 }
 
@@ -419,109 +420,6 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
     return sceneObjsLoadPromise ;
 }
 
-// function loadImage( obj, sceneObj, position, rotation, scale ) {
-    
-//     this.loadPromise = function ( texture ) {
-//         var texture = new THREE.TextureLoader().load( obj.res_url ) ;
-//         // console.log( texture ) ;
-        
-//         let url_split_length = obj.res_url.split( '.' ).length ;
-//         let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
-//         let oneLoadPromise = new Promise( ( resolve, reject ) => {
-//             let plane ;
-//             if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
-                        
-//                 plane = document.createElement( 'a-plane' ) ;
-//                 plane.setAttribute( 'src', obj.res_url ) ;
-//                 plane.setAttribute( 'id', obj.obj_id ) ;
-//                 plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
-    
-//                 plane.addEventListener( 'loaded', function( evt ) {
-//                     // console.log( texture ) ; 
-//                     if ( evt.target == evt.currentTarget ) {
-//                         if ( texture.image ) {
-//                             plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
-//                         }
-                        
-//                         plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
-//                     }
-//                 } ) ;
-    
-//                 setTransform( plane, position, rotation, scale ) ;
-                
-//                 sceneObj.appendChild( plane ) ; 
-//                 // console.log( 'append a-plane' ) ;
-//                 resolve() ;
-//             }    
-//         } ) ; 
-//         return oneLoadPromise ;
-//     }
-
-//     return loadPromise() ;
-// }
-
-// // Time to load some Chinese text
-// function loadChinese( obj, sceneObj, position, rotation, scale ) {
-//     let anchor = document.createElement( 'a-entity' ) ;
-//     setTransform( anchor, position, rotation, scale ) ;
-//     anchor.setAttribute( 'id', obj.obj_id ) ;
-
-//     let text = document.createElement( 'a-text' ) ;
-//     textList = obj.content ;
-//     const chinese_regex = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
-//     const isChinese = ( str ) => chinese_regex.test( str ) ;
-
-//     let str_len = 0 ;
-//     for ( var i = 0 ; i < textList.length ; i ++ ) {
-//         let c = textList[ i ] ;
-//         if ( isChinese( c ) ) str_len += 1.6 ;
-//         else if ( c == c.toUpperCase() && c != c.toLowerCase() ) str_len += 1 ;
-//         else if ( c == c.toLowerCase() && c != c.toUpperCase() ) str_len += 1 ;
-//         else str_len += 1.25 ;
-//     }
-
-//     text.setAttribute( 'value', obj.content ) ;
-//     text.setAttribute( 'width', str_len ) ;
-//     text.setAttribute( 'anchor', 'center' ) ;
-//     text.setAttribute( 'back-color', obj.back_color ) ;
-//     text.setAttribute( 'side', 'double' ) ;
-    
-//     var fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/" ;
-//     fonts = [ fontUrl + "1-msdf.json", fontUrl + "2-msdf.json", fontUrl + "3-msdf.json", fontUrl + "4-msdf.json", 
-//               fontUrl + "5-msdf.json", fontUrl + "6-msdf.json", fontUrl + "7-msdf.json", fontUrl + "8-msdf.json", 
-//               fontUrl + "9-msdf.json", fontUrl + "10-msdf.json", fontUrl + "11-msdf.json", fontUrl + "12-msdf.json" ] ;
-//     text.setAttribute( 'font', fonts ) ; 
-//     text.setAttribute( "negate", "false" ) ;
-//     text.setAttribute( 'crossorigin', 'anonymous' ) ;
-
-//     let rgb = obj.color.split( ',' ) ;
-//     let color = new THREE.Color( parseFloat( rgb[ 0 ] ), parseFloat( rgb[ 1 ] ), parseFloat( [ 2 ] ) ) ;
-//     text.setAttribute( 'color', '#' + color.getHexString() ) ;
-
-//     text.addEventListener( 'loaded', function( evt ) {
-//         if ( evt.target == evt.currentTarget ) {
-//             let r = new THREE.Vector3() ;
-//             r.set( 0, Math.PI, 0 ) ;
-//             text.object3D.rotation.setFromVector3( r ) ;
-//         }
-//     } ) ;
-
-//     anchor.appendChild( text ) ;
-
-//     if ( obj.obj_parent_id ) {
-//         let timeout = setInterval( function() {
-//             let parent = document.getElementById( obj.obj_parent_id ) ;
-//             if ( parent ) {
-//                 if ( parent.object3D.children.length > 0 ) {
-//                     parent.appendChild( anchor ) ;
-//                     window.clearInterval( timeout ) ;
-//                 }
-//             }
-//         }, 1 ) ;
-//     }
-//     else sceneObj.appendChild( anchor ) ;
-// }
-
 // ----- Some flows that needs to go through once the web page is opened -----
 function main() {
     sizing() ;
@@ -535,7 +433,7 @@ let down_right_h ;   // Initially equals to 0
 let down_right_w ;
 let dots = document.getElementById( 'dots' ) ;
 
-function sizing() {
+function old_sizing() {
     // left corner font-size adjusting
     // console.log( 'sizing' ) ;
 
@@ -568,12 +466,19 @@ function sizing() {
 
 }
 
+function sizing() {
+    home_menu.style.width = home_menu.offsetHeight * 0.62 + 'px' ;
+    console.log( "HOMEMENU SIIZING", home_menu.offsetHeight, home_menu.style.width ) ;
+}
+
 function to360( scene_id ) {
     homeModel.setAttribute( 'visible', 'false' ) ;
     scene_360.setAttribute( 'visible', 'true' ) ;
 
-    sizing() ;   
+    old_sizing() ;   
     // console.log( 'Inside 360 scene' ) ;
+
+    console.log(' +++++++++ ', scene_id );
 
     // Set all 360 scenes to false
     // Get the camera rotation
@@ -815,7 +720,7 @@ function click_menu() {
 function map_func() {
     const map_ins = new menu( map_area, '100%', '100%' ) ;
     map_ins.hit_menu() ;
-    sizing() ;
+    old_sizing() ;
 }
 
 // Dots information for down right map
@@ -951,6 +856,14 @@ const buttonController = {
         "button2-2" : document.getElementById( "button2-2" ),
     },
 
+    rwdButtonObj : {
+        "rwd-button1-3" : document.getElementById( "rwd-button1-3" ),
+        "rwd-button1-4" : document.getElementById( "rwd-button1-4" ),
+
+        "rwd-button1-1" : document.getElementById( "rwd-button1-1" ),
+        "rwd-button1-2" : document.getElementById( "rwd-button1-2" ),
+    },
+
     buttonObj_hover : {
         "button1-1-hover" : document.getElementById( "button1-1-hover" ),
         "button1-2-hover" : document.getElementById( "button1-2-hover" ),
@@ -967,6 +880,14 @@ const buttonController = {
 
         "button2-1-click" : document.getElementById( "button2-1-click" ),
         "button2-2-click" : document.getElementById( "button2-2-click" ),
+    },
+
+    rwdButtonObj_click : {
+        "rwd-button1-3-click" : document.getElementById( "rwd-button1-3-click" ),
+        "rwd-button1-4-click" : document.getElementById( "rwd-button1-4-click" ),
+
+        "rwd-button1-1-click" : document.getElementById( "rwd-button1-1-click" ),
+        "rwd-button1-2-click" : document.getElementById( "rwd-button1-2-click" ),
     },
 
     buttonChange : {
@@ -986,85 +907,130 @@ const buttonController = {
         'button1-2-click' : [ 'button1-2-hover', 'button1-2' ],
         'button1-6-click' : [ 'button1-6-hover', 'button1-6' ],
         'button2-1-click' : [ 'button2-1-hover', 'button2-1' ],
-        'button2-2-click' : [ 'button2-2-hover', 'button2-2' ]
+        'button2-2-click' : [ 'button2-2-hover', 'button2-2' ],
+
+        'rwd-button1-3' : 'rwd-button1-3-click',
+        'rwd-button1-4' : 'rwd-button1-4-click',
+        'rwd-button1-1' : 'rwd-button1-1-click',
+        'rwd-button1-2' : 'rwd-button1-2-click',
+
+        'rwd-button1-3-click' : 'rwd-button1-3',
+        'rwd-button1-4-click' : 'rwd-button1-4',
+        'rwd-button1-1-click' : 'rwd-button1-1',
+        'rwd-button1-2-click' : 'rwd-button1-2',
     },
 
     allUnselect : function( clickBtn ) {
-        if ( clickBtn == 'button2-1-click' || clickBtn == 'button2-2-click' ) {   // The small two buttons can set all buttons to normal
-            Object.keys( this.buttonObj_click ).forEach( b => {
+        if ( getComputedStyle( homePage ).display == 'block' ) {
+            if ( clickBtn == 'button2-1-click' || clickBtn == 'button2-2-click' ) {   // The small two buttons can set all buttons to normal
+                Object.keys( this.buttonObj_click ).forEach( b => {
+                    if ( b != clickBtn ) {
+                        this.buttonObj_click[ b ].style.visibility = 'hidden' ;
+                        this.buttonObj[ this.buttonChange[ b ][ 1 ] ].style.visibility = 'visible' ;
+                        this.buttonSelect[ b ] = 0 ;
+                    }
+                } ) ;
+            } else {
+                Object.keys( this.buttonObj_click ).forEach( b => {   // Big three buttons should remove the small two buttons 
+                    if ( b != clickBtn ) {
+                        this.buttonObj_click[ b ].style.visibility = 'hidden' ;
+                        if ( b != 'button2-1-click' && b != 'button2-2-click' ) this.buttonObj[ this.buttonChange[ b ][ 1 ] ].style.visibility = 'visible' ;
+                        this.buttonSelect[ b ] = 0 ;
+                    }
+                } ) ;
+            }
+        } else {
+            Object.keys( this.rwdButtonObj_click ).forEach( b => {
                 if ( b != clickBtn ) {
-                    this.buttonObj_click[ b ].style.visibility = 'hidden' ;
-                    this.buttonObj[ this.buttonChange[ b ][ 1 ] ].style.visibility = 'visible' ;
-                    this.buttonSelect[ b ] = 0 ;
+                    this.rwdButtonObj_click[ b ].style.visibility = 'hidden' ;
+                    this.rwdButtonObj[ this.buttonChange[ b ] ].style.visibility = 'visible' ;
                 }
             } ) ;
+        }
+    }, 
+
+    // --- Add hover event to normal button ---
+    addEventToNormal : function() {
+        let ctrl = buttonController ;
+        if ( getComputedStyle( homePage ).display == 'block'  ) {
+            Object.values( this.buttonObj ).forEach( btnEle => {
+                btnEle.addEventListener( 'mouseover', function( event ) {
+                    btnEle.style.visibility = 'hidden' ;
+                    ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ] ].style.visibility = 'visible' ;
+    
+                    event.stopPropagation() ;
+                } ) ;
+            } ) ;
         } else {
-            Object.keys( this.buttonObj_click ).forEach( b => {   // Big three buttons should remove the small two buttons 
-                if ( b != clickBtn ) {
-                    this.buttonObj_click[ b ].style.visibility = 'hidden' ;
-                    if ( b != 'button2-1-click' && b != 'button2-2-click' ) this.buttonObj[ this.buttonChange[ b ][ 1 ] ].style.visibility = 'visible' ;
-                    this.buttonSelect[ b ] = 0 ;
-                }
+            Object.values( this.rwdButtonObj ).forEach( btnEle => {
+                btnEle.addEventListener( 'click', function( event ){
+                    console.log( 'Hi Normal Click' ) ;
+                    btnEle.style.visibility = 'hidden' ;
+                    ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ]  ) ;
+                    ctrl.rwdButtonObj_click[ ctrl.buttonChange[ btnEle.id] ].style.visibility = 'visible' ;
+                } ) ;
             } ) ;
         }
 
     }, 
 
-    // --- Add hover event to normal button ---
-    addEventToNormal : function() {
-        Object.values( this.buttonObj ).forEach( btnEle => {
-            btnEle.addEventListener( 'mouseover', function( event ) {
-                btnEle.style.visibility = 'hidden' ;
-                let ctrl = buttonController ;
-                ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ] ].style.visibility = 'visible' ;
-
-                event.stopPropagation() ;
-            } ) ;
-        } ) ;
-    }, 
-
     // --- Add mouseout & click event to hover button ---
     addEventToHover : function() {
         let ctrl = buttonController ;
-        Object.values( this.buttonObj_hover ).forEach( btnEle => {
-            btnEle.addEventListener( 'mouseout', function( event ) {      
-                if ( ctrl.buttonSelect[ ctrl.buttonChange[ btnEle.id ][ 1 ] ] == 0 ) {
+        if ( getComputedStyle( homePage ).display == 'block'  ) {
+            Object.values( this.buttonObj_hover ).forEach( btnEle => {
+                btnEle.addEventListener( 'mouseout', function( event ) {      
+                    if ( ctrl.buttonSelect[ ctrl.buttonChange[ btnEle.id ][ 1 ] ] == 0 ) {
+                        btnEle.style.visibility = 'hidden' ;
+                        ctrl.buttonObj[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
+                        // console.log( 'MOUSE OUT', event ) ;
+                    }  
+                    event.stopPropagation() ;
+                } ) ;
+    
+                btnEle.addEventListener( 'click', function( event ) {
+                    ctrl.buttonSelect[ ctrl.buttonChange[ btnEle.id ][ 1 ] ] = 1 ;
+                    ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ] ) ;
                     btnEle.style.visibility = 'hidden' ;
-                    ctrl.buttonObj[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
-                    // console.log( 'MOUSE OUT', event ) ;
-                }  
-                event.stopPropagation() ;
+                    
+                    ctrl.buttonObj_click[ ctrl.buttonChange[ btnEle.id ][ 1 ] ].style.visibility = 'visible' ;
+    
+                    // console.log( '222', ctrl.buttonSelect ) ;
+                    
+                    event.stopPropagation() ;
+                } ) ;
             } ) ;
-
-            btnEle.addEventListener( 'click', function( event ) {
-                ctrl.buttonSelect[ ctrl.buttonChange[ btnEle.id ][ 1 ] ] = 1 ;
-                ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ] ) ;
-                btnEle.style.visibility = 'hidden' ;
-                ctrl.buttonObj_click[ ctrl.buttonChange[ btnEle.id ][ 1 ] ].style.visibility = 'visible' ;
-
-                // console.log( '222', ctrl.buttonSelect ) ;
-                
-                event.stopPropagation() ;
-            } ) ;
-        } ) ;
+        } 
     }, 
 
     // --- Add click event to selected button ---
     addEventToSelect : function() {
-        Object.values( this.buttonObj_click ).forEach( btnEle => {
-            btnEle.addEventListener( 'click', function( event ) {
-                btnEle.style.visibility = 'hidden' ;
-                let ctrl = buttonController ;
-                ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ]  ) ;
-                ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
 
-                // console.log( '222', ctrl.buttonSelect ) ;
-
-                cameraViewControl.hideTagsAndEnableOrbitControl( btnEle );
-                
-                event.stopPropagation() ;
+        let ctrl = buttonController ;
+        if ( getComputedStyle( homePage ).display == 'block' ) {
+            Object.values( this.buttonObj_click ).forEach( btnEle => {
+                btnEle.addEventListener( 'click', function( event ) {
+                    btnEle.style.visibility = 'hidden' ;
+                    ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ]  ) ;
+                    ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
+    
+                    // console.log( '222', ctrl.buttonSelect ) ;
+                    cameraViewControl.hideTagsAndEnableOrbitControl( btnEle );
+                    
+                    event.stopPropagation() ;
+                } ) ;
             } ) ;
-        } ) ;
+        } else {
+            Object.values( this.rwdButtonObj_click ).forEach( btnEle => {
+                btnEle.addEventListener( 'click', function( event ){
+                    console.log( 'Hi Select Click' ) ;
+                    btnEle.style.visibility = 'hidden' ;
+                    ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ]  ) ;
+                    ctrl.rwdButtonObj[ ctrl.buttonChange[ btnEle.id] ].style.visibility = 'visible' ;
+                } ) ;
+            } ) ;
+        }
+
     }, 
 
 } ; 
@@ -1083,7 +1049,9 @@ function showModelControl( n ) {   // n == 1 => SongYan Travel
         enterModel[ 0 ].style.visibility = 'visible' ;
     }
 
-    if ( n == 1 ) toOrbit() ;
+    if ( n == 1 ) {
+        toOrbit() ;
+    }
  
 }
 
