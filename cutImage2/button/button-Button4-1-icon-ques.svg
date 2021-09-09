@@ -1,0 +1,10 @@
+<svg id="button_Button4-1_icon_ques" data-name="button/Button4-1/icon/ques" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="矩形_51" data-name="矩形 51" width="40" height="40" fill="#fff"/>
+    </clipPath>
+  </defs>
+  <g id="组_62" data-name="组 62" clip-path="url(#clip-path)">
+    <path id="路径_385" data-name="路径 385" d="M2960.022-917.342l-2.612-1.929,2.612-2.274,1.627,2.274Zm3.655-11.256-1.746,3.671-.337.283-1.607.961-.677-.961-.233-.283,1.144-3.253,2.4-2.641,2.233-2.877.688-3.352-.544-2.513-1.52-2.393-2.735-1.059-2.5,1.119-1.879,1.441-1.565,1.73-1.371,2.319-.813.984-1.393-.984.8-3.561,2.2-2.886,3.059-2.067,3.737-.494,2.505,1.683,2.984.811,1.715,2.545.638,2.961-.069,3.739-2.489,2.751Z" transform="translate(-2940.236 951.087)" fill="#fff"/>
+  </g>
+</svg>

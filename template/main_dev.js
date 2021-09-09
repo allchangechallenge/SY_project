@@ -1175,6 +1175,12 @@ const RWD_UI = {
         'rwd-button1-3-click' : document.getElementById( 'rwd-button1-3-click' ),
         'rwd-button1-4-click' : document.getElementById( 'rwd-button1-4-click' ),
 
+        'rwd-button1-1' : document.getElementById( 'rwd-button1-1' ),
+        'rwd-button1-2' : document.getElementById( 'rwd-button1-2' ),
+        'rwd-button1-1-click' : document.getElementById( 'rwd-button1-1-click' ),
+        'rwd-button1-2-click' : document.getElementById( 'rwd-button1-2-click' ),
+
+
         'up_buttons' : [ document.getElementById( 'rwd-button1-3' ),
                          document.getElementById( 'rwd-button1-3-click' ),
                          document.getElementById( 'rwd-button1-4' ),
@@ -1188,6 +1194,7 @@ const RWD_UI = {
 
     s360_template_obj : {
         'template_360_mobile' : document.getElementById( 'template_360_mobile' ),
+        'x_circle_360_mobile' : document.getElementById( 'x_circle_360_mobile' ),
     },
 
     record : {
@@ -1216,8 +1223,28 @@ const RWD_UI = {
 
     },
 
+    enter360Click : function() {
+        let self = RWD_UI ;
+        let template360_obj = self.s360_template_obj ;  
+        
+        template360_obj[ 'template_360_mobile' ].style.display = 'block' ;
+    },
+
+    exit360Menu : function() {
+        RWD_UI.s360_template_obj[ 'template_360_mobile' ].style.display = 'none' ;
+    },
+
+    enterModelClick : function() {
+
+    }, 
+
     homeButtonEvents : function() {
-        this.homePage_obj[ 'homeMobile_menu' ].onclick = this.homeMenuClick ;
+        let homeBtn = this.homePage_obj ;
+        homeBtn[ 'homeMobile_menu' ].onclick = this.homeMenuClick ;
+        homeBtn[ 'rwd-button1-1' ].onclick = this.enter360Click ;
+
+        let s360Btn = this.s360_template_obj ;
+        s360Btn[ 'x_circle_360_mobile' ].onclick = this.exit360Menu ;
     },
 
 }
