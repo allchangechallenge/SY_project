@@ -30,8 +30,6 @@ let home_menu = document.getElementById( 'home_menu' ) ;
 let middle_bottom = document.getElementById( 'middle_bottom' ) ;
 let icon = document.getElementById( 'icon' ) ;
 
-let homeMobile = document.getElementById( 'homeMobile' ) ;
-
 let templateVR = document.getElementById( 'template_vr' ) ;
 
 let template360 = document.getElementById( 'template_360' ) ;
@@ -1082,16 +1080,17 @@ function buttonActive() {
     buttonController.addEventToHover() ;
     buttonController.addEventToSelect() ;
 
-
     //// 從 VR360 / VRModel 返回到原本狀態
     
-    VRModelbackModel.onclick = function(){
+    VRbackModel.onclick = function(){
         cameraViewControl.VRModelBackEvent();
     }
 
-    VR360BackModel.onclick = function(){
+    s360backModel.onclick = function(){
         cameraViewControl.VR360BackEvent();
     }
+
+    RWD_UI.homePage_obj[ 'homeMobile_menu' ].onclick = RWD_UI.homeMenuClick ;
 }
 
 // --- Attach tag_appearing function to button2-1 and button2-2
@@ -1116,7 +1115,7 @@ function tagAppear() {
     } ) ;
 }
 
-// Full screen function
+// --- Full screen function ---
 let screenExit = 0 ;
 function fullScreen() {
     let elem = document.body ;
@@ -1152,6 +1151,56 @@ function goShop() {
 function goGame() {
     console.log( 'INSEDE GOGAME' ) ;
     showModelControl( 0 ) ;
+}
+
+const RWD_UI = {
+
+    homePage_obj : {
+        'homeMobile' : document.getElementById( 'homeMobile' ),
+        'homeMobile_menu' : document.getElementById( 'homeMobile_menu' ),
+
+        'rwd-button1-3' : document.getElementById( 'rwd-button1-3' ),
+        'rwd-button1-4' : document.getElementById( 'rwd-button1-4' ),
+        'rwd-button1-3-click' : document.getElementById( 'rwd-button1-3-click' ),
+        'rwd-button1-4-click' : document.getElementById( 'rwd-button1-4-click' ),
+
+        'up_buttons' : [ document.getElementById( 'rwd-button1-3' ),
+                         document.getElementById( 'rwd-button1-3-click' ),
+                         document.getElementById( 'rwd-button1-4' ),
+                         document.getElementById( 'rwd-button1-4-click' )
+                        ], 
+    },
+
+    vr_template_obj : {}, 
+
+    s360_template_obj : {},
+
+    record : {
+        'homeMenuOn' : 0,
+    },
+
+    homeMenuClick : function() {
+        console.log( 'You click the home menu' ) ;
+
+        let self = RWD_UI ;
+        let homePage_obj = self.homePage_obj ;
+
+        if ( self.record[ 'homeMenuOn' ] == 0 ) {
+            homePage_obj[ 'homeMobile_menu' ].style.backgroundColor = '#88AB85' ;
+            homePage_obj[ 'rwd-button1-3' ].style.visibility = 'visible' ;
+            homePage_obj[ 'rwd-button1-4' ].style.visibility = 'visible' ;
+
+            self.record[ 'homeMenuOn' ] = 1 ;
+        } else {
+            homePage_obj[ 'homeMobile_menu' ].style.backgroundColor = '#eac788' ;
+            homePage_obj[ 'up_buttons' ].forEach( b => {
+                b.style.visibility = 'hidden' ;
+            } ) ;
+            self.record[ 'homeMenuOn' ] = 0 ;
+        }
+
+    },
+
 }
 
 
