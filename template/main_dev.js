@@ -53,6 +53,7 @@ let cam_360 = document.getElementById( 'cam_360' ) ;
 let cam_obj = document.getElementById( 'cam_obj' ) ;
 let pers = document.getElementById( 'pers' ) ;
 
+let rwd = 0 ; 
 let mode = 0 ;   // orbit( 0 ) / vr( 1 ) / 360( 2 )
 let tag = 0 ;   // Determine what kind of tags need to be display
 
@@ -96,6 +97,10 @@ function toVR( s ) {
         // --- UI ---
         homePage.style.display = 'none' ;
         templateVR.style.display = 'block' ;
+
+        // --- Mobile UI ---
+        RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
+        RWD_UI.vr_template_obj[ 'template_vr_mobile' ].style.display = 'block' ;
 
         // --- Into VR camera ---
         cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
@@ -438,7 +443,8 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
 function main() {
     sizing() ;
     buttonActive() ;
-    tagAppear() ;
+    if ( window.innerWidth < 990 ) rwd = 1 ; 
+    else tagAppear() ;
 }
 
 window.onresize = sizing ;
@@ -517,6 +523,10 @@ function to360( scene_id ) {
 
     scroll_menu.style.visibility = 'visible' ;
     scroll_menu_icon.style.visibility = 'visible' ;
+
+    // --- Mobile UI ---
+    RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
+    RWD_UI.s360_template_obj[ 'template_360_mobile' ].style.display = 'block' ;
 
     cam.setAttribute( 'camera', 'active', false ) ;
     cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
@@ -963,7 +973,9 @@ const buttonController = {
             Object.keys( this.rwdButtonObj_click ).forEach( b => {
                 if ( b != clickBtn ) {
                     this.rwdButtonObj_click[ b ].style.visibility = 'hidden' ;
-                    this.rwdButtonObj[ this.buttonChange[ b ] ].style.visibility = 'visible' ;
+                    if ( ! ( RWD_UI.record[ 'homeMenuOn' ] == 0 && ( b == 'rwd-button1-3' || b == 'rwd-button1-3-click' || b == 'rwd-button1-4' || b == 'rwd-button1-4-click' ) ) ) {
+                        this.rwdButtonObj[ this.buttonChange[ b ] ].style.visibility = 'visible' ;
+                    }
                 }
             } ) ;
         }
@@ -1090,17 +1102,16 @@ function buttonActive() {
         cameraViewControl.VR360BackEvent();
     }
 
-    RWD_UI.homePage_obj[ 'homeMobile_menu' ].onclick = RWD_UI.homeMenuClick ;
+    RWD_UI.homeButtonEvents() ;
 }
 
 // --- Attach tag_appearing function to button2-1 and button2-2
 function tagAppear() {
     // console.log( btnController.buttonObj[ 'button2-1' ] ) ;
-    let tagControll = [ buttonController.buttonObj_hover[ 'button2-1-hover' ], buttonController.buttonObj_hover[ 'button2-2-hover' ],
-                        buttonController.rwdButtonObj[ 'rwd-button1-1' ], buttonController.rwdButtonObj[ 'rwd-button1-2' ] ] ;
+    let tagControll = [ buttonController.buttonObj_hover[ 'button2-1-hover' ], buttonController.buttonObj_hover[ 'button2-2-hover' ] ] ;
     tagControll.forEach( t => {
         t.addEventListener( 'click', function( event ) {
-            if ( t.id == 'button2-1-hover' || t.id == 'rwd-button1-1' ) tag = 2 ;
+            if ( t.id == 'button2-1-hover' ) tag = 2 ;
             else tag = 1 ;
 
             start_tick = 1 ;
@@ -1171,9 +1182,13 @@ const RWD_UI = {
                         ], 
     },
 
-    vr_template_obj : {}, 
+    vr_template_obj : {
+        'template_vr_mobile' : document.getElementById( 'template_vr_mobile' ),
+    }, 
 
-    s360_template_obj : {},
+    s360_template_obj : {
+        'template_360_mobile' : document.getElementById( 'template_360_mobile' ),
+    },
 
     record : {
         'homeMenuOn' : 0,
@@ -1199,6 +1214,10 @@ const RWD_UI = {
             self.record[ 'homeMenuOn' ] = 0 ;
         }
 
+    },
+
+    homeButtonEvents : function() {
+        this.homePage_obj[ 'homeMobile_menu' ].onclick = this.homeMenuClick ;
     },
 
 }

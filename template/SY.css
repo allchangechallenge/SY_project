@@ -51,8 +51,8 @@ body {
     right: 0%;
     bottom: 0%;
 }
-#homeMobile {
-    display: none;
+#homeMobile, #template_vr_mobile, #template_360_mobile {
+    display: none ; 
 }
 
 #sceneMaskDiv{
@@ -798,6 +798,9 @@ span.scroll {
 }
 
 @media only screen and ( max-width: 990px ) {
+    .a-enter-vr-button {
+        display: none;
+    }
     #load {
         background-color: darkkhaki;
     }
@@ -811,8 +814,8 @@ span.scroll {
         width: 32.8vmin;
         height: 66.2vmin;
     }
-    #homePage {
-        display: none;
+    #homePage, #template_vr, #template_360 {
+        display: none !important;
     }
     #homeMobile {
         position: absolute;
@@ -836,9 +839,17 @@ span.scroll {
         width: 27.546vw;
         min-width: 0%;
     }
-    #icon_bottom {
+    #icon_bottom_mobile, #icon_bottom_vrMobile {
+        position: absolute;
+        z-index: 0;
         width: 36%;
         min-width: 0%;
+        height: 16.7%;
+        top: 0%;
+        left: 0%;
+        background-image: url(../cutImage/bottom/bottom-04-1@2x.png);
+        background-size: contain;
+        background-repeat: no-repeat;
     }
     #homeMobile_menu {
         position: absolute;
@@ -973,5 +984,17 @@ span.scroll {
         height: 100%;
         pointer-events: none;
         display: none;
+    }
+    #VRMobilebackModel {
+        position: absolute;
+        top: 90%;
+        left: 50px;
+        width: 96px;
+        height: 72px;
+        background-image: url( "../cutImage/button/button1-3-normal.svg" );
+        background-size: contain;
+        background-repeat: no-repeat;
+        pointer-events: initial;
+        cursor: pointer;
     }
 }
