@@ -66,9 +66,9 @@ let d_360 = THREE.Math.degToRad( 360 ) ;
 
 // These 3D land scape models have the same order as ids in 'makarScenes' array
 let id_to_scene = { 'b_tag' : 'b5e7eeb146954a73af7a9248cff19543',    // 導覽頁
-                    'y_tag' : 'a344d7bf16d140879724eb2e62a440aa',   // 閱樂書店
+                    'y_tag' : '3a11c445debc47939074a0c3297694df',   // 閱樂書店
                     'r_tag' : '18522ccb12004b1f8b8f3961858c4465',    // 生態景觀池
-                    'p_tag' : '673149e6f1b24354a949ff60415c5481' }   // 琉璃工坊-1
+                    'p_tag' : '8469b106c80446988d71204a04713fc5' }   // 琉璃工坊-1
 
 let scene_in_menu = {
                     '松山菸廠歷史回顧' : 'd8d672ddb5894b9a92480fcf4649dfc4', 
@@ -88,8 +88,6 @@ let scene_in_menu = {
                     '機器修理廠' : 'fb1c680e707e4126901d4c6837c94c64',
                     '生態景觀池' : '18522ccb12004b1f8b8f3961858c4465',
                     '育嬰室' : 'c9d3fda09cf444aa8e1e90798e92997f' ,
-                    '琉璃工坊-1' : '673149e6f1b24354a949ff60415c5481' ,
-                    '閱樂書店':'a344d7bf16d140879724eb2e62a440aa',
                     
                 }
 
@@ -264,7 +262,6 @@ function createScene( makarScenes ) {
         //// 初始只有載入少數場景。紀錄狀態
         if ( Object.values( scene_in_menu ).includes( makarScenes[ i ].scene_id ) ) {
 
-            
             let oneSceneLoadPromise = sceneObjsLoad( makarScenes[ i ], sceneObj ) ;  
             p_arr.push( oneSceneLoadPromise ) ;
 
@@ -353,7 +350,7 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
                         if ( evt.target == evt.currentTarget ) {
                             let timeoutID = setInterval( function () {
                                 if (texture.image){ 
-                                    plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
+                                    plane.object3D.children[0].scale.set( texture.image.width * 0.01 , texture.image.height * 0.01 , 1 ) ;
                                     resolve() ;
                                     window.clearInterval(timeoutID);
                                 }
@@ -818,10 +815,10 @@ function theRaycaster(  ) {
 
         raycaster.setFromCamera( mouse, aScene.camera ) ;
         let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
+        // let intersects = raycaster.intersectObjects( currentSceneObjs , true ) ;
         console.log( "Intersects : ", intersects ) ;
         if ( intersects.length > 0 ){
             console.log( 'First Intersect : ', intersects[ 0 ].object.el ) ;
-            console.log( '\n' ) ;
 
             if (intersects.length > 0 ){
                 currentSceneObjs.forEach( obj => { 
