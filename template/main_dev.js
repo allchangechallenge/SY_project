@@ -30,6 +30,8 @@ let home_menu = document.getElementById( 'home_menu' ) ;
 let middle_bottom = document.getElementById( 'middle_bottom' ) ;
 let icon = document.getElementById( 'icon' ) ;
 
+let homeMobile = document.getElementById( 'homeMobile' ) ;
+
 let templateVR = document.getElementById( 'template_vr' ) ;
 
 let template360 = document.getElementById( 'template_360' ) ;
@@ -544,6 +546,7 @@ function toOrbit() {
 
     template360.style.display = 'none' ;
     templateVR.style.display = 'none' ;
+
     homePage.style.display = 'block' ;
     
     home_menu.style.display = 'block' ; 
@@ -778,7 +781,7 @@ function theRaycaster( sceneObjs ) {
     
     aScene.canvas.addEventListener( 'mouseup', function( event ){
 
-        console.log('  111111111   ' , sceneObjs );
+        // console.log('  111111111   ' , sceneObjs );
 
         if ( event.changedTouches ) {
             x = event.changedTouches[ 0 ].pageX ;
@@ -792,7 +795,7 @@ function theRaycaster( sceneObjs ) {
 
         raycaster.setFromCamera( mouse, aScene.camera ) ;
         let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
-        console.log( "Intersects : ", intersects ) ;
+        // console.log( "Intersects : ", intersects ) ;
         // console.log( 'First Intersect : ', intersects[ 0 ].object.el ) ;
         // console.log( '\n' ) ;
 
@@ -956,7 +959,7 @@ const buttonController = {
         } else {
             Object.values( this.rwdButtonObj ).forEach( btnEle => {
                 btnEle.addEventListener( 'click', function( event ){
-                    console.log( 'Hi Normal Click' ) ;
+                    // console.log( 'Hi Normal Click' ) ;
                     btnEle.style.visibility = 'hidden' ;
                     ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ]  ) ;
                     ctrl.rwdButtonObj_click[ ctrl.buttonChange[ btnEle.id] ].style.visibility = 'visible' ;
@@ -1015,7 +1018,7 @@ const buttonController = {
         } else {
             Object.values( this.rwdButtonObj_click ).forEach( btnEle => {
                 btnEle.addEventListener( 'click', function( event ){
-                    console.log( 'Hi Select Click' ) ;
+                    // console.log( 'Hi Select Click' ) ;
                     btnEle.style.visibility = 'hidden' ;
                     ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ]  ) ;
                     ctrl.rwdButtonObj[ ctrl.buttonChange[ btnEle.id] ].style.visibility = 'visible' ;
@@ -1042,6 +1045,7 @@ function showModelControl( n ) {   // n == 1 => SongYan Travel
     }
 
     if ( n == 1 ) {
+        console.log( 'into orbit' ) ;
         toOrbit() ;
     }
  
@@ -1057,10 +1061,11 @@ function buttonActive() {
 // --- Attach tag_appearing function to button2-1 and button2-2
 function tagAppear() {
     // console.log( btnController.buttonObj[ 'button2-1' ] ) ;
-    let tagControll = [ buttonController.buttonObj_hover[ 'button2-1-hover' ], buttonController.buttonObj_hover[ 'button2-2-hover' ] ] ;
+    let tagControll = [ buttonController.buttonObj_hover[ 'button2-1-hover' ], buttonController.buttonObj_hover[ 'button2-2-hover' ],
+                        buttonController.rwdButtonObj[ 'rwd-button1-1' ], buttonController.rwdButtonObj[ 'rwd-button1-2' ] ] ;
     tagControll.forEach( t => {
         t.addEventListener( 'click', function( event ) {
-            if ( t.id == 'button2-1-hover' ) tag = 2 ;
+            if ( t.id == 'button2-1-hover' || t.id == 'rwd-button1-1' ) tag = 2 ;
             else tag = 1 ;
 
             start_tick = 1 ;

@@ -30,7 +30,7 @@ class CameraViewControl{
 
         let self = this;
 
-        if ( bn.getAttribute('id') == 'button2-1-hover' ){
+        if ( bn.getAttribute('id') == 'button2-1-hover' || bn.getAttribute('id') == 'rwd-button1-1' ){
 
             let b_tag = document.getElementById('b_tag');
             let y_tag = document.getElementById('y_tag');
@@ -105,7 +105,7 @@ class CameraViewControl{
 
 
         }
-        if ( bn.getAttribute('id') == 'button2-2-hover' ){
+        if ( bn.getAttribute('id') == 'button2-2-hover' || bn.getAttribute('id') == 'rwd-button1-2' ){
 
             let g_tag = document.getElementById('g_tag');
             let o_tag = document.getElementById('o_tag');
