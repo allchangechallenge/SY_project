@@ -21,7 +21,7 @@
     </head>
 
     <body onload="main()">
-        <div id="load">
+        <div id="loadPage">
             <p id="load_w">Loading</p>
         </div>
 
@@ -114,25 +114,25 @@
                 <div id="menu_back"></div>
                 <div id="menu_icon" onclick="click_menu()"></div>
                 <div id="scroll_bar" class="scroll_bar">
-                    <span class="scroll" onclick="to360('d8d672ddb5894b9a92480fcf4649dfc4')">松山菸廠歷史回顧</span>
-                    <span class="scroll" onclick="to360('f7878d4894d946ffba58b453e8a13929')">製菸工廠</span>
-                    <span class="scroll" onclick="to360('94d7b04abd6e470ea1d289cb004b3a3c')">理葉工廠</span>
-                    <span class="scroll" onclick="to360('8469b106c80446988d71204a04713fc5')">雪茄工廠</span>
-                    <span class="scroll" onclick="to360('bdc6eda7c23743e8ad5d6d242cf46bc9')">切葉工廠</span>
-                    <span class="scroll" onclick="to360('c0b4f403106442f2a83295a4cb5542b6')">醫護室</span>
-                    <span class="scroll" onclick="to360('3a11c445debc47939074a0c3297694df')">巴洛克花園</span>
-                    <span class="scroll" onclick="to360('99808d3c19b14b3cab81b6821dab447d')">澡堂</span>
-                    <span class="scroll" onclick="to360('15fd655f039d4da3a546ae174333de2f')">多功能展演廳</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('d8d672ddb5894b9a92480fcf4649dfc4')">松山菸廠歷史回顧</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('f7878d4894d946ffba58b453e8a13929')">製菸工廠</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('94d7b04abd6e470ea1d289cb004b3a3c')">理葉工廠</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('8469b106c80446988d71204a04713fc5')">雪茄工廠</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('bdc6eda7c23743e8ad5d6d242cf46bc9')">切葉工廠</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('c0b4f403106442f2a83295a4cb5542b6')">醫護室</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('3a11c445debc47939074a0c3297694df')">巴洛克花園</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('99808d3c19b14b3cab81b6821dab447d')">澡堂</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('15fd655f039d4da3a546ae174333de2f')">多功能展演廳</span>
                     <!-- <span class="scroll">製菸工廠二樓</span> -->
-                    <span class="scroll" onclick="to360('b5e7eeb146954a73af7a9248cff19543')">松菸口</span>
-                    <span class="scroll" onclick="to360('e6a9716f79fb4dce8fb27136340cba09')">辦公廳舍與正門</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('b5e7eeb146954a73af7a9248cff19543')">松菸口</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('e6a9716f79fb4dce8fb27136340cba09')">辦公廳舍與正門</span>
                     <!-- <span class="scroll">檢查室</span> -->
-                    <span class="scroll" onclick="to360('8ed7325295d6420b85f9d796508cacaa')">1-5號倉庫</span>
-                    <span class="scroll" onclick="to360('c7827db770f24a4e908cb81a91021f02')">2號倉庫與輸送帶</span>
-                    <span class="scroll" onclick="to360('faaca8c43d854f1d8c5bf80a612dc8b0')">鍋爐房</span>
-                    <span class="scroll" onclick="to360('fb1c680e707e4126901d4c6837c94c64')">機器修理廠</span>
-                    <span class="scroll" onclick="to360('18522ccb12004b1f8b8f3961858c4465')">生態景觀池</span>
-                    <span class="scroll" onclick="to360('c9d3fda09cf444aa8e1e90798e92997f')">育嬰室</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('8ed7325295d6420b85f9d796508cacaa')">1-5號倉庫</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('c7827db770f24a4e908cb81a91021f02')">2號倉庫與輸送帶</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('faaca8c43d854f1d8c5bf80a612dc8b0')">鍋爐房</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('fb1c680e707e4126901d4c6837c94c64')">機器修理廠</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('18522ccb12004b1f8b8f3961858c4465')">生態景觀池</span>
+                    <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('c9d3fda09cf444aa8e1e90798e92997f')">育嬰室</span>
                 </div>
             </div>
             <div id="middle_bottom_360">
@@ -195,7 +195,7 @@
 
         <div>
             <a-scene tag-monitor debug gltf-model="dracoDecoderPath: /template/draco/;" loading-screen="enabled: false" 
-            renderer='antialias: true; colorManagement: false; sortObjects: false; physicallyCorrectLights: false; logarithmicDepthBuffer: true; '>
+            renderer='antialias: true; colorManagement: false; sortObjects: false; physicallyCorrectLights: false; logarithmicDepthBuffer: false; '>
                 <a-assets>
                     <img id="arrow" src="source/arrow.png">
                     <!-- <a-asset-item id="sy_model" src="/source/model/Songyan.glb"></a-asset-item> -->
