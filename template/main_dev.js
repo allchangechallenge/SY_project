@@ -1082,10 +1082,8 @@ function theRaycaster(  ) {
         raycaster.setFromCamera( mouse, aScene.camera ) ;
         // let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
         let intersects = raycaster.intersectObject( currentSceneObject3D , true ) ;
-        console.log( "Intersects : ", intersects ) ;
-
         if ( intersects.length > 0 ){
-            console.log( 'First Intersect : ', intersects[ 0 ].object.el , currentSceneObjs  ) ;
+            console.log( 'First Intersect : ', intersects[ 0 ].object , currentSceneObjs  ) ;
 
             currentSceneObjs.forEach( obj => { 
                 if ( intersects[ 0 ].object.el ) {
