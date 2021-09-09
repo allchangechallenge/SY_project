@@ -218,6 +218,7 @@ let makarScenes = [] ;
 let sceneObjLoadList = {} ;
 
 let currentSceneObjs = [];
+let currentSceneObject3D = null;
 
 makarData.then( function( resolvedData ) {
     makarScenes = resolvedData.map( ( x ) => x ) ;
@@ -539,6 +540,11 @@ function to360( scene_id ) {
         if ( m.scene_id == scene_id ) {
             // theRaycaster( m.objs ) ;
             currentSceneObjs = m.objs;
+            
+            if (document.getElementById( scene_id )){
+                currentSceneObject3D = document.getElementById( scene_id ).object3D;
+            }
+
         }
     } ) ;
 
@@ -800,6 +806,11 @@ function theRaycaster(  ) {
     aScene.canvas.addEventListener( 'mouseup', function( event ){
 
         if ( currentSceneObjs.length == 0 ){
+            console.log('main_dev.js: _theRaycaster: currentSceneObjs error', currentSceneObjs );
+            return;
+        }
+        if (!currentSceneObject3D){
+            console.log('main_dev.js: _theRaycaster: currentSceneObject3D error', currentSceneObject3D );
             return;
         }
 
@@ -814,8 +825,8 @@ function theRaycaster(  ) {
         mouse.y = - ( y / aScene.canvas.clientHeight ) * 2 + 1 ;
 
         raycaster.setFromCamera( mouse, aScene.camera ) ;
-        let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
-        // let intersects = raycaster.intersectObjects( currentSceneObjs , true ) ;
+        // let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
+        let intersects = raycaster.intersectObject( currentSceneObject3D , true ) ;
         console.log( "Intersects : ", intersects ) ;
         if ( intersects.length > 0 ){
             console.log( 'First Intersect : ', intersects[ 0 ].object.el ) ;
@@ -829,6 +840,25 @@ function theRaycaster(  ) {
                                     console.log( 'hit ' + b.scene_id ) ;
 
                                     //// 這邊要判斷是否點擊到的場景已經載入完成
+                                    let sceneObject = document.getElementById( b.scene_id );
+                                    
+                                    if (sceneObject){
+                                        if ( sceneObject.loadState == 0 ){
+                                            //// 未載入狀態
+
+                                        }else if (sceneObject.loadState == 1){
+                                            //// 正在載入狀態
+
+                                        }else if ( sceneObject.loadState == 2 ){
+                                            ///// 已經載入狀態
+
+                                        }else{
+                                            console.log('main_dev.js: _theRaycaster: sceneObject loadState error', sceneObject.loadState ,sceneObject );
+                                        }
+                                    }else{
+
+                                    }
+
 
                                     if ( document.getElementById( b.scene_id ) != undefined ) {
                                         // console.log( 'hit ' + b.scene_id ) ;
