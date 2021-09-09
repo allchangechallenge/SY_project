@@ -2,6 +2,10 @@
 //// 測試使用 FBX model
 class CameraViewControl{
     constructor(){
+
+        this.fixPosition = new THREE.Vector3( 16 , 23 , 27 ); 
+        this.fixTarget = new THREE.Vector3( -9 , 4 , 2.5 ); 
+
         let aScene = document.getElementsByTagName( 'a-scene' )[ 0 ] ;   
 
         if (aScene.hasLoaded ){
@@ -13,20 +17,20 @@ class CameraViewControl{
             aScene.addEventListener('loaded', loaded );
 
             function loaded(){
-                console.log('cameraSceneControl.js: aScene 1 ' , aScene );
+                // console.log('cameraSceneControl.js: aScene 1 ' , aScene );
                 onASceneLoaded();
                 aScene.removeEventListener('loaded', loaded );
             }   
         }
 
         function onASceneLoaded(){
-            console.log("cameraSceneControl.js: _onASceneLoaded: ");
+            // console.log("cameraSceneControl.js: _onASceneLoaded: ");
 
 
         }
     }
 
-    setAndshowTags( bn ){
+    setShowTagsAndDisableOrbitControl( bn ){
 
         let self = this;
 
@@ -47,9 +51,14 @@ class CameraViewControl{
 
             //// 取得相機當前位置
             let camOP = cam.object3D.children[0].position.clone();
-            let camFP = new THREE.Vector3( 12 , 19 , 18 ); 
-
+            let camFP = self.fixPosition.clone() ; 
             let dp = camFP.clone().sub(camOP);
+
+            //// 取得 orbit 控制器當前的 目標數值
+            let camOTP = cam.components['orbit-controls'].controls.target.clone();
+            let camFTP = self.fixTarget.clone();
+            let dtp = camFTP.clone().sub(camOTP);
+
 
             let dur = dp.length()/30 + 0.05;
             dur = dur > 2? 2: dur;
@@ -61,14 +70,15 @@ class CameraViewControl{
                 onUpdate:function(){
                     
                     let qp = camOP.clone().add( dp.clone().multiplyScalar( this._time/ dur ) );
-                    
                     cam.object3D.children[0].position.copy(qp);
+
+                    let qtp = camOTP.clone().add( dtp.clone().multiplyScalar( this._time/ dur ) );
+                    cam.components['orbit-controls'].controls.target.copy(qtp);
 
                 },
                 onComplete: function(){
 
                     //// 計算 3D 場景內部的特定點，在2D 的位置
-                    
                     set3Dto2D( b_tag , b_cube );
                     set3Dto2D( y_tag , y_cube );
                     set3Dto2D( r_tag , r_cube );
@@ -82,8 +92,8 @@ class CameraViewControl{
                         point3D.project( aScene.camera ) ;
                         point2D.x = Math.round( ( 0.5 + point3D.x / 2 ) * ( aScene.canvas.width / window.devicePixelRatio ) ) ;
                         point2D.y = Math.round( ( 0.5 - point3D.y / 2 ) * ( aScene.canvas.height / window.devicePixelRatio ) ) ;
-                        div2D.style.top = point2D.y + 'px';
-                        div2D.style.left = point2D.x + 'px';
+                        div2D.style.top = (point2D.y - 20) + 'px';
+                        div2D.style.left = (point2D.x - 20) + 'px';
                         div2D.innerText = '';
                     }
 
@@ -119,8 +129,13 @@ class CameraViewControl{
 
             //// 取得相機當前位置
             let camOP = cam.object3D.children[0].position.clone();
-            let camFP = new THREE.Vector3( 12 , 19 , 18 ); 
+            let camFP = self.fixPosition.clone() ; 
             let dp = camFP.clone().sub(camOP);
+
+            //// 取得 orbit 控制器當前的 目標數值
+            let camOTP = cam.components['orbit-controls'].controls.target.clone();
+            let camFTP = self.fixTarget.clone();
+            let dtp = camFTP.clone().sub(camOTP);
 
             let dur = dp.length()/30 + 0.05;
             dur = dur > 2? 2: dur;
@@ -128,15 +143,14 @@ class CameraViewControl{
             tline.to(gsapEmpty, {
                 duration: dur,
                 onUpdate:function(){
-                    
                     let qp = camOP.clone().add( dp.clone().multiplyScalar( this._time/ dur ) );
-                    
                     cam.object3D.children[0].position.copy(qp);
+
+                    let qtp = camOTP.clone().add( dtp.clone().multiplyScalar( this._time/ dur ) );
+                    cam.components['orbit-controls'].controls.target.copy(qtp);
 
                 },
                 onComplete: function(){
-                    
-
                     //// 計算 3D 場景內部的特定點，在2D 的位置
                     set3Dto2D( g_tag , g_cube );
                     set3Dto2D( o_tag , o_cube );
@@ -149,11 +163,10 @@ class CameraViewControl{
                         point3D.project( aScene.camera ) ;
                         point2D.x = Math.round( ( 0.5 + point3D.x / 2 ) * ( aScene.canvas.width / window.devicePixelRatio ) ) ;
                         point2D.y = Math.round( ( 0.5 - point3D.y / 2 ) * ( aScene.canvas.height / window.devicePixelRatio ) ) ;
-                        div2D.style.top = point2D.y + 'px';
-                        div2D.style.left = point2D.x + 'px';
+                        div2D.style.top = (point2D.y - 20 ) + 'px';
+                        div2D.style.left = (point2D.x - 20 ) + 'px';
                         div2D.innerText = '';
                     }
-
                 }
             });
 
@@ -174,37 +187,28 @@ class CameraViewControl{
 
     }
 
-    hideTags( bn ){
-
-        console.log('cameraSceneControl.js: _hideTags: bn  ', bn );
-        
-        if ( bn.getAttribute('id') == 'button2-1-click' ){
-            
+    hideTagsAndEnableOrbitControl( bn ){
+        console.log('cameraSceneControl.js: _hideTagsAndEnableOrbitControl: bn  ', bn );
+        if ( bn.getAttribute('id') == 'button2-1-click' || bn.getAttribute('id') == 'button1-1-hover' ){
             let tline = gsap.timeline();
             ////  顯示遮罩
             tline.set(sceneMaskDiv, {visibility: 'visible'});
-
             //// 隱藏對應 div tag 
             tline.set('.tag360', {visibility: 'hidden'});
-
             tline.to( gsapEmpty, { 
                 duration: 0.1,
                 onStart:function(){
                     cam.setAttribute( 'orbit-controls', 'enabled : true' ) ;
                 }
             });
-
             ////  隱藏遮罩
             tline.set(sceneMaskDiv, {visibility: 'hidden'});
-
         }
 
         if ( bn.getAttribute('id') == 'button2-2-click' ){
-
             let tline = gsap.timeline();
             ////  顯示遮罩
             tline.set(sceneMaskDiv, {visibility: 'visible'});
-
             //// 隱藏對應 div tag 
             tline.set('.tagModel', {visibility: 'hidden'});
 
@@ -214,14 +218,203 @@ class CameraViewControl{
                     cam.setAttribute( 'orbit-controls', 'enabled : true' ) ;
                 }
             });
-
             ////  隱藏遮罩
             tline.set(sceneMaskDiv, {visibility: 'hidden'});
 
-            
-
         }
+    }
 
+    //// 「模型體驗」回到「固定視角且顯示模型進入點」
+    VRModelBackEvent(){
+
+        let self = this;
+
+        let tline = gsap.timeline();
+
+        //// 顯示遮罩
+        tline.set( sceneMaskDiv, {visibility: 'visible'} );
+
+        //// UI 調整
+        tline.set(template_vr, {display: 'none' });
+        tline.set(homePage, {display: 'block' });
+        tline.set(home_menu, {display: 'block', visibility: 'visible' });
+
+        //// 不確定要不要保留
+        menu_on = 0;
+        //// 相機切換
+        tline.to(gsapEmpty, {
+            duration: 1,
+            onStart:function(){
+                self.lookToOrbit();
+            },
+        });
+
+        //// 切換完成後，把 「對應 tag」給顯示出來
+        tline.set('.tagModel', {visibility: 'visible'});
+
+        //// 隱藏遮罩
+        tline.set( sceneMaskDiv, {visibility: 'hidden'} );
+
+    }
+
+    //// 從「360體驗」回到「固定視角且顯示 360 進入點」
+    VR360BackEvent(){
+
+        let self = this;
+
+        let tline = gsap.timeline();
+
+        //// 顯示遮罩
+        tline.set( sceneMaskDiv, {visibility: 'visible'} );
+
+        //// UI 調整
+        tline.set(template_360, {display: 'none' });
+        tline.set(homePage, {display: 'block' });
+        tline.set(home_menu, {display: 'block', visibility: 'visible' });
+
+        //// 不確定要不要保留
+        menu_on = 0;
+        //// 相機切換
+        tline.to(gsapEmpty, {
+            duration: 1,
+            onStart:function(){
+
+                homeModel.setAttribute( 'visible', 'true' ) ;
+
+                makarScenes.forEach( s => {
+                    if ( document.getElementById( s.scene_id ) ) document.getElementById( s.scene_id ).setAttribute( 'visible', 'false' ) ;
+                } ) ;
+
+                self.lookToOrbit();
+            },
+        });
+
+        //// 切換完成後，把 「對應 tag」給顯示出來
+        
+        tline.set( tags, {display: 'block'});
+        tline.set('.tag360', {visibility: 'visible'});
+
+        //// 隱藏遮罩
+        tline.set( sceneMaskDiv, {visibility: 'hidden'} );
+
+    }
+
+    lookToOrbit(){
+    
+        let self = this;
+
+        // Closing each items which its visibility is independent from template360
+        menu_on = 0 ;   // Back to initial state
+        
+        cam.setAttribute( 'camera', 'active', true ) ;
+        cam_360.setAttribute( 'camera', 'active', false ) ;
+
+        cam.setAttribute( 'look-controls', 'enabled : false' ) ;
+
+        let sceneCamRec = cam.object3D.position.clone() ;
+        cam.object3D.children[0].position.x = sceneCamRec.x ;
+        cam.object3D.children[0].position.y = sceneCamRec.y ;
+        cam.object3D.children[0].position.z = sceneCamRec.z ;
+        // console.log( cam.object3D.children[0].position.x, cam.object3D.children[0].position.y, cam.object3D.children[0].position.z ) ;
+
+        let rotRec = { 'x' : cam.components[ 'look-controls' ].pitchObject.rotation.x, 
+                    'y' : cam.components[ 'look-controls' ].yawObject.rotation.y, 'z' : 0 } ;
+
+        cam.object3D.children[0].rotation.reorder( 'YXZ' ) ;
+        cam.object3D.children[0].rotation.x = rotRec.x ;
+        cam.object3D.children[0].rotation.y = rotRec.y ;
+        cam.object3D.children[0].rotation.z = rotRec.z ;
+
+        cam.object3D.position.x = 0 ;
+        cam.object3D.position.y = 0 ;
+        cam.object3D.position.z = 0 ;
+
+        cam.components[ 'look-controls' ].yawObject.rotation.y = 0 ;
+        cam.components[ 'look-controls' ].pitchObject.rotation.x = 0 ;
+        cam.object3D.rotation.x = 0 ;
+        cam.object3D.rotation.y = 0 ;
+        cam.object3D.rotation.z = 0 ;
+
+        let target_pos = self.fixPosition.clone() ; 
+
+        // use lookat to determine the position to turn to 
+        let a = cam.object3D.children[0].clone()
+        a.rotation.reorder( 'YXZ' ) ;
+        a.position.x = target_pos.x ;
+        a.position.y = target_pos.y ;
+        a.position.z = target_pos.z ;
+
+        //// 會到的 目標位置給定
+        // a.lookAt( new THREE.Vector3( 0, 0, 0 ) ) ;
+        a.lookAt( self.fixTarget.clone() ) ;
+        
+        distance.ratio = 0 ;
+
+        var persCam = {
+            target : new THREE.Vector3( target_pos.x, target_pos.y, target_pos.z ),
+            origin : new THREE.Vector3( cam.object3D.children[0].position.x, 
+                                        cam.object3D.children[0].position.y, 
+                                        cam.object3D.children[0].position.z,  ),
+
+            rot_t : new THREE.Vector3( a.rotation.x, a.rotation.y, a.rotation.z ),
+            rot_o : new THREE.Vector3( rotRec.x, 
+                                    rotRec.y, 
+                                    rotRec.z,  ),
+        } ;
+        // console.log( persCam.target ) ;
+
+        if ( ( persCam.rot_t.x - persCam.rot_o.x ) > d_180 ) persCam.rot_t.x -= d_360 ;
+        if ( ( persCam.rot_t.x - persCam.rot_o.x ) < -1 * d_180 ) persCam.rot_t.x += d_360 ;
+        if ( ( persCam.rot_t.y - persCam.rot_o.y ) > d_180 ) persCam.rot_t.y -= d_360 ;
+        if ( ( persCam.rot_t.y - persCam.rot_o.y ) < -1 * d_180 ) persCam.rot_t.y += d_360 ;
+        if ( ( persCam.rot_t.z - persCam.rot_o.z ) > d_180 ) persCam.rot_t.z -= d_360 ;
+        if ( ( persCam.rot_t.z - persCam.rot_o.z ) < -1 * d_180 ) persCam.rot_t.z += d_360 ;
+        // console.log( persCam.rot_o, persCam.rot_t ) ;
+
+        var direction = {
+            pers_pos : persCam.target.clone().sub( persCam.origin.clone() ), 
+            pers_rot : persCam.rot_t.clone().sub( persCam.rot_o.clone() ), 
+        } ;
+        // console.log( direction.pers_rot ) ;
+
+        let orbitCam = anime( {
+                targets : distance,
+                duration : duration,
+                easing : 'linear',
+                round : 1,
+                ratio : 1000,
+                update : function() {
+                    let persPos = new THREE.Vector3( persCam.origin.x + direction.pers_pos.x * distance.ratio / 1000,
+                                                    persCam.origin.y + direction.pers_pos.y * distance.ratio / 1000,
+                                                    persCam.origin.z + direction.pers_pos.z * distance.ratio / 1000 )
+                    let persRot = new THREE.Vector3( persCam.rot_o.x + direction.pers_rot.x * distance.ratio / 1000,
+                                                    persCam.rot_o.y + direction.pers_rot.y * distance.ratio / 1000,
+                                                    persCam.rot_o.z + direction.pers_rot.z * distance.ratio / 1000 )
+
+                    cam.object3D.children[0].position.x = persPos.x ;
+                    cam.object3D.children[0].position.y = persPos.y ;
+                    cam.object3D.children[0].position.z = persPos.z ;
+
+                    cam.object3D.children[0].rotation.x = persRot.x ;
+                    cam.object3D.children[0].rotation.y = persRot.y ;
+                    cam.object3D.children[0].rotation.z = persRot.z ;
+
+                    // console.log( '***', cam.object3D.rotation , cam.object3D.children[0].rotation ) ;    
+
+                    // console.log( cam.object3D.children[0].rotation ) ;                                      
+                },
+                
+                complete : function() {
+
+                    //// 完成後不用開啟 控制
+                    // cam.setAttribute( 'orbit-controls', 'enabled : true' ) ;
+                }
+        } ) ;
+
+        //// 這邊將狀態改回「不是VR mode」
+        mode = 0 ;
+        
+        tag = 0 ;
 
     }
 
