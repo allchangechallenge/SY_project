@@ -482,7 +482,7 @@ function old_sizing() {
 
 function sizing() {
     home_menu.style.width = home_menu.offsetHeight * 0.62 + 'px' ;
-    console.log( "HOMEMENU SIIZING", home_menu.offsetHeight, home_menu.style.width ) ;
+    // console.log( "HOMEMENU SIIZING", home_menu.offsetHeight, home_menu.style.width ) ;
 }
 
 function to360( scene_id ) {
@@ -817,6 +817,7 @@ function theRaycaster(  ) {
         let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
         // let intersects = raycaster.intersectObjects( currentSceneObjs , true ) ;
         console.log( "Intersects : ", intersects ) ;
+
         if ( intersects.length > 0 ){
             console.log( 'First Intersect : ', intersects[ 0 ].object.el ) ;
 
@@ -1061,7 +1062,7 @@ function showModelControl( n ) {   // n == 1 => SongYan Travel
     let enter360 = [ b.buttonObj[ 'button2-1' ], b.buttonObj_hover[ 'button2-1-hover' ], b.buttonObj_click[ 'button2-1-click' ] ] ;
     let enterModel = [ b.buttonObj[ 'button2-2' ], b.buttonObj_hover[ 'button2-2-hover' ], b.buttonObj_click[ 'button2-2-click' ] ] ;
 
-    if ( enter360[ 0 ].style.visibility == 'visible' || enterModel[ 0 ].style.visibility == 'visible' || n == 0 ) {
+    if ( getComputedStyle( enter360[ 0 ] ).visibility == 'visible' || getComputedStyle( enterModel[ 0 ] ).visibility == 'visible' || n == 0 ) {
         enter360.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
         enterModel.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
         tags.style.display = 'none' ;
@@ -1107,8 +1108,8 @@ function tagAppear() {
             tags.style.display = 'inline' ;
             event.stopPropagation() ;
 
-            console.log('button2 click ', t  );
-            cameraViewControl.setShowTagsAndDisableOrbitControl( t );
+            // console.log('button2 click ', t  );
+            cameraViewControl.setAndshowTags( t );
 
             buttonController.buttonSelect[ buttonController.buttonChange[ t.id ][ 1 ] ] = 1 ;
         } ) ;
