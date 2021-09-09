@@ -47,19 +47,19 @@ let map_area = document.getElementById( 'map_area' ) ;
 let loc_icon = document.getElementById( 'loc_icon' ) ;
 let help_icon = document.getElementById( 'help_icon' ) ;
 
-var cam = document.getElementById( 'cam' ) ;
-var cam_360 = document.getElementById( 'cam_360' ) ;
+let cam = document.getElementById( 'cam' ) ;
+let cam_360 = document.getElementById( 'cam_360' ) ;
 
-var cam_obj = document.getElementById( 'cam_obj' ) ;
-var pers = document.getElementById( 'pers' ) ;
+let cam_obj = document.getElementById( 'cam_obj' ) ;
+let pers = document.getElementById( 'pers' ) ;
 
 let vr = 0 ;   // Determine whether it's a VR mode
-var tag = 0 ;   // Determine what kind of tags need to be display
+let tag = 0 ;   // Determine what kind of tags need to be display
 
-var distance = {
+let distance = {
                 ratio : 0
                } ;
-var duration = 1000 ;
+let duration = 1000 ;
 
 let d_180 = THREE.Math.degToRad( 180 ) ;
 let d_360 = THREE.Math.degToRad( 360 ) ;
@@ -103,7 +103,7 @@ function toVR( s ) {
         cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
         cam.object3D.children[0].rotation.reorder( 'YXZ' ) ;  
         // console.log( vrInfo[ s ][ 'vr_pos' ].x, vrInfo[ s ][ 'vr_pos' ].y, vrInfo[ s ][ 'vr_pos' ].z ) ;
-        var persCam = {
+        let persCam = {
             target : new THREE.Vector3( vrInfo[ s ][ 'vr_pos' ].x, vrInfo[ s ][ 'vr_pos' ].y, vrInfo[ s ][ 'vr_pos' ].z ),
             origin : new THREE.Vector3( cam.object3D.children[0].position.x, 
                                         cam.object3D.children[0].position.y, 
@@ -123,7 +123,7 @@ function toVR( s ) {
         if ( ( persCam.rot_t.z - persCam.rot_o.z ) > d_180 ) persCam.rot_t.z -= d_360 ;
         if ( ( persCam.rot_t.z - persCam.rot_o.z ) < -1 * d_180 ) persCam.rot_t.z += d_360 ;
 
-        var direction = {
+        let direction = {
             pers_pos : persCam.target.clone().add( persCam.origin.clone().multiplyScalar( -1 ) ), 
             pers_rot : persCam.rot_t.clone().add( persCam.rot_o.clone().multiplyScalar( -1 ) ), 
         } ;
@@ -175,7 +175,7 @@ function toVR( s ) {
             }
         } ) ;
 
-        for ( var i = 0 ; i < tag_obj.length ; i ++ ) tag_obj[ i ].style.visibility = "hidden" ;
+        for ( let i = 0 ; i < tag_obj.length ; i ++ ) tag_obj[ i ].style.visibility = "hidden" ;
 
         vr = 1 ;
         start_tick = 0 ;
@@ -218,10 +218,21 @@ let makarData = new Promise( ( resolve, reject ) => {
 
 let makarScenes = [] ;
 let sceneObjLoadList = {} ;
+
+let currentSceneObjs = [];
+
 makarData.then( function( resolvedData ) {
     makarScenes = resolvedData.map( ( x ) => x ) ;
-    createScene( resolvedData ) ; 
-    map_jump() ;
+    let pScenes =  createScene( resolvedData ) ; 
+
+    Promise.all( pScenes ).then(function( ret ){
+        console.log( ' xxx ', ret  );
+
+        map_jump() ;
+        theRaycaster();
+    });
+
+    
 } ) ;
 
 let sceneIdArr = [] ;   // Storing scene ids
@@ -233,54 +244,62 @@ function createScene( makarScenes ) {
     scene_360.appendChild( sceneObjs ) ;
 
     let p_arr = [] ;     // Collecting object loading promises from everything needs loading
-    // let syModelLoadPromise = new Promise ( ( resolve, reject ) => {
-    //     document.getElementById( 'homeModel' ).addEventListener( 'model-loaded', ( evt ) => {
-    //         console.log( "model-loaded" ) ;
-    //         resolve() ;
-    //     } ) ; 
-    // } ) ;
-    // p_arr.push( syModelLoadPromise ) ;     
+    
 
     // create all scene DOM elements but only create objects of the scenes on menu
-    let menuSceneObjLoaded = new Promise( ( resolve, reject ) => {
-        for ( var i = 0 ; i < makarScenes.length ; i++ ) {
-            // if ( i > 10 ) break ; 
-            let sceneObj = document.createElement( 'a-entity' ) ;
-    
-            sceneObj.setAttribute( 'id', makarScenes[ i ].scene_id ) ;
-            sceneObjs.appendChild( sceneObj ) ;
+    for ( let i = 0 ; i < makarScenes.length ; i++ ) {
+        // if ( i > 10 ) break ; 
+        let sceneObj = document.createElement( 'a-entity' ) ;
 
-            sceneIdArr.push( makarScenes[ i ].scene_id ) ;
-    
-            let asky = document.createElement( 'a-sky' ) ;
-            asky.setAttribute( 'id', makarScenes[ i ].scene_id + '_sky' ) ;
+        sceneObj.setAttribute( 'id', makarScenes[ i ].scene_id ) ;
+        sceneObjs.appendChild( sceneObj ) ;
+
+        sceneIdArr.push( makarScenes[ i ].scene_id ) ;
+
+        let asky = document.createElement( 'a-sky' ) ;
+        asky.setAttribute( 'id', makarScenes[ i ].scene_id + '_sky' ) ;
+        
+        sceneObj.appendChild( asky ) ;
+
+        //// 初始只有載入少數場景。紀錄狀態
+        if ( Object.values( scene_in_menu ).includes( makarScenes[ i ].scene_id ) ) {
+
             
-            sceneObj.appendChild( asky ) ;
+            let oneSceneLoadPromise = sceneObjsLoad( makarScenes[ i ], sceneObj ) ;  
+            p_arr.push( oneSceneLoadPromise ) ;
 
-            if ( Object.values( scene_in_menu ).includes( makarScenes[ i ].scene_id ) ) {
-                asky.setAttribute( 'material', { 'src' : makarScenes[ i ].scene_skybox_url } ) ;
-                let oneSceneLoadPromise = sceneObjsLoad( makarScenes[ i ], sceneObj ) ;  
-                p_arr.push( oneSceneLoadPromise ) ;
+            let pSky = new Promise(function( pSkyResolve, reject ){
+                asky.addEventListener('materialtextureloaded', function(evt){
+                    console.log(' --- ' , i , asky  );
+                    sceneObj.loadState = 1; //// 載入狀態 0.未載入 1. 物件載入中  2. 物件載入完成
+                    pSkyResolve(asky);
+                });
+            });
 
-                // console.log( makarScenes[ i ].scene_id ) ;
-                // console.log( oneSceneLoadPromise , makarScenes[ i ].scene_id ) ;
-            }
-    
-            if ( i == ( makarScenes.length - 1 ) ) resolve() ;
-        } 
-    } ) ;
+            p_arr.push( pSky ) ;
+            asky.setAttribute( 'material', { 'src' : makarScenes[ i ].scene_skybox_url } ) ;
+        
+            // console.log( makarScenes[ i ].scene_id ) ;
+            // console.log( oneSceneLoadPromise , makarScenes[ i ].scene_id ) ;
+        }else{
+            sceneObj.loadState = 0; //// 載入狀態 0.未載入 1. 物件載入中  2. 物件載入完成
+        }
+
+    } 
 
     Promise.all( p_arr ).then( () => {
         console.log( 'sceneObjs promise resolved' ) ; 
         console.log( p_arr ) ;
         loadPage.style.visibility = 'hidden' ;
     } ) ;
+
+    return p_arr;
 }
 
 function sceneObjsLoad( oneSceneObj, sceneObj ) {
     let img_p = [] ;
-    this.sceneObjsLoadPromise = new Promise( ( resolve, reject ) => {
-            for ( var i = 0 ; i < oneSceneObj.objs.length ; i ++ ) {
+    let sceneObjsLoadPromise = new Promise( ( resolve, reject ) => {
+            for ( let i = 0 ; i < oneSceneObj.objs.length ; i ++ ) {
                 let obj = oneSceneObj.objs[ i ] ;
         
                 let position = new THREE.Vector3().fromArray( obj.transform[ 0 ].split( ',' ).map( function( x ) { return Number( x ) } ) ) ;
@@ -299,7 +318,7 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
                         break ;
                 }
             }
-            Promise.all( img_p ).then( () => { resolve() ; } ) ;
+            Promise.all( img_p ).then( () => { resolve(oneSceneObj) ; } ) ;
         }
     ) ;
 
@@ -317,27 +336,28 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
 
     function loadImage( obj, sceneObj, position, rotation, scale ) {
     
-        this.loadPromise = function ( texture ) {
-            var texture = new THREE.TextureLoader().load( obj.res_url ) ;
-            // console.log( texture ) ;
+            let texture = new THREE.TextureLoader().load( obj.res_url ) ;
             
             let url_split_length = obj.res_url.split( '.' ).length ;
             let img_form = obj.res_url.split( '.' )[ url_split_length - 1 ].toLowerCase() ;
             let oneLoadPromise = new Promise( ( resolve, reject ) => {
                 let plane ;
                 if ( img_form == 'jpg' || img_form == 'jpeg' || img_form == 'png' ) {
-                            
+
                     plane = document.createElement( 'a-plane' ) ;
                     plane.setAttribute( 'src', obj.res_url ) ;
                     plane.setAttribute( 'id', obj.obj_id ) ;
                     plane.setAttribute( 'material', 'shader : flat ; side : double ; opacity : 1.0 ; transparent : true ; depthTest : true ; depthWrite : true' ) ;
         
                     plane.addEventListener( 'loaded', function( evt ) {
-                        // console.log( texture ) ; 
                         if ( evt.target == evt.currentTarget ) {
-                            if ( texture.image ) {
-                                plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
-                            }
+                            let timeoutID = setInterval( function () {
+                                if (texture.image){ 
+                                    plane.object3D.children[0].scale.set( texture.image.width * 1.2, texture.image.height * 1.2, 1 ) ;
+                                    resolve() ;
+                                    window.clearInterval(timeoutID);
+                                }
+                            }, 20 );
                             
                             plane.object3D.children[0].rotation.set( 0, Math.PI, 0 ) ;
                         }
@@ -346,14 +366,11 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
                     setTransform( plane, position, rotation, scale ) ;
                     
                     sceneObj.appendChild( plane ) ; 
-                    // console.log( 'append a-plane' ) ;
-                    resolve() ;
+                    
                 }    
             } ) ; 
             return oneLoadPromise ;
-        }
     
-        return loadPromise() ;
     }
     
     // Time to load some Chinese text
@@ -368,7 +385,7 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
         const isChinese = ( str ) => chinese_regex.test( str ) ;
     
         let str_len = 0 ;
-        for ( var i = 0 ; i < textList.length ; i ++ ) {
+        for ( let i = 0 ; i < textList.length ; i ++ ) {
             let c = textList[ i ] ;
             if ( isChinese( c ) ) str_len += 1.6 ;
             else if ( c == c.toUpperCase() && c != c.toLowerCase() ) str_len += 1 ;
@@ -382,7 +399,7 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
         text.setAttribute( 'back-color', obj.back_color ) ;
         text.setAttribute( 'side', 'double' ) ;
         
-        var fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/" ;
+        let fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/" ;
         fonts = [ fontUrl + "1-msdf.json", fontUrl + "2-msdf.json", fontUrl + "3-msdf.json", fontUrl + "4-msdf.json", 
                   fontUrl + "5-msdf.json", fontUrl + "6-msdf.json", fontUrl + "7-msdf.json", fontUrl + "8-msdf.json", 
                   fontUrl + "9-msdf.json", fontUrl + "10-msdf.json", fontUrl + "11-msdf.json", fontUrl + "12-msdf.json" ] ;
@@ -478,8 +495,6 @@ function to360( scene_id ) {
     old_sizing() ;   
     // console.log( 'Inside 360 scene' ) ;
 
-    console.log(' +++++++++ ', scene_id );
-
     // Set all 360 scenes to false
     // Get the camera rotation
     let cam_rot = new THREE.Vector3() ;
@@ -525,7 +540,8 @@ function to360( scene_id ) {
     // Attach raycaster on all the objects 
     makarScenes.forEach( m => { 
         if ( m.scene_id == scene_id ) {
-            theRaycaster( m.objs ) ;
+            // theRaycaster( m.objs ) ;
+            currentSceneObjs = m.objs;
         }
     } ) ;
 
@@ -604,7 +620,7 @@ function toOrbit() {
         
         distance.ratio = 0 ;
 
-        var persCam = {
+        let persCam = {
             target : new THREE.Vector3( target_pos.x, target_pos.y, target_pos.z ),
             origin : new THREE.Vector3( cam.object3D.children[0].position.x, 
                                         cam.object3D.children[0].position.y, 
@@ -625,7 +641,7 @@ function toOrbit() {
         if ( ( persCam.rot_t.z - persCam.rot_o.z ) < -1 * d_180 ) persCam.rot_t.z += d_360 ;
         // console.log( persCam.rot_o, persCam.rot_t ) ;
 
-        var direction = {
+        let direction = {
             pers_pos : persCam.target.clone().sub( persCam.origin.clone() ), 
             pers_rot : persCam.rot_t.clone().sub( persCam.rot_o.clone() ), 
         } ;
@@ -780,13 +796,15 @@ function map_jump() {
 }
 
 // --- Raycaster API ---
-function theRaycaster( sceneObjs ) {
+function theRaycaster(  ) {
     let mouse = new THREE.Vector2() ;
     let raycaster = new THREE.Raycaster() ;
     
     aScene.canvas.addEventListener( 'mouseup', function( event ){
 
-        console.log('  111111111   ' , sceneObjs );
+        if ( currentSceneObjs.length == 0 ){
+            return;
+        }
 
         if ( event.changedTouches ) {
             x = event.changedTouches[ 0 ].pageX ;
@@ -801,35 +819,41 @@ function theRaycaster( sceneObjs ) {
         raycaster.setFromCamera( mouse, aScene.camera ) ;
         let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
         console.log( "Intersects : ", intersects ) ;
-        console.log( 'First Intersect : ', intersects[ 0 ].object.el ) ;
-        console.log( '\n' ) ;
+        if ( intersects.length > 0 ){
+            console.log( 'First Intersect : ', intersects[ 0 ].object.el ) ;
+            console.log( '\n' ) ;
 
-        if (intersects.length > 0 ){
-            sceneObjs.forEach( obj => { 
-                if ( intersects[ 0 ].object.el ) {
-                    if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
-                        if ( obj.behav ) {
-                            obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
-                                console.log( 'hit ' + b.scene_id ) ;
-                                if ( document.getElementById( b.scene_id ) != undefined ) {
-                                    // console.log( 'hit ' + b.scene_id ) ;
-                                    to360( b.scene_id ) ; 
-                                }
-                                else {
-                                    document.getElementById( 'undef' ).style.visibility = 'visible' ;
-                                    setTimeout( function(){
-                                        document.getElementById( 'undef' ).style.visibility = 'hidden' ;
-                                    }, 2000 ) ;
-                                }
-                                                                                                
-                            } 
-                            } )
-                        }
-                    } 
-                }
-    
-            } ) ;
+            if (intersects.length > 0 ){
+                currentSceneObjs.forEach( obj => { 
+                    if ( intersects[ 0 ].object.el ) {
+                        if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
+                            if ( obj.behav ) {
+                                obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
+                                    console.log( 'hit ' + b.scene_id ) ;
+
+                                    //// 這邊要判斷是否點擊到的場景已經載入完成
+
+                                    if ( document.getElementById( b.scene_id ) != undefined ) {
+                                        // console.log( 'hit ' + b.scene_id ) ;
+                                        to360( b.scene_id ) ; 
+                                    }
+                                    else {
+                                        document.getElementById( 'undef' ).style.visibility = 'visible' ;
+                                        setTimeout( function(){
+                                            document.getElementById( 'undef' ).style.visibility = 'hidden' ;
+                                        }, 2000 ) ;
+                                    }
+                                                                                                    
+                                } 
+                                } )
+                            }
+                        } 
+                    }
+        
+                } ) ;
+            }
         }
+        
 
         
     } ) ;
