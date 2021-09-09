@@ -30,6 +30,8 @@ let home_menu = document.getElementById( 'home_menu' ) ;
 let middle_bottom = document.getElementById( 'middle_bottom' ) ;
 let icon = document.getElementById( 'icon' ) ;
 
+let homeMobile = document.getElementById( 'homeMobile' ) ;
+
 let templateVR = document.getElementById( 'template_vr' ) ;
 
 let template360 = document.getElementById( 'template_360' ) ;
@@ -53,7 +55,7 @@ let cam_360 = document.getElementById( 'cam_360' ) ;
 let cam_obj = document.getElementById( 'cam_obj' ) ;
 let pers = document.getElementById( 'pers' ) ;
 
-let vr = 0 ;   // Determine whether it's a VR mode
+let mode = 0 ;   // orbit( 0 ) / vr( 1 ) / 360( 2 )
 let tag = 0 ;   // Determine what kind of tags need to be display
 
 let distance = {
@@ -92,7 +94,7 @@ let scene_in_menu = {
                 }
 
 function toVR( s ) {
-    if ( vr != 1 ) {
+    if ( mode != 1 ) {
         // --- UI ---
         homePage.style.display = 'none' ;
         templateVR.style.display = 'block' ;
@@ -175,7 +177,7 @@ function toVR( s ) {
 
         for ( let i = 0 ; i < tag_obj.length ; i ++ ) tag_obj[ i ].style.visibility = "hidden" ;
 
-        vr = 1 ;
+        mode = 1 ;
         start_tick = 0 ;
     } 
 
@@ -225,7 +227,7 @@ makarData.then( function( resolvedData ) {
     let pScenes =  createScene( resolvedData ) ; 
 
     Promise.all( pScenes ).then(function( ret ){
-        console.log( ' xxx ', ret  );
+        // console.log( ' xxx ', ret  );
 
         map_jump() ;
         theRaycaster();
@@ -268,7 +270,7 @@ function createScene( makarScenes ) {
 
             let pSky = new Promise(function( pSkyResolve, reject ){
                 asky.addEventListener('materialtextureloaded', function(evt){
-                    console.log(' --- ' , i , asky  );
+                    // console.log(' --- ' , i , asky  );
                     sceneObj.loadState = 1; //// 載入狀態 0.未載入 1. 物件載入中  2. 物件載入完成
                     pSkyResolve(asky);
                 });
@@ -483,7 +485,7 @@ function old_sizing() {
 
 function sizing() {
     home_menu.style.width = home_menu.offsetHeight * 0.62 + 'px' ;
-    console.log( "HOMEMENU SIIZING", home_menu.offsetHeight, home_menu.style.width ) ;
+    // console.log( "HOMEMENU SIIZING", home_menu.offsetHeight, home_menu.style.width ) ;
 }
 
 function to360( scene_id ) {
@@ -554,12 +556,12 @@ function to360( scene_id ) {
         current_point.current_pos() ;
     }
 
-
-    vr = 1 ;
+    mode = 2 ;
     start_tick = 0 ;
 }
 
 function toOrbit() {
+    console.log( 'VRVR', mode ) ; 
     homeModel.setAttribute( 'visible', 'true' ) ;
     scene_360.setAttribute( 'visible', 'false' ) ;
 
@@ -569,6 +571,7 @@ function toOrbit() {
 
     template360.style.display = 'none' ;
     templateVR.style.display = 'none' ;
+
     homePage.style.display = 'block' ;
     
     home_menu.style.display = 'block' ; 
@@ -584,7 +587,7 @@ function toOrbit() {
     cam.setAttribute( 'camera', 'active', true ) ;
     cam_360.setAttribute( 'camera', 'active', false ) ;
    
-    if ( vr != 0 ) {
+    if ( mode != 0 ) {
         cam.setAttribute( 'look-controls', 'enabled : false' ) ;
  
         let sceneCamRec = cam.object3D.position.clone() ;
@@ -682,7 +685,7 @@ function toOrbit() {
                 }
         } ) ;
 
-        vr = 0 ;
+        mode = 0 ;
         
     } 
     tag = 0 ;
@@ -828,6 +831,7 @@ function theRaycaster(  ) {
         // let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
         let intersects = raycaster.intersectObject( currentSceneObject3D , true ) ;
         console.log( "Intersects : ", intersects ) ;
+
         if ( intersects.length > 0 ){
             console.log( 'First Intersect : ', intersects[ 0 ].object.el ) ;
 
@@ -879,10 +883,7 @@ function theRaycaster(  ) {
         
                 } ) ;
             }
-        }
-        
-
-        
+        }      
     } ) ;
 }
 
@@ -1015,7 +1016,7 @@ const buttonController = {
         } else {
             Object.values( this.rwdButtonObj ).forEach( btnEle => {
                 btnEle.addEventListener( 'click', function( event ){
-                    console.log( 'Hi Normal Click' ) ;
+                    // console.log( 'Hi Normal Click' ) ;
                     btnEle.style.visibility = 'hidden' ;
                     ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ]  ) ;
                     ctrl.rwdButtonObj_click[ ctrl.buttonChange[ btnEle.id] ].style.visibility = 'visible' ;
@@ -1045,8 +1046,8 @@ const buttonController = {
                     btnEle.style.visibility = 'hidden' ;
                     
                     ctrl.buttonObj_click[ ctrl.buttonChange[ btnEle.id ][ 1 ] ].style.visibility = 'visible' ;
-    
                     // console.log( '222', ctrl.buttonSelect ) ;
+                    cameraViewControl.hideTagsAndEnableOrbitControl( btnEle );
                     
                     event.stopPropagation() ;
                 } ) ;
@@ -1074,7 +1075,7 @@ const buttonController = {
         } else {
             Object.values( this.rwdButtonObj_click ).forEach( btnEle => {
                 btnEle.addEventListener( 'click', function( event ){
-                    console.log( 'Hi Select Click' ) ;
+                    // console.log( 'Hi Select Click' ) ;
                     btnEle.style.visibility = 'hidden' ;
                     ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ]  ) ;
                     ctrl.rwdButtonObj[ ctrl.buttonChange[ btnEle.id] ].style.visibility = 'visible' ;
@@ -1086,24 +1087,23 @@ const buttonController = {
 
 } ; 
 
-function showModelControl( n ) {   // n == 1 => SongYan Travel
+function showModelControl( n ) {   // when hover (0) => show the two normal / when clicked (1) => hide two normal
     let b = buttonController ;
     let enter360 = [ b.buttonObj[ 'button2-1' ], b.buttonObj_hover[ 'button2-1-hover' ], b.buttonObj_click[ 'button2-1-click' ] ] ;
     let enterModel = [ b.buttonObj[ 'button2-2' ], b.buttonObj_hover[ 'button2-2-hover' ], b.buttonObj_click[ 'button2-2-click' ] ] ;
 
-    if ( enter360[ 0 ].style.visibility == 'visible' || enterModel[ 0 ].style.visibility == 'visible' || n == 0 ) {
+    if ( n == 0 ) {
         enter360.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
         enterModel.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
-        tags.style.display = 'none' ;
-    } else {
         enter360[ 0 ].style.visibility = 'visible' ;
         enterModel[ 0 ].style.visibility = 'visible' ;
-    }
 
-    if ( n == 1 ) {
         toOrbit() ;
     }
- 
+    else if ( n == 1 ) {
+        enter360.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
+        enterModel.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
+    } 
 }
 
 // Use for activating button events in onload function
@@ -1127,17 +1127,18 @@ function buttonActive() {
 // --- Attach tag_appearing function to button2-1 and button2-2
 function tagAppear() {
     // console.log( btnController.buttonObj[ 'button2-1' ] ) ;
-    let tagControll = [ buttonController.buttonObj_hover[ 'button2-1-hover' ], buttonController.buttonObj_hover[ 'button2-2-hover' ] ] ;
+    let tagControll = [ buttonController.buttonObj_hover[ 'button2-1-hover' ], buttonController.buttonObj_hover[ 'button2-2-hover' ],
+                        buttonController.rwdButtonObj[ 'rwd-button1-1' ], buttonController.rwdButtonObj[ 'rwd-button1-2' ] ] ;
     tagControll.forEach( t => {
         t.addEventListener( 'click', function( event ) {
-            if ( t.id == 'button2-1-hover' ) tag = 2 ;
+            if ( t.id == 'button2-1-hover' || t.id == 'rwd-button1-1' ) tag = 2 ;
             else tag = 1 ;
 
             start_tick = 1 ;
             tags.style.display = 'inline' ;
             event.stopPropagation() ;
 
-            console.log('button2 click ', t  );
+            // console.log('button2 click ', t  );
             cameraViewControl.setShowTagsAndDisableOrbitControl( t );
 
             buttonController.buttonSelect[ buttonController.buttonChange[ t.id ][ 1 ] ] = 1 ;

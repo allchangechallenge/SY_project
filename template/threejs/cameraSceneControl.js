@@ -17,14 +17,14 @@ class CameraViewControl{
             aScene.addEventListener('loaded', loaded );
 
             function loaded(){
-                console.log('cameraSceneControl.js: aScene 1 ' , aScene );
+                // console.log('cameraSceneControl.js: aScene 1 ' , aScene );
                 onASceneLoaded();
                 aScene.removeEventListener('loaded', loaded );
             }   
         }
 
         function onASceneLoaded(){
-            console.log("cameraSceneControl.js: _onASceneLoaded: ");
+            // console.log("cameraSceneControl.js: _onASceneLoaded: ");
 
 
         }
@@ -34,7 +34,7 @@ class CameraViewControl{
 
         let self = this;
 
-        if ( bn.getAttribute('id') == 'button2-1-hover' ){
+        if ( bn.getAttribute('id') == 'button2-1-hover' || bn.getAttribute('id') == 'rwd-button1-1' ){
 
             let b_tag = document.getElementById('b_tag');
             let y_tag = document.getElementById('y_tag');
@@ -115,7 +115,7 @@ class CameraViewControl{
 
 
         }
-        if ( bn.getAttribute('id') == 'button2-2-hover' ){
+        if ( bn.getAttribute('id') == 'button2-2-hover' || bn.getAttribute('id') == 'rwd-button1-2' ){
 
             let g_tag = document.getElementById('g_tag');
             let o_tag = document.getElementById('o_tag');
@@ -189,7 +189,7 @@ class CameraViewControl{
 
     hideTagsAndEnableOrbitControl( bn ){
         console.log('cameraSceneControl.js: _hideTagsAndEnableOrbitControl: bn  ', bn );
-        if ( bn.getAttribute('id') == 'button2-1-click' ){
+        if ( bn.getAttribute('id') == 'button2-1-click' || bn.getAttribute('id') == 'button1-1-hover' ){
             let tline = gsap.timeline();
             ////  顯示遮罩
             tline.set(sceneMaskDiv, {visibility: 'visible'});
@@ -412,7 +412,7 @@ class CameraViewControl{
         } ) ;
 
         //// 這邊將狀態改回「不是VR mode」
-        vr = 0 ;
+        mode = 0 ;
         
         tag = 0 ;
 
