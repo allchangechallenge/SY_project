@@ -589,7 +589,7 @@ span.scroll {
     left: 50%;
     transform: translate(-50%, -50%);
 }
-#x_circle, #x_circle_360_mobile {
+#x_circle, #x_circle_360_mobile, #x_circle_vr_mobile {
     -webkit-mask: url( ../cutImage/button/button4-2-bottom.png ) no-repeat center center;
     mask: url( ../cutImage/button/button4-2-bottom.png ) no-repeat center center;
     -webkit-mask-size: contain;
@@ -606,7 +606,7 @@ span.scroll {
 #x_circle:hover {
     background-color: #88AB85;
 }
-#x, #x_360_mobile {
+#x, #x_360_mobile, #x_vr_mobile {
     background-color: white;
     -webkit-mask: url( ../cutImage/button/button4-2-del.png ) no-repeat center center;
     mask: url( ../cutImage/button/button4-2-del.png ) no-repeat center center;
@@ -978,12 +978,15 @@ span.scroll {
         -webkit-mask-size: 5.5vw;
         mask-size: 5.5vw;
     }
-    #template_vr_mobile {
+    #template_360_mobile, #template_vr_mobile, #template_vr_mask_mobile {
         position: absolute;
         z-index: 1;
         width: 100%;
         height: 100%;
-        pointer-events: none;
+        background-image: url( "../source/cutImage/bottom/bottom-12.svg" );
+        background-size: contain;
+        background-repeat: repeat;
+        opacity: 0.9;
         display: none;
     }
     #VRMobilebackModel {
@@ -998,29 +1001,23 @@ span.scroll {
         pointer-events: initial;
         cursor: pointer;
     }
-    #template_360_mobile {
-        position: absolute;
-        z-index: 2;
-        width: 100%;
-        height: 100%;
-        background-image: url( "../source/cutImage/bottom/bottom-12.svg" );
-        background-size: contain;
-        background-repeat: no-repeat;
-        opacity: 0.9;
-    }
     #template_360_mobileScroll {
         visibility: visible;
     }
     .scroll {
         text-align: center;
     }
-    #x_circle_360_mobile {
+    #template_vr_mask_mobile {
+        opacity: 0.5;
+        display: block;
+    }
+    #x_circle_360_mobile, #x_circle_vr_mobile {
         right: 43vw;
         top: 93vh;
         width: 7vw;
         height: 7vw;
     }
-    #x_360_mobile {
+    #x_360_mobile, #x_vr_mobile {
         width: 7vw;
         height: 7vw;
     }

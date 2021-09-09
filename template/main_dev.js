@@ -1170,6 +1170,9 @@ const RWD_UI = {
         'homeMobile' : document.getElementById( 'homeMobile' ),
         'homeMobile_menu' : document.getElementById( 'homeMobile_menu' ),
 
+        'up' : document.getElementById( 'up' ),
+        'down' : document.getElementById( 'down' ),
+
         'rwd-button1-3' : document.getElementById( 'rwd-button1-3' ),
         'rwd-button1-4' : document.getElementById( 'rwd-button1-4' ),
         'rwd-button1-3-click' : document.getElementById( 'rwd-button1-3-click' ),
@@ -1190,6 +1193,7 @@ const RWD_UI = {
 
     vr_template_obj : {
         'template_vr_mobile' : document.getElementById( 'template_vr_mobile' ),
+        'x_circle_vr_mobile' : document.getElementById( 'x_circle_vr_mobile' ),
     }, 
 
     s360_template_obj : {
@@ -1230,21 +1234,32 @@ const RWD_UI = {
         template360_obj[ 'template_360_mobile' ].style.display = 'block' ;
     },
 
-    exit360Menu : function() {
-        RWD_UI.s360_template_obj[ 'template_360_mobile' ].style.display = 'none' ;
-    },
-
     enterModelClick : function() {
-
+        let self = RWD_UI ;
+        let templateVR_obj = self.vr_template_obj ;  
+        
+        templateVR_obj[ 'template_vr_mobile' ].style.display = 'block' ;
+        self.homePage_obj[ 'up' ].style.pointerEvents = 'none' ;
+        self.homePage_obj[ 'down' ].style.pointerEvents = 'none' ;
     }, 
+
+    exitMobileTemplate : function( n ) {
+        let self = RWD_UI ;
+        self.vr_template_obj[ 'template_vr_mobile' ].style.display = 'none' ;
+        self.s360_template_obj[ 'template_360_mobile' ].style.display = 'none' ;
+    },
 
     homeButtonEvents : function() {
         let homeBtn = this.homePage_obj ;
         homeBtn[ 'homeMobile_menu' ].onclick = this.homeMenuClick ;
         homeBtn[ 'rwd-button1-1' ].onclick = this.enter360Click ;
+        homeBtn[ 'rwd-button1-2' ].onclick = this.enterModelClick ;
+
+        let vrBtn = this.vr_template_obj ;
+        vrBtn[ 'x_circle_vr_mobile' ].onclick = this.exitMobileTemplate ;
 
         let s360Btn = this.s360_template_obj ;
-        s360Btn[ 'x_circle_360_mobile' ].onclick = this.exit360Menu ;
+        s360Btn[ 'x_circle_360_mobile' ].onclick = this.exitMobileTemplate ;
     },
 
 }
