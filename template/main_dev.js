@@ -1,5 +1,5 @@
 let aScene = document.getElementsByTagName( 'a-scene' )[ 0 ] ;   // 1315, 898
-let loadPage = document.getElementById( 'load' ) ;
+let loadingLayout = document.getElementById( 'loadingLayout' ) ;
 
 let homeModel = document.getElementById( 'homeModel' ) ;
 let scene_360 = document.getElementById( 'scene_360' ) ;
@@ -75,21 +75,22 @@ let scene_in_menu = {
                     '松山菸廠歷史回顧' : 'd8d672ddb5894b9a92480fcf4649dfc4', 
                     '製菸工廠' : 'f7878d4894d946ffba58b453e8a13929',
                     '理葉工廠' : '94d7b04abd6e470ea1d289cb004b3a3c',
-                    '雪茄工廠' : '8469b106c80446988d71204a04713fc5',
+                    '雪茄工廠' : '8469b106c80446988d71204a04713fc5', //
                     '切葉工廠' : 'bdc6eda7c23743e8ad5d6d242cf46bc9',
                     '醫護室' : 'c0b4f403106442f2a83295a4cb5542b6',
-                    '巴洛克花園' : '3a11c445debc47939074a0c3297694df',
+                    '巴洛克花園' : '3a11c445debc47939074a0c3297694df', //
                     '澡堂' : '99808d3c19b14b3cab81b6821dab447d',
                     '多功能展演廳' : '15fd655f039d4da3a546ae174333de2f',
-                    '松菸口' : 'b5e7eeb146954a73af7a9248cff19543',
+                    '松菸口' : 'b5e7eeb146954a73af7a9248cff19543', //
                     '辦公廳舍與正門' : 'e6a9716f79fb4dce8fb27136340cba09',
                     '1-5號倉庫' : '8ed7325295d6420b85f9d796508cacaa',
                     '2號倉庫與輸送帶' : 'c7827db770f24a4e908cb81a91021f02',
                     '鍋爐房' : 'faaca8c43d854f1d8c5bf80a612dc8b0',
                     '機器修理廠' : 'fb1c680e707e4126901d4c6837c94c64',
-                    '生態景觀池' : '18522ccb12004b1f8b8f3961858c4465',
-                    '育嬰室' : 'c9d3fda09cf444aa8e1e90798e92997f' ,  
-                    }
+                    '生態景觀池' : '18522ccb12004b1f8b8f3961858c4465', //
+                    '育嬰室' : 'c9d3fda09cf444aa8e1e90798e92997f' ,
+                    
+                }
 
 function toVR( s ) {
     if ( mode != 1 ) {
@@ -221,7 +222,9 @@ let makarData = new Promise( ( resolve, reject ) => {
 let makarScenes = [] ;
 let sceneObjLoadList = {} ;
 
+//// 紀錄當前所在的「場景物件」「場景資訊」「場景本體」
 let currentSceneObjs = [];
+let currentSceneObject3D = null;
 
 makarData.then( function( resolvedData ) {
     makarScenes = resolvedData.map( ( x ) => x ) ;
@@ -270,7 +273,7 @@ function createScene( makarScenes ) {
 
             let pSky = new Promise(function( pSkyResolve, reject ){
                 asky.addEventListener('materialtextureloaded', function(evt){
-                    // console.log(' --- ' , i , asky  );
+                    // console.log('_createScene: _asky materialtextureloaded' , i , asky  );
                     sceneObj.loadState = 1; //// 載入狀態 0.未載入 1. 物件載入中  2. 物件載入完成
                     pSkyResolve(asky);
                 });
@@ -278,6 +281,10 @@ function createScene( makarScenes ) {
 
             p_arr.push( pSky ) ;
             asky.setAttribute( 'material', { 'src' : makarScenes[ i ].scene_skybox_url } ) ;
+
+            Promise.all([ pSky, oneSceneLoadPromise ]).then(function(){
+                sceneObj.loadState = 2; //// 載入狀態 0.未載入 1. 物件載入中  2. 物件載入完成
+            });
         
             // console.log( makarScenes[ i ].scene_id ) ;
             // console.log( oneSceneLoadPromise , makarScenes[ i ].scene_id ) ;
@@ -288,9 +295,9 @@ function createScene( makarScenes ) {
     } 
 
     Promise.all( p_arr ).then( () => {
-        console.log( 'sceneObjs promise resolved' ) ; 
-        console.log( p_arr ) ;
-        loadPage.style.visibility = 'hidden' ;
+        console.log( 'sceneObjs promise resolved' , p_arr ) ; 
+        
+        loadingLayout.style.visibility = 'hidden' ;
     } ) ;
 
     return p_arr;
@@ -314,11 +321,18 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
                         // p_arr.push( imgReturn ) ;
                         break ;
                     case 'text' :
-                        loadChinese( obj, sceneObj, position, rotation, scale ) ;
+                        // loadChinese( obj, sceneObj, position, rotation, scale ) ;
+
+                        loadText( obj, sceneObj, position, rotation, scale ) ;
                         break ;
                 }
             }
-            Promise.all( img_p ).then( () => { resolve(oneSceneObj) ; } ) ;
+            Promise.all( img_p ).then( () => { 
+                resolve(oneSceneObj) ; 
+
+                // console.log(' _sceneObjsLoad: resolve ', oneSceneObj );
+
+            } ) ;
         }
     ) ;
 
@@ -434,6 +448,126 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
         }
         else sceneObj.appendChild( anchor ) ;
     }
+
+
+    function loadText( obj, sceneObj , position, rotation, scale ){
+
+        let anchor = document.createElement('a-entity');
+            
+        setTransform(anchor, position, rotation, scale);
+
+        anchor.setAttribute( "id", obj.obj_id );//// fei add 
+        if (obj.behav){
+            anchor.setAttribute('class', "clickable" ); //// fei add
+        }else if (obj.main_type == "button"){
+            anchor.setAttribute('class', "clickable" );
+        }
+        else{
+            anchor.setAttribute('class', "unclickable" ); //// fei add
+        }
+        
+
+        let textEntity = document.createElement('a-text');
+
+        textEntity.setAttribute("geometry","primitive:plane; width: auto; height: auto; skipCache: true;");
+        textEntity.setAttribute("material","opacity: 0.0 ; depthWrite:false; color:#000000; side:double;");
+
+        textList = obj.content.split('\n');
+        let longestSplit = 0;
+        const REGEX_CHINESE = /[\u4e00-\u9fff]|[\u3400-\u4dbf]|[\u{20000}-\u{2a6df}]|[\u{2a700}-\u{2b73f}]|[\u{2b740}-\u{2b81f}]|[\u{2b820}-\u{2ceaf}]|[\uf900-\ufaff]|[\u3300-\u33ff]|[\ufe30-\ufe4f]|[\uf900-\ufaff]|[\u{2f800}-\u{2fa1f}]/u;
+        const isChinese = (str) => REGEX_CHINESE.test(str);
+        for (let i = 0; i < textList.length;i++) {
+            textLength = 0;
+            for (let j = 0; j <  textList[i].length; j++) {
+                if(isChinese(textList[i][j])){  // chinese
+                    textLength += 1.6;
+                }
+                else if(textList[i][j] == textList[i][j].toUpperCase() && textList[i][j] != textList[i][j].toLowerCase()){ // upper-case
+                    textLength += 1;
+                }
+                else if(textList[i][j] == textList[i][j].toLowerCase() && textList[i][j] != textList[i][j].toUpperCase()){ // lower-case
+                    // textLength += 0.85;
+                    textLength += 1;
+                }
+                else if(!isNaN(textList[i][j] * 1)){ //numeric
+                    textLength += 1;
+                }
+                else{ // other symbols
+                    textLength += 1.25;
+                }
+                
+            }
+            // console.log( textList[i], textLength);
+            if (textLength > longestSplit) longestSplit =textLength;
+        }
+        textEntity.setAttribute("value",obj.content);
+        textEntity.setAttribute("width",longestSplit*0.08)	// 4 for 0.46  per 0.115
+        textEntity.setAttribute("wrap-count",longestSplit); // 1 for 1 
+        textEntity.setAttribute("anchor","center");
+        textEntity.setAttribute("align","left");
+        
+        textEntity.setAttribute("backcolor", obj.back_color ); //// 這邊注意一重點，自己設定的 attribute 不能使用 『大寫英文』，否則aframe data內會找不到，參照 text物件
+        textEntity.setAttribute("textcolor", obj.color ); //// 暫時沒有用，假如未來文字支援『透明度』功能時候會需要
+
+        textEntity.setAttribute("side","double");
+
+        // textEntity.setAttribute("font","font/bbttf-msdf.json");
+        var fontUrl = "https://s3-ap-northeast-1.amazonaws.com/makar.webar.defaultobject/resource/fonts/";
+        fonts = [  fontUrl + "1-msdf.json", fontUrl + "2-msdf.json" , fontUrl + "3-msdf.json", fontUrl + "4-msdf.json", fontUrl + "5-msdf.json", 
+                    fontUrl + "6-msdf.json", fontUrl + "7-msdf.json" , fontUrl + "8-msdf.json", fontUrl + "9-msdf.json", fontUrl + "10-msdf.json", 
+                    fontUrl + "11-msdf.json", fontUrl + "12-msdf.json" ];
+        // fonts = [ fontUrl + "1-msdf.json" ];
+        textEntity.setAttribute("font", fonts );
+
+        textEntity.setAttribute("negate","false");
+        textEntity.setAttribute('crossorigin', 'anonymous');
+
+        let rgb = obj.color.split(",");
+        let color = new THREE.Color(parseFloat(rgb[0]),parseFloat(rgb[1]),parseFloat(rgb[2])); 
+        textEntity.setAttribute("color", "#"+color.getHexString());
+
+        if (obj.behav){
+            textEntity.setAttribute('class', "clickable" ); //// fei add
+        }else if (obj.main_type == "button"){
+            textEntity.setAttribute('class', "clickable" ); //// fei add
+        }
+        else{
+            textEntity.setAttribute('class', "unclickable" ); //// fei add
+        }        
+
+        textEntity.addEventListener("loaded", function(evt){
+            if (evt.target == evt.currentTarget){
+
+                let r = new THREE.Vector3();
+                r.set(0,Math.PI, 0); 
+                textEntity.object3D.rotation.setFromVector3(r);
+
+            }
+        });
+
+
+        ///
+        anchor.appendChild(textEntity);
+        ///
+        
+        if(obj.obj_parent_id){
+            let timeoutID = setInterval( function () {
+                let parent = document.getElementById(obj.obj_parent_id);
+                if (parent){ 
+                    if(parent.hasLoaded > 0){
+                        parent.appendChild(anchor);
+                        window.clearInterval(timeoutID);
+                    } 
+                }
+            }, 100 );
+        }
+        else{
+            sceneObj.appendChild(anchor);
+        }
+
+     
+    }
+
     return sceneObjsLoadPromise ;
 }
 
@@ -542,7 +676,13 @@ function to360( scene_id ) {
     makarScenes.forEach( m => { 
         if ( m.scene_id == scene_id ) {
             // theRaycaster( m.objs ) ;
-            currentSceneObjs = m.objs;
+            
+            if (document.getElementById( scene_id )){
+                currentSceneObject3D = document.getElementById( scene_id ).object3D;
+                currentSceneObjs = m.objs;
+                console.log(' _to360: set current scene info ' , currentSceneObject3D  );
+            }
+
         }
     } ) ;
 
@@ -797,14 +937,138 @@ function map_jump() {
     purple_dot.create_dot( 'p_tag' ) ;
 }
 
+//// 把「依靠 場景id 判斷場景載入狀況」的功能獨立出來在此
+
+function checkSceneLoadStateAndLoadScene( scene_id ){
+
+    //// 這邊要判斷是否點擊到的場景已經載入完成
+    let sceneObject = document.getElementById( scene_id );
+                                    
+    if (sceneObject){
+        if ( sceneObject.loadState == 0 ){
+            //// 未載入狀態
+            console.log('main_dev.js: _theRaycaster: sceneObject loadState 0 ' , sceneObject , scene_id  );
+
+            sceneObject.loadState = 1; //// 載入狀態 0.未載入 1. 物件載入中  2. 物件載入完成
+
+            loadingLayout.style.visibility = 'visible' ;
+
+            ////  先載入場景物件，再進入
+            let sceneJson;
+            makarScenes.forEach( m => { 
+                if ( m.scene_id == scene_id ) {
+                    sceneJson = m;
+                }
+            }) ;
+
+            if (sceneJson){
+
+                let oneSceneLoadPromise = sceneObjsLoad( sceneJson , sceneObject ) ;  
+                let aSky = document.getElementById( scene_id + '_sky' );
+                let pSky = new Promise(function( pSkyResolve, reject ){
+                    aSky.addEventListener('materialtextureloaded', function(evt){
+                        console.log('main_dev.js: _theRaycaster:: _asky materialtextureloaded' , aSky  );
+                        pSkyResolve(aSky);
+                    });
+                });
+
+                aSky.setAttribute( 'material', { 'src' : sceneJson.scene_skybox_url } ) ;
+
+                Promise.all( [oneSceneLoadPromise, pSky] ).then(function(ret){
+                    console.log('main_dev.js: _theRaycaster:: promise all' , ret  );
+
+                    sceneObject.loadState = 2; //// 載入狀態 0.未載入 1. 物件載入中  2. 物件載入完成
+
+                    to360( scene_id ) ; 
+                    loadingLayout.style.visibility = 'hidden' ;
+                });
+
+            }
+
+        }else if (sceneObject.loadState == 1){
+            //// 正在載入狀態，直接跳轉
+            console.log('main_dev.js: _theRaycaster: sceneObject _loadState 1');
+            to360( scene_id ) ; 
+
+        }else if ( sceneObject.loadState == 2 ){
+            ///// 已經載入狀態，直接跳轉
+            console.log('main_dev.js: _theRaycaster: sceneObject _loadState 2');
+
+            to360( scene_id ) ; 
+
+        }else{
+            console.log('main_dev.js: _theRaycaster: sceneObject _loadState error', sceneObject.loadState ,sceneObject );
+        }
+    }else{
+
+    }
+
+
+}
+
+
+
 // --- Raycaster API ---
 function theRaycaster(  ) {
+
+
+    function getMouse(event){
+        let rect = aScene.renderer.domElement.getBoundingClientRect();
+
+        switch ( event.type ) {
+            case "mouseup":
+            case "mousemove":
+            case "mousedown":
+                mouse.x = ( (event.clientX - rect.left) / aScene.renderer.domElement.clientWidth ) * 2 - 1; // GLRenderer.domElement.clientWidth window.innerWidth
+                mouse.y = - ( (event.clientY - rect.top) / aScene.renderer.domElement.clientHeight ) * 2 + 1; // GLRenderer.domElement.clientHeight  window.innerHeight
+                break;
+            case "touchend":////// 20190709 Fei: add this event type for cellphone
+            case "touchstart":
+            case "touchmove":
+                mouse.x = ( (event.changedTouches[0].clientX - rect.left) / aScene.renderer.domElement.clientWidth ) * 2 - 1; // GLRenderer.domElement.clientWidth window.innerWidth
+                mouse.y = - ( (event.changedTouches[0].clientY - rect.top) / aScene.renderer.domElement.clientHeight ) * 2 + 1; // GLRenderer.domElement.clientHeight  window.innerHeight
+                break;
+            default:
+                // console.log("default endEvent: event.type=", event.type, " not mouseup/touchend, return ");
+                return ;
+        }
+        return mouse.clone();
+    }
+
+
+    let preMouse = new THREE.Vector2();
     let mouse = new THREE.Vector2() ;
     let raycaster = new THREE.Raycaster() ;
-    
+
+    let mouseState = 0; //// 紀錄滑鼠狀態， 0. down , 1. move, 2. up
+    aScene.canvas.addEventListener( 'mousedown', function( event ){
+        preMouse = getMouse(event);
+        mouseState = 0;
+    });
+
+    aScene.canvas.addEventListener( 'mousemove', function( event ){
+        if ( mouseState == 0){
+            let moveMouse = getMouse(event);
+            if ( moveMouse.sub(preMouse).length() > 0.05 ){
+                mouseState = 1;					
+            }
+        }
+    });
+
     aScene.canvas.addEventListener( 'mouseup', function( event ){
 
+        //// 假如滑鼠有作過位移，則不往下觸發
+        if (mouseState == 1){
+            console.log('main_dev.js: _theRaycaster: mouseState 1 return' );
+            return;
+        }
+
         if ( currentSceneObjs.length == 0 ){
+            console.log('main_dev.js: _theRaycaster: _currentSceneObjs error', currentSceneObjs );
+            return;
+        }
+        if (!currentSceneObject3D){
+            console.log('main_dev.js: _theRaycaster: _currentSceneObject3D error', currentSceneObject3D );
             return;
         }
 
@@ -819,42 +1083,28 @@ function theRaycaster(  ) {
         mouse.y = - ( y / aScene.canvas.clientHeight ) * 2 + 1 ;
 
         raycaster.setFromCamera( mouse, aScene.camera ) ;
-        let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
-        // let intersects = raycaster.intersectObjects( currentSceneObjs , true ) ;
-        console.log( "Intersects : ", intersects ) ;
-
+        // let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
+        let intersects = raycaster.intersectObject( currentSceneObject3D , true ) ;
         if ( intersects.length > 0 ){
-            console.log( 'First Intersect : ', intersects[ 0 ].object.el ) ;
+            console.log( 'First Intersect : ', intersects[ 0 ].object , currentSceneObjs  ) ;
 
-            if (intersects.length > 0 ){
-                currentSceneObjs.forEach( obj => { 
-                    if ( intersects[ 0 ].object.el ) {
-                        if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
-                            if ( obj.behav ) {
-                                obj.behav.forEach( b => { if ( b.simple_behav == 'SceneChange' ) { 
-                                    console.log( 'hit ' + b.scene_id ) ;
+            currentSceneObjs.forEach( obj => { 
+                if ( intersects[ 0 ].object.el ) {
+                    if ( obj.obj_id == intersects[ 0 ].object.el.id ) {
+                        if ( obj.behav ) {
+                            obj.behav.forEach( b => { 
+                                if ( b.simple_behav == 'SceneChange' ) { 
 
-                                    //// 這邊要判斷是否點擊到的場景已經載入完成
+                                    checkSceneLoadStateAndLoadScene( b.scene_id );
 
-                                    if ( document.getElementById( b.scene_id ) != undefined ) {
-                                        // console.log( 'hit ' + b.scene_id ) ;
-                                        to360( b.scene_id ) ; 
-                                    }
-                                    else {
-                                        document.getElementById( 'undef' ).style.visibility = 'visible' ;
-                                        setTimeout( function(){
-                                            document.getElementById( 'undef' ).style.visibility = 'hidden' ;
-                                        }, 2000 ) ;
-                                    }
-                                                                                                    
                                 } 
-                                } )
-                            }
-                        } 
-                    }
-        
-                } ) ;
-            }
+                            } )
+                        }
+                    } 
+                }
+    
+            } ) ;
+            
         }      
     } ) ;
 }
@@ -1118,6 +1368,30 @@ function tagAppear() {
             buttonController.buttonSelect[ buttonController.buttonChange[ t.id ][ 1 ] ] = 1 ;
         } ) ;
     } ) ;
+
+    //// 建構「tag hover」的對應事件
+
+    [ b_tag, y_tag, r_tag, p_tag, g_tag, o_tag ].forEach( e => {
+
+        let tline = gsap.timeline();
+        let tag_top = e.getElementsByClassName('tag_top')[0];
+            
+        e.onmouseenter = function(){
+            tline.clear();
+            tline.to(tag_top, {duration: 0.01, display: 'block' });
+            // tline.to(e, {duration: 0.3, scale: 5 });
+            tline.to(e, {duration: 0.3, width: "200px", height: "200px", fontSize:'20px' });
+        }
+
+        e.onmouseleave = function(){
+            tline.clear();
+
+            tline.to(tag_top, {duration: 0.01, display: 'none' });
+            // tline.to(e, {duration: 0.3, scale: 1 });
+            tline.to(e, {duration: 0.3, width: "40px", height: "40px" , fontSize:'12px' });
+        }
+    });
+
 }
 
 // --- Full screen function ---
