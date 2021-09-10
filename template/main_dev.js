@@ -656,6 +656,12 @@ function to360( scene_id ) {
     scroll_menu.style.visibility = 'visible' ;
     scroll_menu_icon.style.visibility = 'visible' ;
 
+    // --- Mobile UI ---
+    if ( rwd == 1 ) {
+        RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
+        RWD_UI.view360_obj[ 'view_360_mobile' ].style.display = 'block' ;
+    }
+
     cam.setAttribute( 'camera', 'active', false ) ;
     cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
     
@@ -1468,6 +1474,15 @@ const RWD_UI = {
         'template_360_mobile' : document.getElementById( 'template_360_mobile' ),
         'x_circle_360_mobile' : document.getElementById( 'x_circle_360_mobile' ),
     },
+
+    view360_obj : {
+        'view_360_mobile' : document.getElementById( 'view_360_mobile' ),
+    },
+
+    viewVR_obj : {
+
+    },
+
 
     record : {
         'homeMenuOn' : 0,

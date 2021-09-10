@@ -18,37 +18,6 @@ body {
     position: absolute;
     z-index: 5;
 }
-#loadPage {
-    width: 100%;
-    height: 100%;
-    background-color: darkcyan;
-    opacity: 50%;
-    position: absolute;
-    z-index: 4;
-    width: 100%;
-    height: 100%;
-    background-color: #EAC788;
-    visibility: visible;
-}
-#loadContainer {
-    position: absolute;
-    width: 370px;
-    height: 90px;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(-50%, -50%);
-    /* background-color: lightblue; */
-}
-#loadBottom {
-    background-image: url( "../source/cutImage/load/loading-bottom.svg" );
-    background-size: contain;
-    background-repeat: no-repeat;
-    width: 370px;
-    height: 62px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
 
 /* Loading Layout */
 #loadingLayout{
@@ -86,7 +55,6 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     background-image: url("../cutImage/loading/loading-text.svg");
-
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -104,21 +72,15 @@ body {
     animation:2s loadingAfter infinite ease-in-out;
 }
 @keyframes loadingAfter {
-    0%   {transform: translateX(0px) translateY(0px) scale(1);}
-    50%  {transform: translateX(230px) translateY(10px) scale(0.4);}
-    100% {transform: translateX(0px) translateY(0px) scale(1);}
+    0%   { transform: translateX(0px) translateY(0px) scale(1); }
+    50%  { transform: translateX(230px) translateY(10px) scale(0.4); }
+    100% { transform: translateX(0px) translateY(0px) scale(1); }
 }
-
-
-
-
-
-
 
 #homeBackground {
     position: absolute;
     z-index: 0;
-    background-image: url(../source/cutImage/bottom/bottom-01@2x.png);
+    background-image: url( "../source/cutImage/bottom/bottom-01@2x.png" );
     top: 0%;
     width: 100%;
     height: 100%;
@@ -140,7 +102,7 @@ body {
     right: 0%;
     bottom: 0%;
 }
-#homeMobile, #template_vr_mobile, #template_360_mobile {
+#homeMobile, #template_vr_mobile, #template_360_mobile, #view_360_mobile {
     display: none ; 
 }
 
@@ -694,9 +656,11 @@ span.scroll {
     background-color: #eac788;
     position: absolute;
     right: -2%;
-    top: -3%;
     width: 40px;
     height: 40px;
+}
+#x_circle {
+    top: -3%;
 }
 #x_circle:hover {
     background-color: #88AB85;
@@ -954,16 +918,16 @@ span.scroll {
         height: 36vw;
         top: 0%;
         left: 0%;
-        background-image: url(../source/cutImage/bottom/bottom-04-1@2x.png);
+        background-image: url( "../source/cutImage/bottom/bottom-04-1@2x.png" );
         background-size: contain;
         background-repeat: no-repeat;
     }
-    #homeMobile_menu {
+    #homeMobile_menu, #view_360_menu {
         position: absolute;
-        top: 12vw;
-        left: 5vw;
-        width: 6.261vw;
-        height: 6.261vw;
+        top: 31%;
+        left: 17%;
+        width: 22.261%;
+        height: 20%;
         user-select: none;
         pointer-events: initial;
         background-color: #eac788;
@@ -971,6 +935,15 @@ span.scroll {
         mask: url( "../cutImage/button/button4-3-ham.png" ) no-repeat center center;
         -webkit-mask-size: contain;
         mask-size: contain;
+    }
+    #view_360_menu {
+        position: absolute;
+        z-index: 1;
+        top: 0px;
+        left: 0px;
+        width: 50px;
+        height: 50px;
+        background-color: white;
     }
     #up {
         width: 100vw;
@@ -1087,7 +1060,7 @@ span.scroll {
     }
     #template_360_mobile, #template_vr_mobile, #template_vr_mask_mobile {
         position: absolute;
-        z-index: 1;
+        z-index: 2;
         width: 100%;
         height: 100%;
         background-image: url( "../source/cutImage/bottom/bottom-12.svg" );
@@ -1164,16 +1137,100 @@ span.scroll {
     }
     #x_circle_360_mobile, #x_circle_vr_mobile {
         right: 45vw;
-        top: 90vh;
+        bottom: 6vh;
         width: 7vw;
         height: 7vw;
-    }
-    #x_circle_vr_mobile {
-        top: 0vh;
     }
     #x_360_mobile, #x_vr_mobile {
         width: 7vw;
         height: 7vw;
+    }
+    #view_360_mobile {
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+    }
+    #view_360_middle_bottom {
+        position: absolute;
+        z-index: 1;
+        bottom: 20px;
+        left: 50vw;
+        transform: translateX(-50%);
+        width: 243px;
+        height: 36px;
+        /* border: turquoise 2px solid; */
+        background-image: url( "../source/cutImage/bottom/bottom-05@2x.png" );
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    #view360_mobile_icon {
+        position: absolute;
+        top: 0;
+        left: 43%;
+        transform: translateX(-25%);
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+    }
+    #view360_loc_back {
+        -webkit-mask: url("../cutImage/button/button4-1-bottom-gps.png") no-repeat center center;
+        mask: url("../cutImage/button/button4-1-bottom-gps.png") no-repeat center center;
+        -webkit-mask-size: 96% 96%;
+        mask-size: 96% 96%;
+    }
+    #view360_vr_back {
+        -webkit-mask: url("../cutImage/button/button4-1-bottom-vr.png") no-repeat center center;
+        mask: url("../cutImage/button/button4-1-bottom-vr.png") no-repeat center center;
+        -webkit-mask-size: 96% 96%;
+        mask-size: 96% 96%;
+    }
+    #view360_ques_back {
+        -webkit-mask: url("../cutImage/button/button4-1-bottom-circle.png") no-repeat center center;
+        mask: url("../cutImage/button/button4-1-bottom-circle.png") no-repeat center center;
+        -webkit-mask-size: 96% 96%;
+        mask-size: 96% 96%;
+    }
+    .view360_mobile_bottom_icon {
+        margin-right: 20px;
+        background-color: #88AB85;
+        height: 100%;
+        width: 15%;
+    }
+    #view360_location {
+        background-color: white;
+        height: 100%;
+        width: 100%;
+        -webkit-mask: url(../cutImage/button/button4-1-icon-gps.png) no-repeat center center;
+        mask: url(../cutImage/button/button4-1-icon-gps.png) no-repeat center center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        pointer-events: initial;
+        cursor: pointer;
+    }
+    #view360_vr {
+        background-color: white;
+        height: 100%;
+        width: 100%;
+        -webkit-mask: url(../cutImage/button/button4-1-icon-vr.png) no-repeat center center;
+        mask: url(../cutImage/button/button4-1-icon-vr.png) no-repeat center center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        pointer-events: initial;
+        cursor: pointer;
+    }
+    #view360_ques {
+        background-color: white;
+        height: 100%;
+        width: 100%;
+        -webkit-mask: url("../cutImage/button/button4-1-icon-ques.png") no-repeat center center;
+        mask: url("../cutImage/button/button4-1-icon-ques.png") no-repeat center center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        pointer-events: initial;
+        cursor: pointer;
     }
 
 }
