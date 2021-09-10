@@ -516,9 +516,10 @@ body {
     position: absolute;
     z-index: 2;
     top: 30px;
-    margin-left: 30px;
-    width: 11%;
+    width: 9.2%;
+    height: 6.9%;
     min-width: 150px;
+    margin-left: 30px;
     /* margin-left: 7%; */
 }
 #icon_bottom_360 {
