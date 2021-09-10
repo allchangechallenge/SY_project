@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="630" height="590" viewBox="0 0 630 590">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectangle_234" data-name="Rectangle 234" width="630" height="590" transform="translate(10293 4033)" fill="none" stroke="#707070" stroke-width="1"/>
+    </clipPath>
+  </defs>
+  <g id="window_shadow" data-name="window/shadow" transform="translate(-10293 -4033)" clip-path="url(#clip-path)">
+    <rect id="Rectangle_233" data-name="Rectangle 233" width="600" height="560" rx="12" transform="translate(10308 4048)" fill="rgba(42,76,36,0.4)"/>
+  </g>
+</svg>
