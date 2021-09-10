@@ -70,7 +70,7 @@ let id_to_scene = { 'b_tag' : 'b5e7eeb146954a73af7a9248cff19543',    // 導覽�
                     'y_tag' : '3a11c445debc47939074a0c3297694df',   // 閱樂書店
                     'r_tag' : '18522ccb12004b1f8b8f3961858c4465',    // 生態景觀池
                     'p_tag' : '8469b106c80446988d71204a04713fc5' }   // 琉璃工坊-1
-
+            
 let scene_in_menu = {
                     '松山菸廠歷史回顧' : 'd8d672ddb5894b9a92480fcf4649dfc4', 
                     '製菸工廠' : 'f7878d4894d946ffba58b453e8a13929',
@@ -236,7 +236,6 @@ makarData.then( function( resolvedData ) {
         map_jump() ;
         theRaycaster();
     });
-
     
 } ) ;
 
@@ -656,10 +655,6 @@ function to360( scene_id ) {
 
     scroll_menu.style.visibility = 'visible' ;
     scroll_menu_icon.style.visibility = 'visible' ;
-
-    // --- Mobile UI ---
-    RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
-    RWD_UI.s360_template_obj[ 'template_360_mobile' ].style.display = 'block' ;
 
     cam.setAttribute( 'camera', 'active', false ) ;
     cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
@@ -1520,6 +1515,8 @@ const RWD_UI = {
         let self = RWD_UI ;
         self.vr_template_obj[ 'template_vr_mobile' ].style.display = 'none' ;
         self.s360_template_obj[ 'template_360_mobile' ].style.display = 'none' ;
+        self.homePage_obj[ 'up' ].style.pointerEvents = 'initial' ;
+        self.homePage_obj[ 'down' ].style.pointerEvents = 'initial' ;
     },
 
     homeButtonEvents : function() {
