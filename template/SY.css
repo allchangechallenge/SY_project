@@ -839,13 +839,15 @@ span.scroll {
         margin-left: 3.2vw;
         width: 27.546vw;
         min-width: 0%;
+        max-width: 136px;
     }
     #icon_bottom_mobile, #icon_bottom_vrMobile {
         position: absolute;
         z-index: 0;
-        width: 36%;
+        width: 36vw;
         min-width: 0%;
-        height: 16.7%;
+        max-width: 178px;
+        height: 36vw;
         top: 0%;
         left: 0%;
         background-image: url(../source/cutImage/bottom/bottom-04-1@2x.png);
@@ -854,11 +856,12 @@ span.scroll {
     }
     #homeMobile_menu {
         position: absolute;
-        top: 14vw;
-        left: 8vw;
+        top: 12vw;
+        left: 5vw;
         width: 6.261vw;
         height: 6.261vw;
         user-select: none;
+        pointer-events: initial;
         background-color: #eac788;
         -webkit-mask: url( "../cutImage/button/button4-3-ham.png" ) no-repeat center center;
         mask: url( "../cutImage/button/button4-3-ham.png" ) no-repeat center center;
@@ -1007,15 +1010,62 @@ span.scroll {
     .scroll {
         text-align: center;
     }
-    #template_vr_mask_mobile {
-        opacity: 0.5;
-        display: block;
+    #template_vr_mobile {
+        overflow: auto;
+    }
+    .circleSite {
+        position: absolute;
+        background-image: url(../source/cutImage/button/button3-2-normal-frame.svg);
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 33vh;
+        width: 68vw;
+        left: 18vw;
+    }
+    #site1 {
+        top: 3%;
+    }
+    #site2 {
+        top: 36%;
+    }
+    #site3 {
+        top: 69%;
+    }
+    #site4 {
+        top: 102%;
+    }
+    #site5 {
+        top: 135%;
+    }
+    .circleTag {
+        background-image: url( "../source/cutImage/button/button3-2-hover-banner@2x.png" );
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        height: 6vh;
+        width: 100%;
+        position: absolute;
+    }
+    #navi_bar {
+        position: -webkit-sticky;
+        position: sticky;
+        z-index: 1;
+        top: 90%;
+        height: 10vh;
+        width: 100%;
+        /* background-color: #ffffe280; */
+        background: -webkit-linear-gradient(top,#ffffe200,#ffffe2);
+        opacity: 1.0;
     }
     #x_circle_360_mobile, #x_circle_vr_mobile {
-        right: 43vw;
-        top: 93vh;
+        right: 45vw;
+        top: 90vh;
         width: 7vw;
         height: 7vw;
+    }
+    #x_circle_vr_mobile {
+        top: 0vh;
     }
     #x_360_mobile, #x_vr_mobile {
         width: 7vw;
