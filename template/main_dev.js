@@ -1373,6 +1373,30 @@ function tagAppear() {
             buttonController.buttonSelect[ buttonController.buttonChange[ t.id ][ 1 ] ] = 1 ;
         } ) ;
     } ) ;
+
+    //// 建構「tag hover」的對應事件
+
+    [ b_tag, y_tag, r_tag, p_tag, g_tag, o_tag ].forEach( e => {
+
+        let tline = gsap.timeline();
+        let tag_top = e.getElementsByClassName('tag_top')[0];
+            
+        e.onmouseenter = function(){
+            tline.clear();
+            tline.to(tag_top, {duration: 0.01, display: 'block' });
+            // tline.to(e, {duration: 0.3, scale: 5 });
+            tline.to(e, {duration: 0.3, width: "200px", height: "200px", fontSize:'20px' });
+        }
+
+        e.onmouseleave = function(){
+            tline.clear();
+
+            tline.to(tag_top, {duration: 0.01, display: 'none' });
+            // tline.to(e, {duration: 0.3, scale: 1 });
+            tline.to(e, {duration: 0.3, width: "40px", height: "40px" , fontSize:'12px' });
+        }
+    });
+
 }
 
 // --- Full screen function ---

@@ -90,11 +90,17 @@ class CameraViewControl{
 
                         point3D = obj3D.object3D.position.clone();
                         point3D.project( aScene.camera ) ;
-                        point2D.x = Math.round( ( 0.5 + point3D.x / 2 ) * ( aScene.canvas.width / window.devicePixelRatio ) ) ;
-                        point2D.y = Math.round( ( 0.5 - point3D.y / 2 ) * ( aScene.canvas.height / window.devicePixelRatio ) ) ;
-                        div2D.style.top = (point2D.y - 20) + 'px';
-                        div2D.style.left = (point2D.x - 20) + 'px';
-                        div2D.innerText = '';
+                        
+                        // point2D.x = Math.round( ( 0.5 + point3D.x / 2 ) * ( aScene.canvas.width / window.devicePixelRatio ) ) ;
+                        // point2D.y = Math.round( ( 0.5 - point3D.y / 2 ) * ( aScene.canvas.height / window.devicePixelRatio ) ) ;
+
+                        point2D.x = Math.round( ( 0.5 + point3D.x / 2 ) * ( innerWidth ) ) ;
+                        point2D.y = Math.round( ( 0.5 - point3D.y / 2 ) * ( innerHeight ) ) ;
+
+                        let ns = 0;
+                        div2D.style.top = (point2D.y - ns) + 'px';
+                        div2D.style.left = (point2D.x - ns) + 'px';
+
                     }
 
                 }
@@ -161,11 +167,16 @@ class CameraViewControl{
 
                         point3D = obj3D.object3D.position.clone();
                         point3D.project( aScene.camera ) ;
-                        point2D.x = Math.round( ( 0.5 + point3D.x / 2 ) * ( aScene.canvas.width / window.devicePixelRatio ) ) ;
-                        point2D.y = Math.round( ( 0.5 - point3D.y / 2 ) * ( aScene.canvas.height / window.devicePixelRatio ) ) ;
-                        div2D.style.top = (point2D.y - 20 ) + 'px';
-                        div2D.style.left = (point2D.x - 20 ) + 'px';
-                        div2D.innerText = '';
+
+                        // point2D.x = Math.round( ( 0.5 + point3D.x / 2 ) * ( aScene.canvas.width / window.devicePixelRatio ) ) ;
+                        // point2D.y = Math.round( ( 0.5 - point3D.y / 2 ) * ( aScene.canvas.height / window.devicePixelRatio ) ) ;
+
+                        point2D.x = Math.round( ( 0.5 + point3D.x / 2 ) * ( innerWidth ) ) ;
+                        point2D.y = Math.round( ( 0.5 - point3D.y / 2 ) * ( innerHeight ) ) ;
+ 
+
+                        div2D.style.top = (point2D.y - 0 ) + 'px';
+                        div2D.style.left = (point2D.x - 0 ) + 'px';
                     }
                 }
             });
