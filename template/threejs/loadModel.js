@@ -54,7 +54,7 @@ class LoadFBXModel{
                 root.object3D.add(object);
                 console.log('loadModel.js: root  ' , root.object3D );
             
-                aScene.appendChild(root);
+                homeModel.appendChild(root);
 
             } );
         }
