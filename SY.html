@@ -5,6 +5,24 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+
+        <meta property="og:title" content="漫遊松菸">
+        <meta property="og:url" content="https://sy.miflyservice.com/">
+        <meta property="og:description" content="漫遊松菸 VR 體驗">
+        <meta property="og:image" content="https://s3.ap-northeast-1.amazonaws.com/makar.webar.defaultobject/songshan/images/slowTravel/3D%E6%A8%A1%E5%9E%8Blogo.png">
+    
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:site" content="@sy">
+        <meta name="twitter:creator" content="@sy">
+        <meta name="twitter:title" content="漫遊松菸">
+        <meta name="twitter:description" content="漫遊松菸 VR 體驗">
+        <meta name="twitter:image" content="https://s3.ap-northeast-1.amazonaws.com/makar.webar.defaultobject/songshan/images/slowTravel/3D%E6%A8%A1%E5%9E%8Blogo.png">
+    
+        <link rel="apple-touch-icon-precomposed" href="https://s3.ap-northeast-1.amazonaws.com/makar.webar.defaultobject/songshan/images/slowTravel/icon.png">
+        <link rel="icon" type="image/png" href="https://s3.ap-northeast-1.amazonaws.com/makar.webar.defaultobject/songshan/images/slowTravel/icon.png" >
+        <link rel="shortcut icon" href="https://s3.ap-northeast-1.amazonaws.com/makar.webar.defaultobject/songshan/images/slowTravel/icon.png" type="image/x-icon">
+
+
         <script src="template/aframe-v1.0.4.js"></script>
         <script src="https://unpkg.com/aframe-orbit-controls@1.0.0/dist/aframe-orbit-controls.min.js"></script>
 
@@ -21,8 +39,13 @@
     </head>
 
     <body onload="main()">
-        <div id="loadPage">
-            <p id="load_w">Loading</p>
+
+        <div id="loadingLayout">
+            <div id="loadingContainer"> 
+                <div id="loadingBg"></div>
+                <div id="loadingText"></div>
+                <div id="loadingcircle"></div>
+            </div>
         </div>
 
         <div id="homeBackground">

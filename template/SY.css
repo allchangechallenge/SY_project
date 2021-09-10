@@ -31,6 +31,72 @@ body {
     /* left: 42%; */
     text-align: center;
 }
+
+/* Loading Layout */
+#loadingLayout{
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0%;
+    left: 0%;
+    z-index: 11;
+    background: #eac788;
+}
+#loadingContainer{
+    position: relative;
+    width: 300px;
+    height: 90px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+#loadingBg{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url("../cutImage/loading/loading-bottom.svg");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#loadingText{
+    position: absolute;
+    width: 192px;
+    height: 24px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url("../cutImage/loading/loading-text.svg");
+
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+#loadingcircle{
+    position: absolute;
+    width: 96px;
+    height: 90px;
+    background-image: url("../cutImage/loading/loading-circle.svg");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    
+    animation:2s loadingAfter infinite ease-in-out;
+}
+@keyframes loadingAfter {
+    0%   {transform: translateX(0px) translateY(0px) scale(1);}
+    50%  {transform: translateX(230px) translateY(10px) scale(0.4);}
+    100% {transform: translateX(0px) translateY(0px) scale(1);}
+}
+
+
+
+
+
+
+
 #homeBackground {
     position: absolute;
     z-index: 0;

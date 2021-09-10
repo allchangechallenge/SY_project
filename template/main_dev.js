@@ -1,5 +1,5 @@
 let aScene = document.getElementsByTagName( 'a-scene' )[ 0 ] ;   // 1315, 898
-let loadPage = document.getElementById( 'loadPage' ) ;
+let loadingLayout = document.getElementById( 'loadingLayout' ) ;
 
 let homeModel = document.getElementById( 'homeModel' ) ;
 let scene_360 = document.getElementById( 'scene_360' ) ;
@@ -295,7 +295,7 @@ function createScene( makarScenes ) {
     Promise.all( p_arr ).then( () => {
         console.log( 'sceneObjs promise resolved' , p_arr ) ; 
         
-        loadPage.style.visibility = 'hidden' ;
+        loadingLayout.style.visibility = 'hidden' ;
     } ) ;
 
     return p_arr;
@@ -948,7 +948,7 @@ function checkSceneLoadStateAndLoadScene( scene_id ){
 
             sceneObject.loadState = 1; //// 載入狀態 0.未載入 1. 物件載入中  2. 物件載入完成
 
-            loadPage.style.visibility = 'visible' ;
+            loadingLayout.style.visibility = 'visible' ;
 
             ////  先載入場景物件，再進入
             let sceneJson;
@@ -977,7 +977,7 @@ function checkSceneLoadStateAndLoadScene( scene_id ){
                     sceneObject.loadState = 2; //// 載入狀態 0.未載入 1. 物件載入中  2. 物件載入完成
 
                     to360( scene_id ) ; 
-                    loadPage.style.visibility = 'hidden' ;
+                    loadingLayout.style.visibility = 'hidden' ;
                 });
 
             }
