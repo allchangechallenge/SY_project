@@ -125,6 +125,7 @@ class CameraViewControl{
 
             let g_tag = document.getElementById('g_tag');
             let o_tag = document.getElementById('o_tag');
+            let m2_tag = document.getElementById('m2_tag');
             
             //// 顯示出全螢幕遮罩
             let tline = gsap.timeline();
@@ -160,6 +161,10 @@ class CameraViewControl{
                     //// 計算 3D 場景內部的特定點，在2D 的位置
                     set3Dto2D( g_tag , g_cube );
                     set3Dto2D( o_tag , o_cube );
+
+                    set3Dto2D( m2_tag , m2_cube );
+
+                    
 
                     function set3Dto2D( div2D, obj3D ){
                         let point3D = new THREE.Vector3() ;

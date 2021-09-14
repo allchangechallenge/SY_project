@@ -799,7 +799,7 @@ span.scroll {
 
 /* 固定背景 start */
 
-#b_tag_bg , #y_tag_bg, #r_tag_bg, #p_tag_bg, #g_tag_bg, #o_tag_bg  {
+#b_tag_bg , #y_tag_bg, #r_tag_bg, #p_tag_bg, #g_tag_bg, #o_tag_bg, #m2_tag_bg  {
     position: absolute;
     top: 0%;
     left: 0%;
