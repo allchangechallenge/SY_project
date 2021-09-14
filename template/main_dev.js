@@ -37,8 +37,10 @@ let scroll_menu = document.getElementById( 'menu' ) ;
 let scroll_menu_back = document.getElementById( 'menu_back' ) ;
 let scroll_menu_icon = document.getElementById( 'menu_icon' ) ;
 let scroll_bar = document.getElementById( 'scroll_bar' ) ;
+
 let icon_360 = document.getElementById( 'icon_360' ) ;
 let mapPage = document.getElementById( 'mapPage' ) ;
+let s360_guide = document.getElementById( 's360_guide' ) ;
 
 let down_right = document.getElementById( 'down_right_360' ) ;
 
@@ -923,10 +925,18 @@ class map_dot {
 
 // --- Openning Map Page ---
 let mapPageOn = 0 ;
-function openMapPage() {
-    if ( mapPageOn == 0 ) mapPage.style.visibility = 'visible' ;
-    else mapPage.style.visibility = 'hidden' ;
-    mapPageOn = ( mapPageOn == 0 ) ? 1 : 0 ;
+let rwdMapPageOn = 0 ;
+function openMapPage( n ) {
+    if ( n == 1 ) {
+        if ( mapPageOn == 0 ) mapPage.style.visibility = 'visible' ;
+        else mapPage.style.visibility = 'hidden' ;
+        mapPageOn = ( mapPageOn == 0 ) ? 1 : 0 ;
+    }
+    else if ( n == 2 ) {
+        if ( rwdMapPageOn == 0 ) mapPageMobile.style.display = 'block' ;
+        else mapPageMobile.style.display = 'none' ;
+        rwdMapPageOn = ( rwdMapPageOn == 0 ) ? 1 : 0 ;
+    }
 }
 
 function map_jump() {
@@ -1312,7 +1322,6 @@ const buttonController = {
                 } ) ;
             } ) ;
         }
-
     }, 
 
 } ; 
@@ -1331,8 +1340,9 @@ function showModelControl( n ) {   // when hover (0) => show the two normal / wh
         toOrbit() ;
     }
     else if ( n == 1 ) {
-        enter360.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
-        enterModel.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
+        console.log( "SHOULDN'T" ) ;
+        enter360[ 0 ].style.visibility = 'hidden' ;
+        enterModel[ 0 ].style.visibility = 'hidden' ;
     } 
 }
 
@@ -1428,6 +1438,28 @@ function fullScreen() {
     screenExit = ( screenExit == 0 ) ? 1 : 0 ;
 }
 
+let guideOn = 0 ;
+let rwdGuideOn = 0 ;
+function openGuide( n ) {
+    console.log( "onclick ques" ) ;
+    if ( n == 1 ) {
+        if ( guideOn == 0 ) {
+            s360_guide.style.display = 'block' ;
+        } else {
+            s360_guide.style.display = 'none' ;
+        }
+        guideOn = ( guideOn == 1 ) ? 0 : 1 ;
+    }
+    else if ( n == 2 ) {
+        if ( rwdGuideOn == 0 ) {
+            RWD_UI.view360_obj[ 's360_guide_mobile' ].style.display = 'block' ;
+        } else {
+            RWD_UI.view360_obj[ 's360_guide_mobile' ].style.display = 'none' ;
+        }
+        rwdGuideOn = ( rwdGuideOn == 1 ) ? 0 : 1 ;
+    }
+}
+
 function goShop() {
     console.log( 'INSEDE GOSHOP' ) ;
     showModelControl( 0 ) ;
@@ -1477,6 +1509,8 @@ const RWD_UI = {
 
     view360_obj : {
         'view_360_mobile' : document.getElementById( 'view_360_mobile' ),
+        'mapPageMobile' : document.getElementById( 'mapPageMobile' ), 
+        's360_guide_mobile' : document.getElementById( 's360_guide_mobile' ),
     },
 
     viewVR_obj : {

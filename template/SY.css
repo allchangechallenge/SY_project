@@ -292,7 +292,7 @@ body {
     top: 33%;
     width: 120px;
     height: 96px;
-    background-image: url( "../source/cutImage/button/button2-1-click.svg" );
+    background-image: url( "../source/cutImage/button/button2-1-select.svg" );
     background-size: contain;
     background-repeat: no-repeat;
     visibility: hidden;
@@ -328,7 +328,7 @@ body {
     right: -18%;
     width: 120px;
     height: 96px;
-    background-image: url(../cutImage/button/button2-2-click.svg);
+    background-image: url( "../source/cutImage/button/button2-2-select.svg" );
     background-size: contain;
     background-repeat: no-repeat;
     visibility: hidden;
@@ -634,19 +634,19 @@ span.scroll {
     visibility: hidden;
 }
 #bigMap {
-    background-image: url( ../cutImage/window/window-map@2x.png );
+    background-image: url( "../source/cutImage/window/map@2x.png" );
     background-size: contain;
     background-repeat: no-repeat;
-    width: 52%;
+    width: 43vw;
     max-width: 1001px;
-    height: 58%;
+    height: 27vw;
     max-height: 626px;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-#x_circle, #x_circle_360_mobile, #x_circle_vr_mobile {
+#x_circle, #x_circle_s360, #x_circle_360_mobile, #x_circle_vr_mobile, #x_circle_360_guide_mobile {
     -webkit-mask: url( ../cutImage/button/button4-2-bottom.png ) no-repeat center center;
     mask: url( ../cutImage/button/button4-2-bottom.png ) no-repeat center center;
     -webkit-mask-size: contain;
@@ -659,13 +659,13 @@ span.scroll {
     width: 40px;
     height: 40px;
 }
-#x_circle {
+#x_circle, #x_circle_s360 {
     top: -3%;
 }
-#x_circle:hover {
+#x_circle:hover, #x_circle_s360:hover {
     background-color: #88AB85;
 }
-#x, #x_360_mobile, #x_vr_mobile {
+#x, #x_360_mobile, #x_vr_mobile, #x_360_guide_mobile {
     background-color: white;
     -webkit-mask: url( ../cutImage/button/button4-2-del.png ) no-repeat center center;
     mask: url( ../cutImage/button/button4-2-del.png ) no-repeat center center;
@@ -675,6 +675,28 @@ span.scroll {
     width: 40px;
     height: 40px;
     cursor: pointer;
+}
+
+#s360_guide {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.538);
+    display: none;
+}
+#guide_center {
+    position: absolute;
+    width: 1000px;
+    height: 626px;
+    background-image: url( "../source/cutImage/window/operation_guide@2x.png" );
+    background-size: contain;
+    background-repeat: no-repeat;
+    top: 50vh;
+    left: 50vw;
+    transform: translate( -50%, -50% );
 }
 
 #down_right_360 {
@@ -1233,4 +1255,64 @@ span.scroll {
         cursor: pointer;
     }
 
+    /* Map inside 360 view */
+    #mapPageMobile {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-image: url( "../source/cutImage/bottom/bottom-12.svg" );
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: none;
+    }
+    #bigMapMobile {
+        position: absolute;
+        background-image: url( "../source/cutImage/window/map@2x.png" );
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 300px;
+        height: 90vh;
+        top: 5vh;
+        left: 50vw;
+        transform: translateX(-50%);
+    }
+
+    /* Guide inside 360 view */
+    #s360_guide_mobile {
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-image: url( "../source/cutImage/bottom/bottom-12.svg" );
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: none;
+    }
+    #guide_center_mobile {
+        position: absolute;
+        background-image: url(../source/cutImage/window/RWD_operation_guide@2x.png);
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 300px;
+        height: 90vh;
+        top: 5vh;
+        left: 50vw;
+        transform: translateX(-50%);
+    }
+    #x_circle_360_guide_mobile {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 7vh;
+        width: 5.5vw;
+        height: 5.5vw;
+    }
+    #x_360_guide_mobile {
+        width: 5.5vw;
+        height: 5.5vw;
+    }
 }
