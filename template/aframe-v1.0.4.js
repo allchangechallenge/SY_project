@@ -8162,7 +8162,7 @@ module.exports = anime;
 
 				} else {
 
-					console.warn( msg );
+					// console.warn( msg );
 
 				}
 
@@ -73245,6 +73245,8 @@ module.exports.Component = registerComponent('text', {
             let NewShader2 = createShader( el , 'msdf' , shaderData2);
             let tm = NewShader2.material;
             let tso = NewShader2.shader;
+            
+            self.textures[ data.font[i] ].needsUpdate = true; //// 這個一定要加，不然不會更新
             
             tso.update(shaderData2);
             NewShader2.material.transparent = shaderData2.transparent;

@@ -20,7 +20,10 @@ let g_info = { 'vr_pos' : gCube.object3D.position,
 let o_info = { 'vr_pos' : oCube.object3D.position,
                'vr_dir' : new THREE.Vector3( 0, 3, 0 ) } ;
 
-let vrInfo = {'g' : g_info, 'o' : o_info } ;
+let m2_info = { 'vr_pos' : m2_cube.object3D.position,
+               'vr_dir' : new THREE.Vector3( 0, 3, 0 ) } ;
+
+let vrInfo = {'g' : g_info, 'o' : o_info , 'm2': m2_info } ;
 
 let homePage = document.getElementById( 'homePage' ) ;
 let SY_icon = document.getElementById( 'SY_icon' ) ;
@@ -186,8 +189,11 @@ function toVR( s ) {
             }
         } ) ;
 
-        for ( let i = 0 ; i < tag_obj.length ; i ++ ) tag_obj[ i ].style.visibility = "hidden" ;
+        // for ( let i = 0 ; i < tag_obj.length ; i ++ ) tag_obj[ i ].style.visibility = "hidden" ;
 
+        gsap.set('.tagModel', {visibility: 'hidden'});
+        gsap.set('.tag360', {visibility: 'hidden'});
+        
         mode = 1 ;
         start_tick = 0 ;
     } 
@@ -238,11 +244,15 @@ makarData.then( function( resolvedData ) {
     makarScenes = resolvedData.map( ( x ) => x ) ;
     let pScenes =  createScene( resolvedData ) ; 
 
-    Promise.all( pScenes ).then(function( ret ){
-        // console.log( ' xxx ', ret  );
+    //// 假如開發時不想要載入模型，就取消這部份
+    let pRoot = loadRootModel.loadGLTFModel();
+
+    Promise.all( pScenes.concat( pRoot )  ).then(function( ret ){
+        console.log( ' xxx ', ret  );
 
         map_jump() ;
         theRaycaster();
+        loadingLayout.style.visibility = 'hidden' ;
     });
     
 } ) ;
@@ -302,11 +312,6 @@ function createScene( makarScenes ) {
 
     } 
 
-    Promise.all( p_arr ).then( () => {
-        console.log( 'sceneObjs promise resolved' , p_arr ) ; 
-        
-        loadingLayout.style.visibility = 'hidden' ;
-    } ) ;
 
     return p_arr;
 }
@@ -1381,7 +1386,7 @@ function tagAppear() {
 
     //// 建構「tag hover」的對應事件
 
-    [ b_tag, y_tag, r_tag, p_tag, g_tag, o_tag ].forEach( e => {
+    [ b_tag, y_tag, r_tag, p_tag, g_tag, o_tag, m2_tag ].forEach( e => {
 
         let tline = gsap.timeline();
         let tag_top = e.getElementsByClassName('tag_top')[0];
