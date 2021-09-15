@@ -593,9 +593,7 @@ body {
 }
 #scroll_bar::-webkit-scrollbar, #template_360_mobileScroll::-webkit-scrollbar, #rwd_scroll_bar::-webkit-scrollbar {
     background-color: #2a4c241a;
-    width: 10px;
-    max-width: 34px;
-    min-width: 10px;
+    width: 5px;
 }
 #scroll_bar::-webkit-scrollbar-thumb, #template_360_mobileScroll::-webkit-scrollbar-thumb, #rwd_scroll_bar::-webkit-scrollbar-thumb {
     background-color: #2a4c2463;
@@ -1189,7 +1187,7 @@ span.scroll {
         background-repeat: no-repeat;
         width: 50px;
         height: 50px;
-        top: 81%;
+        top: 84%;
         left: 4%;
     }
 
@@ -1198,8 +1196,8 @@ span.scroll {
         position: absolute;
         z-index: 1;
         top: 0;
-        width: 56vw;
-        height: 145vw;
+        width: 33.6vh;
+        height: 84vh;
         background-image: url( "../source/cutImage/bottom/bottom-04-2@2x.png" );
         background-size: contain;
         background-repeat: no-repeat;
@@ -1211,8 +1209,8 @@ span.scroll {
         background-repeat: no-repeat;
         margin-top: 10px;
         margin-left: 10px;
-        width: 40.4vw;
-        height: 17vw;
+        width: 90%;
+        height: 12%;
         visibility: hidden;
     }
     #rwd_scroll_bar {
@@ -1335,8 +1333,8 @@ span.scroll {
         background-image: url( "../source/cutImage/window/map-vert@2x.png" );
         background-size: contain;
         background-repeat: no-repeat;
-        width: 76vw;
-        height: 120vw;
+        width: 57.3vh;
+        height: 90vh;
         top: 5%;
         left: 50%;
         transform: translateX(-50%);
