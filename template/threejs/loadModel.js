@@ -36,7 +36,10 @@ class LoadRootModel{
                     gltfLoader.setDRACOLoader( dracoLoader );
     
                     gltfLoader.load( '/source/model/Songyan_0913.glb' , function ( gltf ) {
-                        console.log('loadModel.js: gltfLoader load ' , gltf );
+                    // gltfLoader.load( '/source/model/d_0913.glb' , function ( gltf ) {
+                    // gltfLoader.load( '/source/model/d_Songyan_0914.glb' , function ( gltf ) {                        
+                        
+                        console.log('loadModel.js: root load ' , gltf );
                         let object = gltf.scene;
     
                         let root = document.createElement( 'a-entity' ) ; 
@@ -52,11 +55,19 @@ class LoadRootModel{
 
                                 child.material.roughness = 1;
                                 child.material.metalness = 0;
+                                child.material.blending = THREE.NoBlending;
 
                                 
                                 // child.castShadow = true;
                                 // child.receiveShadow = true;
-                                if (child.name == 'Songyan_logo' || child.name == 'baroque garden_1' ){
+                                if (child.name == 'Songyan_logo' ){
+                                    child.material.depthTest = true;
+                                    child.material.depthWrite = false;
+                                    child.material.needsUpdate = true;
+                                    child.material.blending = THREE.NormalBlending;
+                                }
+
+                                if (child.name == 'baroque garden_1'){
                                     child.material.depthTest = true;
                                     child.material.depthWrite = false;
                                     child.material.needsUpdate = true;
@@ -100,71 +111,96 @@ class LoadRootModel{
 
                         //// 燈光部份
                         //// 下方往上打方向光
-                        let dlight1 = document.createElement("a-entity");
-                        // let dlight1 = document.createElement("a-light");
-                        dlight1.setAttribute("id", "dlight1");
-                        dlight1.setAttribute("position" , " 0 -5 0" );
-                        dlight1.setAttribute("rotation" , " -30 0 160" );
-                        homeModel.appendChild(dlight1);
-                        dlight1.addEventListener("loaded", function (){
-                            let dl1 = new THREE.DirectionalLight( 0xf8f4e4, 2 );
-                            dlight1.object3D.add(dl1);
+                        // let dlight1 = document.createElement("a-entity");
+                        // // let dlight1 = document.createElement("a-light");
+                        // dlight1.setAttribute("id", "dlight1");
+                        // dlight1.setAttribute("position" , " 0 -5 0" );
+                        // dlight1.setAttribute("rotation" , " -30 0 160" );
+                        // homeModel.appendChild(dlight1);
+                        // dlight1.addEventListener("loaded", function (){
+                        //     let dl1 = new THREE.DirectionalLight( 0xf8f4e4, 2 );
+                        //     dlight1.object3D.add(dl1);
 
-                            let t1 = new THREE.Object3D();
-                            dl1.target = t1;
-                            dlight1.object3D.add( t1 );  
+                        //     let t1 = new THREE.Object3D();
+                        //     dl1.target = t1;
+                        //     dlight1.object3D.add( t1 );  
 
-                            dlight1.object3D.children[0];
+                        //     dlight1.object3D.children[0];
 
-							const sphereSize = 1;
-							const dlight1Helper = new THREE.DirectionalLightHelper( dl1, sphereSize );
-                            homeModel.object3D.add( dlight1Helper );                            
-                        });
-                        
-                        //// 近乎正上方往下打方向光
-                        let dlight2 = document.createElement("a-entity");
-                        dlight2.setAttribute("id", "dlight2");
-                        dlight2.setAttribute("position" , " 0 7 0" );
-                        dlight2.setAttribute("rotation" , " 20 0 -30" );
-                        homeModel.appendChild(dlight2);
-                        dlight2.addEventListener("loaded", function (){
-                            let dl2 = new THREE.DirectionalLight( 0xfffac7, 0.4 );
-                            dlight2.object3D.add(dl2);
-                            let t2 = new THREE.Object3D();
-                            dl2.target = t2;
-                            dlight2.object3D.add( t2 );  
-
-                            // dlight2.object3D.children[0];
-
-							const sphereSize = 1;
-							const dlight2Helper = new THREE.DirectionalLightHelper( dl2, sphereSize );
-                            homeModel.object3D.add( dlight2Helper );                            
-                        });
+						// 	const sphereSize = 1;
+						// 	const dlight1Helper = new THREE.DirectionalLightHelper( dl1, sphereSize );
+                        //     homeModel.object3D.add( dlight1Helper );                            
+                        // });
                         
                         // //// 近乎正上方往下打方向光
-                        let dlight3 = document.createElement("a-entity");
-                        dlight3.setAttribute("id", "dlight3");
-                        dlight3.setAttribute("position" , " -15 5 0" );
-                        dlight3.setAttribute("rotation" , " 0 0 80" );
-                        homeModel.appendChild(dlight3);
-                        dlight3.addEventListener("loaded", function (){
-                            let dl3 = new THREE.DirectionalLight( 0xfffbca, 0.7 );
-                            dlight3.object3D.add(dl3);
+                        // let dlight2 = document.createElement("a-entity");
+                        // dlight2.setAttribute("id", "dlight2");
+                        // dlight2.setAttribute("position" , " 0 7 0" );
+                        // dlight2.setAttribute("rotation" , " 20 0 -30" );
+                        // homeModel.appendChild(dlight2);
+                        // dlight2.addEventListener("loaded", function (){
+                        //     let dl2 = new THREE.DirectionalLight( 0xfffac7, 0.3 );
+                        //     dlight2.object3D.add(dl2);
+                        //     let t2 = new THREE.Object3D();
+                        //     dl2.target = t2;
+                        //     dlight2.object3D.add( t2 );  
 
-                            let t3 = new THREE.Object3D();
-                            dl3.target = t3;
-                            dlight3.object3D.add( t3 );  
+                        //     // dlight2.object3D.children[0];
 
-							const sphereSize = 1;
-							const dlight3Helper = new THREE.DirectionalLightHelper( dl3, sphereSize );
-                            homeModel.object3D.add( dlight3Helper );                            
-						});
+						// 	const sphereSize = 1;
+						// 	const dlight2Helper = new THREE.DirectionalLightHelper( dl2, sphereSize );
+                        //     homeModel.object3D.add( dlight2Helper );                            
+                        // });
+                        
+                        // // //// 近乎正上方往下打方向光
+                        // let dlight3 = document.createElement("a-entity");
+                        // dlight3.setAttribute("id", "dlight3");
+                        // dlight3.setAttribute("position" , " -15 5 0" );
+                        // dlight3.setAttribute("rotation" , " 0 0 80" );
+                        // homeModel.appendChild(dlight3);
+                        // dlight3.addEventListener("loaded", function (){
+                        //     let dl3 = new THREE.DirectionalLight( 0xfffbca, 0.7 );
+                        //     dlight3.object3D.add(dl3);
+
+                        //     let t3 = new THREE.Object3D();
+                        //     dl3.target = t3;
+                        //     dlight3.object3D.add( t3 );  
+
+						// 	const sphereSize = 1;
+						// 	const dlight3Helper = new THREE.DirectionalLightHelper( dl3, sphereSize );
+                        //     homeModel.object3D.add( dlight3Helper );                            
+						// });
 
 
                         console.log('loadModel.js: root  ' , root.object3D );
                         rootResolve(root);
     
                     });
+
+                    // gltfLoader.load( '/source/model/o_512.glb' , function ( gltf ) {
+                    //     console.log('loadModel.js: Warehouse load ' , gltf );
+                    //     let object = gltf.scene;
+                    //     let warehouse = document.createElement( 'a-entity' ) ; 
+                    //     warehouse.setAttribute('id', 'warehouse');
+    
+                    //     object.traverse( function ( child ) {
+                    //         if ( child.isMesh ) {
+                    //             child.material.roughness = 1;
+                    //             child.material.metalness = 0;
+                    //             child.material.blending = THREE.NoBlending;
+                    //         }
+    
+                    //     } );
+    
+                    //     //// 大小位置真的很怪
+                    //     warehouse.object3D.scale.set(0.5,0.5, 0.5);
+                    //     warehouse.object3D.position.set( 0, 0, 0 );
+    
+                    //     warehouse.object3D.add(object);                    
+                    //     homeModel.appendChild(warehouse);
+
+                    // });
+
     
                 }
     
