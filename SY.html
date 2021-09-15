@@ -98,9 +98,7 @@
         </div>    
         <!-- Home Page for Mobile -->
         <div id="homeMobile">
-            <div id="SY_icon_homeMobile">
-                <img id="SY_img" src="source/cutImage/logo/logo-02@2x.png" width="100%">
-            </div>
+            <div id="SY_icon_homeMobile"></div>
             <div id="icon_bottom_mobile">
                 <div id="homeMobile_menu"></div>
             </div>
@@ -152,8 +150,7 @@
                     <div id="x_vr_mobile"></div>
                 </div>
             </div>
-        </div>
-        <div id="view_vr_mobile"></div>       
+        </div>   
 
         <!-- 360 template for computer -->
         <div id="template_360"> 
@@ -163,7 +160,7 @@
             <div id="icon_bottom_360"></div>     
             <div id="menu">
                 <div id="menu_back"></div>
-                <div id="menu_icon" onclick="click_menu()"></div>
+                <div id="menu_icon" onclick="click_menu(1)"></div>
                 <div id="scroll_bar" class="scroll_bar">
                     <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('d8d672ddb5894b9a92480fcf4649dfc4')">松山菸廠歷史回顧</span>
                     <span class="scroll" onclick="checkSceneLoadStateAndLoadScene('f7878d4894d946ffba58b453e8a13929')">製菸工廠</span>
@@ -235,8 +232,33 @@
             </div>
         </div>
         <!-- Inside 360 view -->
-        <div id="view_360_mobile">
-            <div id="view_360_menu"></div>
+        <div id="view_360_mobile">   
+            <div id="rwd_menu" onclick="click_menu(2)"></div>
+            <div id="rwdBack" onclick="toOrbit()"></div>
+            <div id="view_360_menu">
+                <div id="rwd_360_SY"></div>   
+                <div id="rwd_scroll_bar" class="scroll_bar">
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('d8d672ddb5894b9a92480fcf4649dfc4')">松山菸廠歷史回顧</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('f7878d4894d946ffba58b453e8a13929')">製菸工廠</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('94d7b04abd6e470ea1d289cb004b3a3c')">理葉工廠</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('8469b106c80446988d71204a04713fc5')">雪茄工廠</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('bdc6eda7c23743e8ad5d6d242cf46bc9')">切葉工廠</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('c0b4f403106442f2a83295a4cb5542b6')">醫護室</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('3a11c445debc47939074a0c3297694df')">巴洛克花園</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('99808d3c19b14b3cab81b6821dab447d')">澡堂</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('15fd655f039d4da3a546ae174333de2f')">多功能展演廳</span>
+                    <!-- <span class="scroll">製菸工廠二樓</span> -->
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('b5e7eeb146954a73af7a9248cff19543')">松菸口</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('e6a9716f79fb4dce8fb27136340cba09')">辦公廳舍與正門</span>
+                    <!-- <span class="scroll">檢查室</span> -->
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('8ed7325295d6420b85f9d796508cacaa')">1-5號倉庫</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('c7827db770f24a4e908cb81a91021f02')">2號倉庫與輸送帶</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('faaca8c43d854f1d8c5bf80a612dc8b0')">鍋爐房</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('fb1c680e707e4126901d4c6837c94c64')">機器修理廠</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('18522ccb12004b1f8b8f3961858c4465')">生態景觀池</span>
+                    <span class="rwd_scroll" onclick="checkSceneLoadStateAndLoadScene('c9d3fda09cf444aa8e1e90798e92997f')">育嬰室</span>
+                </div>
+            </div>
             <div id="view_360_middle_bottom">
                 <div id="view360_mobile_icon">
                     <div class="view360_mobile_bottom_icon" id="view360_loc_back">
@@ -263,7 +285,7 @@
         <!-- Map Page for mobile -->
         <div id="mapPageMobile">
             <div id="bigMapMobile">
-                <div id="x_circle_360_guide_mobile">
+                <div id="x_circle_360_map_mobile">
                     <div id="x_360_guide_mobile" onclick="openMapPage(2)"></div>
                 </div>
             </div>
@@ -283,18 +305,6 @@
                 <div id="x_circle_360_guide_mobile">
                     <div id="x_360_guide_mobile" onclick="openGuide(2)"></div>
                 </div>
-            </div>
-        </div>
-
-        <div id="down_right_360">
-            <div id="map_area" class="down_right">
-                <img id="map" src="source/map/map.jpg">
-                <div id="dots"></div>
-                <div id="circle"></div>
-            </div>
-            <div id="down_right_icon" class="down_right">
-                <img id="loc_icon" class="down_right_icon" src="source/location.png" onclick="map_func()">
-                <img id="help_icon" class="down_right_icon" src="source/help.png">
             </div>
         </div>
 
@@ -326,7 +336,18 @@
             </div>
         </div>
 
-       
+        <!-- Old Jumping Map ( Not using now ) -->
+        <div id="down_right_360">
+            <div id="map_area" class="down_right">
+                <img id="map" src="source/map/map.jpg">
+                <div id="dots"></div>
+                <div id="circle"></div>
+            </div>
+            <div id="down_right_icon" class="down_right">
+                <img id="loc_icon" class="down_right_icon" src="source/location.png" onclick="map_func()">
+                <img id="help_icon" class="down_right_icon" src="source/help.png">
+            </div>
+        </div>
 
         <script src="template/tick.js"></script>
 
