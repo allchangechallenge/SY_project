@@ -36,7 +36,6 @@ let template360 = document.getElementById( 'template_360' ) ;
 let icon_bottom_360 = document.getElementById( 'icon_bottom_360' ) ;
 
 let scroll_menu = document.getElementById( 'menu' ) ;
-let scroll_menu_back = document.getElementById( 'menu_back' ) ;
 let scroll_menu_icon = document.getElementById( 'menu_icon' ) ;
 let scroll_bar = document.getElementById( 'scroll_bar' ) ;
 
@@ -626,13 +625,13 @@ function to360( scene_id ) {
         icon_bottom_360.style.visibility = 'visible' ;
         tags.style.display = 'none' ;
     
-        scroll_menu.style.visibility = 'visible' ;
         scroll_menu_icon.style.visibility = 'visible' ;
     }
     // --- Mobile UI ---
     else if ( rwd == 1 ) {
         RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
         RWD_UI.view360_obj[ 'view_360_mobile' ].style.display = 'block' ;
+        RWD_UI.exitMobileTemplate() ;
     }
 
     cam.setAttribute( 'camera', 'active', false ) ;
@@ -698,7 +697,6 @@ function toOrbit() {
         scroll_menu.style.visibility = 'hidden' ;
         scroll_bar.style.visibility = 'hidden' ;
         scroll_menu_icon.style.visibility = 'hidden' ;
-        scroll_menu_back.style.visibility = 'hidden' ;
     }
     else if ( rwd == 1 ) {
         RWD_UI.view360_obj[ 'view_360_mobile' ].style.display = 'none' ;
@@ -850,10 +848,10 @@ function click_menu( n ) {
         scroll_menu_ins.hit_menu() ;
         
         if ( menu_on == 0 ) {
-            scroll_menu_back.style.visibility = 'visible' ;
+            scroll_menu.style.visibility = 'visible' ;
             icon_bottom_360.style.visibility = 'hidden' ;
         } else {
-            scroll_menu_back.style.visibility = 'hidden' ;
+            scroll_menu.style.visibility = 'hidden' ;
             icon_bottom_360.style.visibility = 'visible' ;
         }
     
