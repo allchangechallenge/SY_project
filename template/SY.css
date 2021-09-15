@@ -525,7 +525,7 @@ body {
 }
 #icon_bottom_360 {
     position: absolute;
-    z-index: 0;
+    z-index: 1;
     width: 270px;
     height: 180px;
     min-width: 203px;
