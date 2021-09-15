@@ -131,8 +131,8 @@ body {
 #SY_icon {
     position: absolute;
     z-index: 2;
-    top: 30px;
-    margin-left: 30px;
+    top: 1.5vw;
+    margin-left: 1.5vw;
     width: 9.2%;
     height: 6.9%;
     min-width: 150px;
@@ -407,10 +407,11 @@ body {
 #icon_360 {
     position: absolute;
     top: 12%;
-    left: 10%;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     flex-direction: row;
-    width: 100%;
+    width: 65%;
     height: 48px;
 }
 #loc_back {
@@ -491,8 +492,8 @@ body {
     position: absolute;
     top: 90%;
     left: 50px;
-    width: 96px;
-    height: 72px;
+    width: 5%;
+    height: 6.6%;
     background-image: url( "../cutImage/button/button1-3-normal.svg" );
     background-size: contain;
     background-repeat: no-repeat;
@@ -556,7 +557,7 @@ body {
     visibility: hidden;
 }
 #menu_icon {
-    margin-top: 2%;
+    margin-top: 38%;
     margin-bottom: 2%;
     margin-left: 30px;
     height: 40px;

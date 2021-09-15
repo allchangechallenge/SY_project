@@ -98,8 +98,7 @@ let scene_in_menu = {
                     '機器修理廠' : 'fb1c680e707e4126901d4c6837c94c64',
                     '生態景觀池' : '18522ccb12004b1f8b8f3961858c4465', 
                     '育嬰室' : 'c9d3fda09cf444aa8e1e90798e92997f' ,
-                    
-                }
+                    }
 
 function toVR( s ) {
     if ( mode != 1 ) {
@@ -590,11 +589,8 @@ function main() {
 
 window.onresize = sizing ;
 
-
-
-
 function sizing() {
-    home_menu.style.width = home_menu.offsetHeight * 0.62 + 'px' ;
+    if ( home_menu.offsetHeight && home_menu.offsetHeight != 0 ) home_menu.style.width = home_menu.offsetHeight * 0.62 + 'px' ;
     scroll_bar.style.fontSize = scroll_bar.offsetHeight / 20 + 'px' ;
     // console.log( "HOMEMENU SIIZING", home_menu.offsetHeight, home_menu.style.width ) ;
 }
@@ -603,7 +599,7 @@ function to360( scene_id ) {
     homeModel.setAttribute( 'visible', 'false' ) ;
     scene_360.setAttribute( 'visible', 'true' ) ;
 
-    old_sizing() ;   
+    // old_sizing() ;   
     // console.log( 'Inside 360 scene' ) ;
 
     // Set all 360 scenes to false
@@ -621,19 +617,20 @@ function to360( scene_id ) {
         }
     } ) ;
 
-    // --- UI ---
-    homePage.style.display = 'none' ;
-    templateVR.style.display = 'none' ;
-    template360.style.display = 'block' ;
-    SY_icon_360.style.visibility = 'visible' ;
-    icon_bottom_360.style.visibility = 'visible' ;
-    tags.style.display = 'none' ;
-
-    scroll_menu.style.visibility = 'visible' ;
-    scroll_menu_icon.style.visibility = 'visible' ;
-
+    // --- Computer UI ---
+    if ( rwd == 0 ) {
+        homePage.style.display = 'none' ;
+        templateVR.style.display = 'none' ;
+        template360.style.display = 'block' ;
+        SY_icon_360.style.visibility = 'visible' ;
+        icon_bottom_360.style.visibility = 'visible' ;
+        tags.style.display = 'none' ;
+    
+        scroll_menu.style.visibility = 'visible' ;
+        scroll_menu_icon.style.visibility = 'visible' ;
+    }
     // --- Mobile UI ---
-    if ( rwd == 1 ) {
+    else if ( rwd == 1 ) {
         RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
         RWD_UI.view360_obj[ 'view_360_mobile' ].style.display = 'block' ;
     }
@@ -687,22 +684,23 @@ function toOrbit() {
         if ( document.getElementById( s.scene_id ) ) document.getElementById( s.scene_id ).setAttribute( 'visible', 'false' ) ;
     } ) ;
 
-    template360.style.display = 'none' ;
-    templateVR.style.display = 'none' ;
-
-    homePage.style.display = 'block' ;
+    if ( rwd == 0 ) {
+        template360.style.display = 'none' ;
+        templateVR.style.display = 'none' ;
     
-    home_menu.style.display = 'block' ; 
-    home_menu.style.visibility = 'visible' ;
-
-    // Closing each items which its visibility is independent from template360
-    menu_on = 0 ;   // Back to initial state
-    scroll_menu.style.visibility = 'hidden' ;
-    scroll_bar.style.visibility = 'hidden' ;
-    scroll_menu_icon.style.visibility = 'hidden' ;
-    scroll_menu_back.style.visibility = 'hidden' ;
-
-    if ( rwd == 1 ) {
+        homePage.style.display = 'block' ;
+        
+        home_menu.style.display = 'block' ; 
+        home_menu.style.visibility = 'visible' ;
+    
+        // Closing each items which its visibility is independent from template360
+        menu_on = 0 ;   // Back to initial state
+        scroll_menu.style.visibility = 'hidden' ;
+        scroll_bar.style.visibility = 'hidden' ;
+        scroll_menu_icon.style.visibility = 'hidden' ;
+        scroll_menu_back.style.visibility = 'hidden' ;
+    }
+    else if ( rwd == 1 ) {
         RWD_UI.view360_obj[ 'view_360_mobile' ].style.display = 'none' ;
         RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'block' ;
     }
@@ -807,9 +805,7 @@ function toOrbit() {
                     cam.setAttribute( 'orbit-controls', 'enabled : true' ) ;
                 }
         } ) ;
-
         mode = 0 ;
-        
     } 
     tag = 0 ;
 }
