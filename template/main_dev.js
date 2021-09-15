@@ -36,12 +36,21 @@ let icon = document.getElementById( 'icon' ) ;
 let templateVR = document.getElementById( 'template_vr' ) ;
 
 let template360 = document.getElementById( 'template_360' ) ;
+let icon_bottom_360 = document.getElementById( 'icon_bottom_360' ) ;
+
 let scroll_menu = document.getElementById( 'menu' ) ;
 let scroll_menu_back = document.getElementById( 'menu_back' ) ;
 let scroll_menu_icon = document.getElementById( 'menu_icon' ) ;
 let scroll_bar = document.getElementById( 'scroll_bar' ) ;
+
 let icon_360 = document.getElementById( 'icon_360' ) ;
+let rwd_360_SY = document.getElementById( 'rwd_360_SY' ) ;
+let rwd_menu = document.getElementById( 'rwd_menu' ) ;
+let view_360_menu = document.getElementById( 'view_360_menu' ) ;
+
+let rwd_scroll_bar = document.getElementById( 'rwd_scroll_bar' ) ;
 let mapPage = document.getElementById( 'mapPage' ) ;
+let s360_guide = document.getElementById( 's360_guide' ) ;
 
 let down_right = document.getElementById( 'down_right_360' ) ;
 
@@ -75,25 +84,24 @@ let id_to_scene = { 'b_tag' : 'b5e7eeb146954a73af7a9248cff19543',    // 導覽�
                     'p_tag' : '8469b106c80446988d71204a04713fc5' }   // 琉璃工坊-1
             
 let scene_in_menu = {
-                    // '松山菸廠歷史回顧' : 'd8d672ddb5894b9a92480fcf4649dfc4', 
-                    // '製菸工廠' : 'f7878d4894d946ffba58b453e8a13929',
-                    // '理葉工廠' : '94d7b04abd6e470ea1d289cb004b3a3c',
-                    '雪茄工廠' : '8469b106c80446988d71204a04713fc5', //
-                    // '切葉工廠' : 'bdc6eda7c23743e8ad5d6d242cf46bc9',
-                    // '醫護室' : 'c0b4f403106442f2a83295a4cb5542b6',
-                    '巴洛克花園' : '3a11c445debc47939074a0c3297694df', //
-                    // '澡堂' : '99808d3c19b14b3cab81b6821dab447d',
-                    // '多功能展演廳' : '15fd655f039d4da3a546ae174333de2f',
-                    '松菸口' : 'b5e7eeb146954a73af7a9248cff19543', //
-                    // '辦公廳舍與正門' : 'e6a9716f79fb4dce8fb27136340cba09',
-                    // '1-5號倉庫' : '8ed7325295d6420b85f9d796508cacaa',
-                    // '2號倉庫與輸送帶' : 'c7827db770f24a4e908cb81a91021f02',
-                    // '鍋爐房' : 'faaca8c43d854f1d8c5bf80a612dc8b0',
-                    // '機器修理廠' : 'fb1c680e707e4126901d4c6837c94c64',
-                    '生態景觀池' : '18522ccb12004b1f8b8f3961858c4465', //
-                    // '育嬰室' : 'c9d3fda09cf444aa8e1e90798e92997f' ,
-                    
-                }
+                    '松山菸廠歷史回顧' : 'd8d672ddb5894b9a92480fcf4649dfc4', 
+                    '製菸工廠' : 'f7878d4894d946ffba58b453e8a13929',
+                    '理葉工廠' : '94d7b04abd6e470ea1d289cb004b3a3c',
+                    '雪茄工廠' : '8469b106c80446988d71204a04713fc5',
+                    '切葉工廠' : 'bdc6eda7c23743e8ad5d6d242cf46bc9',
+                    '醫護室' : 'c0b4f403106442f2a83295a4cb5542b6',
+                    '巴洛克花園' : '3a11c445debc47939074a0c3297694df', 
+                    '澡堂' : '99808d3c19b14b3cab81b6821dab447d',
+                    '多功能展演廳' : '15fd655f039d4da3a546ae174333de2f',
+                    '松菸口' : 'b5e7eeb146954a73af7a9248cff19543', 
+                    '辦公廳舍與正門' : 'e6a9716f79fb4dce8fb27136340cba09',
+                    '1-5號倉庫' : '8ed7325295d6420b85f9d796508cacaa',
+                    '2號倉庫與輸送帶' : 'c7827db770f24a4e908cb81a91021f02',
+                    '鍋爐房' : 'faaca8c43d854f1d8c5bf80a612dc8b0',
+                    '機器修理廠' : 'fb1c680e707e4126901d4c6837c94c64',
+                    '生態景觀池' : '18522ccb12004b1f8b8f3961858c4465', 
+                    '育嬰室' : 'c9d3fda09cf444aa8e1e90798e92997f' ,
+                    }
 
 function toVR( s ) {
     if ( mode != 1 ) {
@@ -586,45 +594,9 @@ function main() {
 
 window.onresize = sizing ;
 
-let down_right_h ;   // Initially equals to 0
-let down_right_w ;
-let dots = document.getElementById( 'dots' ) ;
-
-function old_sizing() {
-    // left corner font-size adjusting
-    // console.log( 'sizing' ) ;
-
-    let cur_down_right_h = down_right.clientHeight ;
-    let cur_down_right_w = down_right.clientWidth ;
-
-    let circle = document.getElementById( 'circle' ) ;
-    circle.style.width = down_right.clientHeight * 0.0963 + 'px' ;
-    circle.style.height = down_right.clientHeight * 0.0963 + 'px' ;
-
-    // Adjusting by determing which scale is being changed the most 
-    if ( Math.abs( cur_down_right_w - down_right_w ) > Math.abs( cur_down_right_h - down_right_h ) ) {
-        map_area.style.width = down_right.clientWidth * 0.84 + 'px' ;
-        map_area.style.height = map_area.clientWidth / 16 * 9 + 'px' ;           
-    }
-    else {
-        map_area.style.height = down_right.clientHeight + 'px' ;
-        map_area.style.width = map_area.clientHeight / 9 * 16 + 'px' ;          
-    }
-
-    down_right_h = down_right.clientHeight ;
-    down_right_w = down_right.clientWidth ;
-
-    dots.style.width = map_area.style.width ;
-    dots.style.height = map_area.style.height ;
-
-    scroll_bar.style.fontSize = scroll_bar.offsetHeight / 20 + 'px' ;
-
-    // home_menu.style.fontSize = home_menu.offsetWidth / 6 + 'px' ;
-
-}
-
 function sizing() {
-    home_menu.style.width = home_menu.offsetHeight * 0.62 + 'px' ;
+    if ( home_menu.offsetHeight && home_menu.offsetHeight != 0 ) home_menu.style.width = home_menu.offsetHeight * 0.62 + 'px' ;
+    scroll_bar.style.fontSize = scroll_bar.offsetHeight / 20 + 'px' ;
     // console.log( "HOMEMENU SIIZING", home_menu.offsetHeight, home_menu.style.width ) ;
 }
 
@@ -632,7 +604,7 @@ function to360( scene_id ) {
     homeModel.setAttribute( 'visible', 'false' ) ;
     scene_360.setAttribute( 'visible', 'true' ) ;
 
-    old_sizing() ;   
+    // old_sizing() ;   
     // console.log( 'Inside 360 scene' ) ;
 
     // Set all 360 scenes to false
@@ -650,19 +622,20 @@ function to360( scene_id ) {
         }
     } ) ;
 
-    // --- UI ---
-    homePage.style.display = 'none' ;
-    templateVR.style.display = 'none' ;
-    template360.style.display = 'block' ;
-    SY_icon_360.style.visibility = 'visible' ;
-    icon_bottom_360.style.visibility = 'visible' ;
-    tags.style.display = 'none' ;
-
-    scroll_menu.style.visibility = 'visible' ;
-    scroll_menu_icon.style.visibility = 'visible' ;
-
+    // --- Computer UI ---
+    if ( rwd == 0 ) {
+        homePage.style.display = 'none' ;
+        templateVR.style.display = 'none' ;
+        template360.style.display = 'block' ;
+        SY_icon_360.style.visibility = 'visible' ;
+        icon_bottom_360.style.visibility = 'visible' ;
+        tags.style.display = 'none' ;
+    
+        scroll_menu.style.visibility = 'visible' ;
+        scroll_menu_icon.style.visibility = 'visible' ;
+    }
     // --- Mobile UI ---
-    if ( rwd == 1 ) {
+    else if ( rwd == 1 ) {
         RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
         RWD_UI.view360_obj[ 'view_360_mobile' ].style.display = 'block' ;
     }
@@ -716,20 +689,26 @@ function toOrbit() {
         if ( document.getElementById( s.scene_id ) ) document.getElementById( s.scene_id ).setAttribute( 'visible', 'false' ) ;
     } ) ;
 
-    template360.style.display = 'none' ;
-    templateVR.style.display = 'none' ;
-
-    homePage.style.display = 'block' ;
+    if ( rwd == 0 ) {
+        template360.style.display = 'none' ;
+        templateVR.style.display = 'none' ;
     
-    home_menu.style.display = 'block' ; 
-    home_menu.style.visibility = 'visible' ;
-
-    // Closing each items which its visibility is independent from template360
-    menu_on = 0 ;   // Back to initial state
-    scroll_menu.style.visibility = 'hidden' ;
-    scroll_bar.style.visibility = 'hidden' ;
-    scroll_menu_icon.style.visibility = 'hidden' ;
-    scroll_menu_back.style.visibility = 'hidden' ;
+        homePage.style.display = 'block' ;
+        
+        home_menu.style.display = 'block' ; 
+        home_menu.style.visibility = 'visible' ;
+    
+        // Closing each items which its visibility is independent from template360
+        menu_on = 0 ;   // Back to initial state
+        scroll_menu.style.visibility = 'hidden' ;
+        scroll_bar.style.visibility = 'hidden' ;
+        scroll_menu_icon.style.visibility = 'hidden' ;
+        scroll_menu_back.style.visibility = 'hidden' ;
+    }
+    else if ( rwd == 1 ) {
+        RWD_UI.view360_obj[ 'view_360_mobile' ].style.display = 'none' ;
+        RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'block' ;
+    }
 
     cam.setAttribute( 'camera', 'active', true ) ;
     cam_360.setAttribute( 'camera', 'active', false ) ;
@@ -831,9 +810,7 @@ function toOrbit() {
                     cam.setAttribute( 'orbit-controls', 'enabled : true' ) ;
                 }
         } ) ;
-
         mode = 0 ;
-        
     } 
     tag = 0 ;
 }
@@ -871,26 +848,41 @@ class menu {
 }
 
 let menu_on = 0 ;
-function click_menu() {
-    const scroll_menu_ins = new menu( scroll_bar, '0%', '0%' ) ;
-    scroll_menu_ins.hit_menu() ;
+let rwd_menu_on = 0 ;
+function click_menu( n ) {
+    if ( n == 1 ) {
+        const scroll_menu_ins = new menu( scroll_bar, '0%', '0%' ) ;
+        scroll_menu_ins.hit_menu() ;
+        
+        if ( menu_on == 0 ) {
+            scroll_menu_back.style.visibility = 'visible' ;
+            icon_bottom_360.style.visibility = 'hidden' ;
+        } else {
+            scroll_menu_back.style.visibility = 'hidden' ;
+            icon_bottom_360.style.visibility = 'visible' ;
+        }
     
-    if ( menu_on == 0 ) {
-        scroll_menu_back.style.visibility = 'visible' ;
-        icon_bottom_360.style.visibility = 'hidden' ;
-    } else {
-        scroll_menu_back.style.visibility = 'hidden' ;
-        icon_bottom_360.style.visibility = 'visible' ;
+        menu_on = ( menu_on == 0 ) ? 1 : 0 ;
     }
-
-    menu_on = ( menu_on == 0 ) ? 1 : 0 ;
+    else if ( n == 2 ) {
+        const scroll_menu_ins = new menu( rwd_scroll_bar, '0%', '0%' ) ;
+        scroll_menu_ins.hit_menu() ;
+        
+        if ( rwd_menu_on == 0 ) {
+            view_360_menu.style.visibility = 'visible' ;
+            rwd_360_SY.style.visibility = 'visible' ;
+            rwd_menu.style.transform = 'translateX( 180px )' ;
+        } else {
+            view_360_menu.style.visibility = 'hidden' ;
+            rwd_360_SY.style.visibility = 'hidden' ;
+            rwd_menu.style.transform = 'translateX( 0px )' ;
+            console.log( 'rwd_menu close 888', view_360_menu.style.visibility ) ;
+        }
+    
+        rwd_menu_on = ( rwd_menu_on == 0 ) ? 1 : 0 ; 
+    }
 }
 
-function map_func() {
-    const map_ins = new menu( map_area, '100%', '100%' ) ;
-    map_ins.hit_menu() ;
-    old_sizing() ;
-}
 
 // Dots information for down right map
 let map_dot_pos = {
@@ -928,10 +920,18 @@ class map_dot {
 
 // --- Openning Map Page ---
 let mapPageOn = 0 ;
-function openMapPage() {
-    if ( mapPageOn == 0 ) mapPage.style.visibility = 'visible' ;
-    else mapPage.style.visibility = 'hidden' ;
-    mapPageOn = ( mapPageOn == 0 ) ? 1 : 0 ;
+let rwdMapPageOn = 0 ;
+function openMapPage( n ) {
+    if ( n == 1 ) {
+        if ( mapPageOn == 0 ) mapPage.style.visibility = 'visible' ;
+        else mapPage.style.visibility = 'hidden' ;
+        mapPageOn = ( mapPageOn == 0 ) ? 1 : 0 ;
+    }
+    else if ( n == 2 ) {
+        if ( rwdMapPageOn == 0 ) mapPageMobile.style.display = 'block' ;
+        else mapPageMobile.style.display = 'none' ;
+        rwdMapPageOn = ( rwdMapPageOn == 0 ) ? 1 : 0 ;
+    }
 }
 
 function map_jump() {
@@ -1016,8 +1016,6 @@ function checkSceneLoadStateAndLoadScene( scene_id ){
 
 
 }
-
-
 
 // --- Raycaster API ---
 function theRaycaster(  ) {
@@ -1207,9 +1205,9 @@ const buttonController = {
 
     allUnselect : function( clickBtn ) {
         if ( getComputedStyle( homePage ).display == 'block' ) {
-            if ( clickBtn == 'button2-1-click' || clickBtn == 'button2-2-click' ) {   // The small two buttons can set all buttons to normal
+            if ( clickBtn == 'button2-1-click' || clickBtn == 'button2-2-click' ) {   // The small two buttons can only set each other to normal
                 Object.keys( this.buttonObj_click ).forEach( b => {
-                    if ( b != clickBtn ) {
+                    if ( b != clickBtn && ( b == 'button2-1-click' || b == 'button2-2-click' ) ) {
                         this.buttonObj_click[ b ].style.visibility = 'hidden' ;
                         this.buttonObj[ this.buttonChange[ b ][ 1 ] ].style.visibility = 'visible' ;
                         this.buttonSelect[ b ] = 0 ;
@@ -1219,7 +1217,9 @@ const buttonController = {
                 Object.keys( this.buttonObj_click ).forEach( b => {   // Big three buttons should remove the small two buttons 
                     if ( b != clickBtn ) {
                         this.buttonObj_click[ b ].style.visibility = 'hidden' ;
-                        if ( b != 'button2-1-click' && b != 'button2-2-click' ) this.buttonObj[ this.buttonChange[ b ][ 1 ] ].style.visibility = 'visible' ;
+                        if ( b != 'button2-1-click' && b != 'button2-2-click' ) {
+                            this.buttonObj[ this.buttonChange[ b ][ 1 ] ].style.visibility = 'visible' ;
+                        }
                         this.buttonSelect[ b ] = 0 ;
                     }
                 } ) ;
@@ -1297,8 +1297,8 @@ const buttonController = {
         if ( getComputedStyle( homePage ).display == 'block' ) {
             Object.values( this.buttonObj_click ).forEach( btnEle => {
                 btnEle.addEventListener( 'click', function( event ) {
+                    if ( btnEle.id == 'button1-1-click' ) ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ]  ) ;
                     btnEle.style.visibility = 'hidden' ;
-                    ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ][ 1 ]  ) ;
                     ctrl.buttonObj_hover[ ctrl.buttonChange[ btnEle.id ][ 0 ] ].style.visibility = 'visible' ;
     
                     // console.log( '222', ctrl.buttonSelect ) ;
@@ -1317,7 +1317,6 @@ const buttonController = {
                 } ) ;
             } ) ;
         }
-
     }, 
 
 } ; 
@@ -1336,9 +1335,14 @@ function showModelControl( n ) {   // when hover (0) => show the two normal / wh
         toOrbit() ;
     }
     else if ( n == 1 ) {
-        enter360.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
-        enterModel.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
+        console.log( "SHOULDN'T" ) ;
+        enter360[ 0 ].style.visibility = 'hidden' ;
+        enterModel[ 0 ].style.visibility = 'hidden' ;
     } 
+    else if ( n == 2 ) {
+        enter360.forEach( ele => { ele.style.visibility = 'hidden' } ) ;
+        enterModel.forEach( ele => { ele.style.visibility = 'hidden' } ) ;   
+    }
 }
 
 // Use for activating button events in onload function
@@ -1433,14 +1437,36 @@ function fullScreen() {
     screenExit = ( screenExit == 0 ) ? 1 : 0 ;
 }
 
+let guideOn = 0 ;
+let rwdGuideOn = 0 ;
+function openGuide( n ) {
+    console.log( "onclick ques" ) ;
+    if ( n == 1 ) {
+        if ( guideOn == 0 ) {
+            s360_guide.style.display = 'block' ;
+        } else {
+            s360_guide.style.display = 'none' ;
+        }
+        guideOn = ( guideOn == 1 ) ? 0 : 1 ;
+    }
+    else if ( n == 2 ) {
+        if ( rwdGuideOn == 0 ) {
+            RWD_UI.view360_obj[ 's360_guide_mobile' ].style.display = 'block' ;
+        } else {
+            RWD_UI.view360_obj[ 's360_guide_mobile' ].style.display = 'none' ;
+        }
+        rwdGuideOn = ( rwdGuideOn == 1 ) ? 0 : 1 ;
+    }
+}
+
 function goShop() {
     console.log( 'INSEDE GOSHOP' ) ;
-    showModelControl( 0 ) ;
+    showModelControl( 2 ) ;
 }
 
 function goGame() {
     console.log( 'INSEDE GOGAME' ) ;
-    showModelControl( 0 ) ;
+    showModelControl( 2 ) ;
 }
 
 const RWD_UI = {
@@ -1482,6 +1508,8 @@ const RWD_UI = {
 
     view360_obj : {
         'view_360_mobile' : document.getElementById( 'view_360_mobile' ),
+        'mapPageMobile' : document.getElementById( 'mapPageMobile' ), 
+        's360_guide_mobile' : document.getElementById( 's360_guide_mobile' ),
     },
 
     viewVR_obj : {
@@ -1554,4 +1582,44 @@ const RWD_UI = {
 
 }
 
+// --- Not currently using ---
+let down_right_h ;   // Initially equals to 0
+let down_right_w ;
+let dots = document.getElementById( 'dots' ) ;
 
+function old_sizing() {
+    // left corner font-size adjusting
+    // console.log( 'sizing' ) ;
+
+    let cur_down_right_h = down_right.clientHeight ;
+    let cur_down_right_w = down_right.clientWidth ;
+
+    let circle = document.getElementById( 'circle' ) ;
+    circle.style.width = down_right.clientHeight * 0.0963 + 'px' ;
+    circle.style.height = down_right.clientHeight * 0.0963 + 'px' ;
+
+    // Adjusting by determing which scale is being changed the most 
+    if ( Math.abs( cur_down_right_w - down_right_w ) > Math.abs( cur_down_right_h - down_right_h ) ) {
+        map_area.style.width = down_right.clientWidth * 0.84 + 'px' ;
+        map_area.style.height = map_area.clientWidth / 16 * 9 + 'px' ;           
+    }
+    else {
+        map_area.style.height = down_right.clientHeight + 'px' ;
+        map_area.style.width = map_area.clientHeight / 9 * 16 + 'px' ;          
+    }
+
+    down_right_h = down_right.clientHeight ;
+    down_right_w = down_right.clientWidth ;
+
+    dots.style.width = map_area.style.width ;
+    dots.style.height = map_area.style.height ;
+
+    // home_menu.style.fontSize = home_menu.offsetWidth / 6 + 'px' ;
+
+}
+
+function map_func() {
+    const map_ins = new menu( map_area, '100%', '100%' ) ;
+    map_ins.hit_menu() ;
+    old_sizing() ;
+}
