@@ -1368,11 +1368,11 @@ function buttonActive() {
     }
 
     RWD_UI.homeButtonEvents() ;
-    RWD_UI.viewVR_obj[ 'VRbackBtn' ].onclick = function() {
-        cameraViewControl.mobileVRBackEvent();
+    RWD_UI.viewVR_obj[ 'VRbackBtn' ].onclick = function( event ) {
+        cameraViewControl.mobileVRBackEvent( event.target );
     }
-    RWD_UI.view360_obj[ 'rwdBack' ].onclick = function() {
-        cameraViewControl.mobile360BackEvent();
+    RWD_UI.view360_obj[ 'rwdBack' ].onclick = function( event ) {
+        cameraViewControl.mobile360BackEvent( event.target );
     }
 }
 

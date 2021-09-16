@@ -238,6 +238,10 @@ class CameraViewControl{
             tline.set(sceneMaskDiv, {visibility: 'hidden'});
 
         }
+        if ( bn.getAttribute('id') == 'VRbackBtn' || bn.getAttribute('id') == 'rwdBack' ) {
+            console.log( 'OK' ) ;
+            cam.setAttribute( 'orbit-controls', 'enabled : true' ) ;
+        }
     }
 
     //// 「模型體驗」回到「固定視角且顯示模型進入點」
@@ -273,7 +277,7 @@ class CameraViewControl{
 
     }
 
-    mobileVRBackEvent(){
+    mobileVRBackEvent( btn ){
 
         let self = this;
 
@@ -303,6 +307,8 @@ class CameraViewControl{
 
         //// 隱藏遮罩
         tline.set( sceneMaskDiv, {visibility: 'hidden'} );
+
+        this.hideTagsAndEnableOrbitControl( btn );
 
     }
 
@@ -348,7 +354,7 @@ class CameraViewControl{
 
     }
 
-    mobile360BackEvent(){
+    mobile360BackEvent( btn ){
 
         let self = this;
 
@@ -388,6 +394,7 @@ class CameraViewControl{
         //// 隱藏遮罩
         tline.set( sceneMaskDiv, {visibility: 'hidden'} );
 
+        this.hideTagsAndEnableOrbitControl( btn );
     }
 
     lookToOrbit(){
