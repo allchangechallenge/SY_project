@@ -247,15 +247,15 @@ makarData.then( function( resolvedData ) {
     let pScenes =  createScene( resolvedData ) ; 
 
     //// 假如開發時不想要載入模型，就取消這部份
-    // let pRoot = loadRootModel.loadGLTFModel();
+    let pRoot = loadRootModel.loadGLTFModel();
 
-    // Promise.all( pScenes.concat( pRoot )  ).then(function( ret ){
-    //     console.log( ' xxx ', ret  );
+    Promise.all( pScenes.concat( pRoot )  ).then(function( ret ){
+        console.log( ' xxx ', ret  );
         main() ;
         map_jump() ;
         theRaycaster();
         loadingLayout.style.visibility = 'hidden' ;
-    // });
+    });
     
 } ) ;
 

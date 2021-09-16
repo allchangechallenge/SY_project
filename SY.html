@@ -374,13 +374,13 @@
 
                     <!-- <a-entity gltf-model="#sy_model" scale="0.5 0.5 0.5"></a-entity> -->
                     <!-- <a-sky id="sky" transparent="true" color="#fad964"></a-sky> -->
-                    <a-box id="floor" static-body grabbable color="#f58742" depth="45" height="2" width="35" rotation="0 90 0" position="0 -8 0"></a-box>
+                    <!-- <a-box id="floor" static-body grabbable color="#f58742" depth="45" height="2" width="35" rotation="0 90 0" position="0 -8 0"></a-box> -->
     
                     <a-entity id = 'cube360s' visible = 'true' >
-                        <a-box id="b_cube" color="#75a2eb" width='1' height='1' depth="1" position="2 -6 4" visible="true"></a-box>
-                        <a-box id="y_cube" color="#eff542" width='1' height='1' depth="1" position="-10 -6 -2" visible="true"></a-box>
-                        <a-box id="r_cube" color="#c4372d" width='1' height='1' depth="1" position="6 -6 -1" visible="true"></a-box>
-                        <a-box id="p_cube" color="#bf2ca7" width='1' height='1' depth="1" position="-13.5 -6 -9" visible="true"></a-box>                        
+                        <a-box id="b_cube" color="#75a2eb" width='0.01' height='0.01' depth="0.01" position="2 -6 4" visible="true"></a-box>
+                        <a-box id="y_cube" color="#eff542" width='0.01' height='0.01' depth="0.01" position="-10 -6 -2" visible="true"></a-box>
+                        <a-box id="r_cube" color="#c4372d" width='0.01' height='0.01' depth="0.01" position="6 -6 -1" visible="true"></a-box>
+                        <a-box id="p_cube" color="#bf2ca7" width='0.01' height='0.01' depth="0.01" position="-13.5 -6 -9" visible="true"></a-box>                        
                     </a-entity>
 
                     <a-entity id = 'cubeModels' visible = 'true' >
@@ -408,9 +408,9 @@
 
         <script src="template/threejs/cameraSceneControl.js"></script>
 
-        <!-- <script src="template/threejs/loadModel.js"></script>
+        <script src="template/threejs/loadModel.js"></script>
 
-        <script src="template/threejs/MIFLY_THREE_FBXLoader.js"></script>
+        <!-- <script src="template/threejs/MIFLY_THREE_FBXLoader.js"></script>
         <script src="template/threejs/inflate.min.js"></script> -->
 
     </body>

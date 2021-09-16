@@ -172,9 +172,9 @@ class LoadRootModel{
 
                             dlight1.object3D.children[0].intensity;
 
-							const sphereSize = 1;
-							const dlight1Helper = new THREE.DirectionalLightHelper( dl1, sphereSize );
-                            homeModel.object3D.add( dlight1Helper );                            
+							// const sphereSize = 1;
+							// const dlight1Helper = new THREE.DirectionalLightHelper( dl1, sphereSize );
+                            // homeModel.object3D.add( dlight1Helper );                            
                         });
                         
                         // //// 近乎正上方往下打方向光
@@ -192,9 +192,9 @@ class LoadRootModel{
 
                             // dlight2.object3D.children[0].intensity;
 
-							const sphereSize = 1;
-							const dlight2Helper = new THREE.DirectionalLightHelper( dl2, sphereSize );
-                            homeModel.object3D.add( dlight2Helper );                            
+							// const sphereSize = 1;
+							// const dlight2Helper = new THREE.DirectionalLightHelper( dl2, sphereSize );
+                            // homeModel.object3D.add( dlight2Helper );                            
                         });
                         
                         // // //// 近乎右方往左打方向光
@@ -213,9 +213,9 @@ class LoadRootModel{
 
                             // dlight3.object3D.children[0].intensity;
 
-							const sphereSize = 1;
-							const dlight3Helper = new THREE.DirectionalLightHelper( dl3, sphereSize );
-                            homeModel.object3D.add( dlight3Helper );                            
+							// const sphereSize = 1;
+							// const dlight3Helper = new THREE.DirectionalLightHelper( dl3, sphereSize );
+                            // homeModel.object3D.add( dlight3Helper );                            
 						});
 
 
