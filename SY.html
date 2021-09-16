@@ -362,7 +362,7 @@
         <div>
             <a-scene tag-monitor debug gltf-model="dracoDecoderPath: /template/draco/;" loading-screen="enabled: false" 
             light="defaultLightsEnabled: false"
-            renderer='antialias: true; colorManagement: false; sortObjects: true; physicallyCorrectLights: false; logarithmicDepthBuffer: false; '>
+            renderer='antialias: true; colorManagement: true; sortObjects: true; physicallyCorrectLights: false; logarithmicDepthBuffer: false; '>
                 <a-assets>
                     <img id="arrow" src="source/arrow.png">
                     <!-- <a-asset-item id="sy_model" src="/source/model/Songyan.glb"></a-asset-item> -->
@@ -396,7 +396,7 @@
 
     
                     <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: -9 4 2.5 ; minDistance: 5; maxDistance: 42; initialPosition: 16 23 27; maxPolarAngle: 88; minPolarAngle: 1; ">
-                    </a-entity>     
+                    </a-entity>
                 </a-entity>
 
                 <a-entity id="scene_360" visible="false" arrow-monitor>
