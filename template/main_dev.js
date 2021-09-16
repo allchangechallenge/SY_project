@@ -19,7 +19,6 @@ let g_info = { 'vr_pos' : gCube.object3D.position,
                'vr_dir' : new THREE.Vector3( 0, 3, 0 ) } ;
 let o_info = { 'vr_pos' : oCube.object3D.position,
                'vr_dir' : new THREE.Vector3( 0, 3, 0 ) } ;
-
 let m2_info = { 'vr_pos' : m2_cube.object3D.position,
                'vr_dir' : new THREE.Vector3( 0, 3, 0 ) } ;
 
@@ -39,7 +38,6 @@ let template360 = document.getElementById( 'template_360' ) ;
 let icon_bottom_360 = document.getElementById( 'icon_bottom_360' ) ;
 
 let scroll_menu = document.getElementById( 'menu' ) ;
-let scroll_menu_back = document.getElementById( 'menu_back' ) ;
 let scroll_menu_icon = document.getElementById( 'menu_icon' ) ;
 let scroll_bar = document.getElementById( 'scroll_bar' ) ;
 
@@ -105,13 +103,17 @@ let scene_in_menu = {
 
 function toVR( s ) {
     if ( mode != 1 ) {
-        // --- UI ---
-        homePage.style.display = 'none' ;
-        templateVR.style.display = 'block' ;
-
-        // --- Mobile UI ---
-        RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
-        RWD_UI.vr_template_obj[ 'template_vr_mobile' ].style.display = 'block' ;
+        if ( rwd == 0 ) {
+            // --- UI ---
+            homePage.style.display = 'none' ;
+            templateVR.style.display = 'block' ;
+        }
+        else if ( rwd == 1 ) {
+            // --- Mobile UI ---
+            RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
+            RWD_UI.vr_template_obj[ 'template_vr_mobile' ].style.display = 'none' ;
+            RWD_UI.viewVR_obj[ 'template_vr_mobile_2' ].style.display = 'block' ;
+        }
 
         // --- Into VR camera ---
         cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
@@ -245,15 +247,15 @@ makarData.then( function( resolvedData ) {
     let pScenes =  createScene( resolvedData ) ; 
 
     //// 假如開發時不想要載入模型，就取消這部份
-    let pRoot = loadRootModel.loadGLTFModel();
+    // let pRoot = loadRootModel.loadGLTFModel();
 
-    Promise.all( pScenes.concat( pRoot )  ).then(function( ret ){
-        console.log( ' xxx ', ret  );
-
+    // Promise.all( pScenes.concat( pRoot )  ).then(function( ret ){
+    //     console.log( ' xxx ', ret  );
+        main() ;
         map_jump() ;
         theRaycaster();
         loadingLayout.style.visibility = 'hidden' ;
-    });
+    // });
     
 } ) ;
 
@@ -588,7 +590,9 @@ function sceneObjsLoad( oneSceneObj, sceneObj ) {
 function main() {
     sizing() ;
     buttonActive() ;
-    if ( window.innerWidth < 990 ) rwd = 1 ; 
+    if ( window.innerWidth < 990 ) {
+        rwd = 1 ; 
+    }
     else tagAppear() ;
 }
 
@@ -597,7 +601,7 @@ window.onresize = sizing ;
 function sizing() {
     if ( home_menu.offsetHeight && home_menu.offsetHeight != 0 ) home_menu.style.width = home_menu.offsetHeight * 0.62 + 'px' ;
     scroll_bar.style.fontSize = scroll_bar.offsetHeight / 20 + 'px' ;
-    // console.log( "HOMEMENU SIIZING", home_menu.offsetHeight, home_menu.style.width ) ;
+    console.log( "HOMEMENU SIIZING" ) ;
 }
 
 function to360( scene_id ) {
@@ -631,13 +635,13 @@ function to360( scene_id ) {
         icon_bottom_360.style.visibility = 'visible' ;
         tags.style.display = 'none' ;
     
-        scroll_menu.style.visibility = 'visible' ;
         scroll_menu_icon.style.visibility = 'visible' ;
     }
     // --- Mobile UI ---
     else if ( rwd == 1 ) {
         RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
         RWD_UI.view360_obj[ 'view_360_mobile' ].style.display = 'block' ;
+        RWD_UI.exitMobileTemplate() ;
     }
 
     cam.setAttribute( 'camera', 'active', false ) ;
@@ -664,7 +668,7 @@ function to360( scene_id ) {
             if (document.getElementById( scene_id )){
                 currentSceneObject3D = document.getElementById( scene_id ).object3D;
                 currentSceneObjs = m.objs;
-                console.log(' _to360: set current scene info ' , currentSceneObject3D  );
+                // console.log(' _to360: set current scene info ' , currentSceneObject3D  );
             }
 
         }
@@ -703,11 +707,13 @@ function toOrbit() {
         scroll_menu.style.visibility = 'hidden' ;
         scroll_bar.style.visibility = 'hidden' ;
         scroll_menu_icon.style.visibility = 'hidden' ;
-        scroll_menu_back.style.visibility = 'hidden' ;
     }
     else if ( rwd == 1 ) {
         RWD_UI.view360_obj[ 'view_360_mobile' ].style.display = 'none' ;
+        RWD_UI.viewVR_obj[ 'template_vr_mobile_2' ].style.display = 'none' ;
         RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'block' ;
+        RWD_UI.homePage_obj[ 'up' ].style.pointerEvents = 'initial' ;
+        RWD_UI.homePage_obj[ 'down' ].style.pointerEvents = 'initial' ;
     }
 
     cam.setAttribute( 'camera', 'active', true ) ;
@@ -855,10 +861,10 @@ function click_menu( n ) {
         scroll_menu_ins.hit_menu() ;
         
         if ( menu_on == 0 ) {
-            scroll_menu_back.style.visibility = 'visible' ;
+            scroll_menu.style.visibility = 'visible' ;
             icon_bottom_360.style.visibility = 'hidden' ;
         } else {
-            scroll_menu_back.style.visibility = 'hidden' ;
+            scroll_menu.style.visibility = 'hidden' ;
             icon_bottom_360.style.visibility = 'visible' ;
         }
     
@@ -871,7 +877,7 @@ function click_menu( n ) {
         if ( rwd_menu_on == 0 ) {
             view_360_menu.style.visibility = 'visible' ;
             rwd_360_SY.style.visibility = 'visible' ;
-            rwd_menu.style.transform = 'translateX( 180px )' ;
+            rwd_menu.style.transform = 'translateX( 31.3vh )' ;
         } else {
             view_360_menu.style.visibility = 'hidden' ;
             rwd_360_SY.style.visibility = 'hidden' ;
@@ -1095,7 +1101,7 @@ function theRaycaster(  ) {
         // let intersects = raycaster.intersectObject( aScene.object3D, true ) ;
         let intersects = raycaster.intersectObject( currentSceneObject3D , true ) ;
         if ( intersects.length > 0 ){
-            console.log( 'First Intersect : ', intersects[ 0 ].object , currentSceneObjs  ) ;
+            // console.log( 'First Intersect : ', intersects[ 0 ].object , currentSceneObjs  ) ;
 
             currentSceneObjs.forEach( obj => { 
                 if ( intersects[ 0 ].object.el ) {
@@ -1362,6 +1368,12 @@ function buttonActive() {
     }
 
     RWD_UI.homeButtonEvents() ;
+    RWD_UI.viewVR_obj[ 'VRbackBtn' ].onclick = function( event ) {
+        cameraViewControl.mobileVRBackEvent( event.target );
+    }
+    RWD_UI.view360_obj[ 'rwdBack' ].onclick = function( event ) {
+        cameraViewControl.mobile360BackEvent( event.target );
+    }
 }
 
 // --- Attach tag_appearing function to button2-1 and button2-2
@@ -1510,10 +1522,12 @@ const RWD_UI = {
         'view_360_mobile' : document.getElementById( 'view_360_mobile' ),
         'mapPageMobile' : document.getElementById( 'mapPageMobile' ), 
         's360_guide_mobile' : document.getElementById( 's360_guide_mobile' ),
+        'rwdBack' : document.getElementById( 'rwdBack' ),
     },
 
     viewVR_obj : {
-
+        'template_vr_mobile_2' : document.getElementById( 'template_vr_mobile_2' ),  
+        'VRbackBtn' : document.getElementById( 'VRbackBtn' ), 
     },
 
 
@@ -1622,4 +1636,42 @@ function map_func() {
     const map_ins = new menu( map_area, '100%', '100%' ) ;
     map_ins.hit_menu() ;
     old_sizing() ;
+}
+
+function mobileMouseEvent() {
+    view_360_mobile.addEventListener('mousedown', function(event){
+        view_360_mobile.style.cursor = "grabbing";
+        
+        let cEvent = new event.constructor(event.type , {
+            button:event.button,
+            screenX:event.screenX,
+            screenY:event.screenY,
+        });
+        console.log(" mousedown ", event, cEvent );
+        aScene.canvas.dispatchEvent(cEvent);
+    });
+
+    view_360_mobile.addEventListener('mousemove', function(event){
+        view_360_mobile.style.cursor = "grabbing";
+        
+        let cEvent = new event.constructor(event.type , {
+            button:event.button,
+            screenX:event.screenX,
+            screenY:event.screenY,
+        });
+        console.log(" mousemove ", event, cEvent );
+        aScene.canvas.dispatchEvent(cEvent);
+    });
+
+    view_360_mobile.addEventListener('mouseup', function(event){
+        view_360_mobile.style.cursor = "grabbing";
+        
+        let cEvent = new event.constructor(event.type , {
+            button:event.button,
+            screenX:event.screenX,
+            screenY:event.screenY,
+        });
+        console.log(" mouseup ", event, cEvent );
+        aScene.canvas.dispatchEvent(cEvent);
+    });
 }

@@ -238,6 +238,10 @@ class CameraViewControl{
             tline.set(sceneMaskDiv, {visibility: 'hidden'});
 
         }
+        //// These are for back buttons of mobile VR and 360
+        if ( bn.getAttribute('id') == 'VRbackBtn' || bn.getAttribute('id') == 'rwdBack' ) {
+            cam.setAttribute( 'orbit-controls', 'enabled : true' ) ;
+        }
     }
 
     //// 「模型體驗」回到「固定視角且顯示模型進入點」
@@ -270,6 +274,41 @@ class CameraViewControl{
 
         //// 隱藏遮罩
         tline.set( sceneMaskDiv, {visibility: 'hidden'} );
+
+    }
+
+    mobileVRBackEvent( btn ){
+
+        let self = this;
+
+        let tline = gsap.timeline();
+
+        //// 顯示遮罩
+        tline.set( sceneMaskDiv, {visibility: 'visible'} );
+
+        //// UI 調整
+        tline.set(RWD_UI.viewVR_obj[ 'template_vr_mobile_2' ], {display: 'none' });
+        tline.set(RWD_UI.homePage_obj[ 'homeMobile' ], {display: 'block' });
+        tline.set(RWD_UI.homePage_obj[ 'up' ], {pointerEvents: 'initial'});
+        tline.set(RWD_UI.homePage_obj[ 'down' ], {pointerEvents: 'initial'});
+
+        //// 不確定要不要保留
+        menu_on = 0;
+        //// 相機切換
+        tline.to(gsapEmpty, {
+            duration: 1,
+            onStart:function(){
+                self.lookToOrbit();
+            },
+        });
+
+        //// 切換完成後，把 「對應 tag」給顯示出來
+        // tline.set('.tagModel', {visibility: 'visible'});
+
+        //// 隱藏遮罩
+        tline.set( sceneMaskDiv, {visibility: 'hidden'} );
+
+        this.hideTagsAndEnableOrbitControl( btn );
 
     }
 
@@ -313,6 +352,49 @@ class CameraViewControl{
         //// 隱藏遮罩
         tline.set( sceneMaskDiv, {visibility: 'hidden'} );
 
+    }
+
+    mobile360BackEvent( btn ){
+
+        let self = this;
+
+        let tline = gsap.timeline();
+
+        //// 顯示遮罩
+        tline.set( sceneMaskDiv, {visibility: 'visible'} );
+
+        //// UI 調整
+        tline.set(RWD_UI.view360_obj[ 'view_360_mobile' ], {display: 'none' });
+        tline.set(RWD_UI.homePage_obj[ 'homeMobile' ], {display: 'block' });
+        tline.set(RWD_UI.homePage_obj[ 'up' ], {pointerEvents: 'initial'});
+        tline.set(RWD_UI.homePage_obj[ 'down' ], {pointerEvents: 'initial'});
+
+        //// 不確定要不要保留
+        menu_on = 0;
+        //// 相機切換
+        tline.to(gsapEmpty, {
+            duration: 1,
+            onStart:function(){
+
+                homeModel.setAttribute( 'visible', 'true' ) ;
+
+                makarScenes.forEach( s => {
+                    if ( document.getElementById( s.scene_id ) ) document.getElementById( s.scene_id ).setAttribute( 'visible', 'false' ) ;
+                } ) ;
+
+                self.lookToOrbit();
+            },
+        });
+
+        //// 切換完成後，把 「對應 tag」給顯示出來
+        
+        // tline.set( tags, {display: 'block'});
+        // tline.set('.tag360', {visibility: 'visible'});
+
+        //// 隱藏遮罩
+        tline.set( sceneMaskDiv, {visibility: 'hidden'} );
+
+        this.hideTagsAndEnableOrbitControl( btn );
     }
 
     lookToOrbit(){
