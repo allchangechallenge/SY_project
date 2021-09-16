@@ -1107,7 +1107,7 @@ span.scroll {
         background-image: url( "../source/cutImage/bottom/bottom-12.svg" );
         background-size: contain;
         background-repeat: repeat;
-        opacity: 0.9;
+        /* opacity: 0.9; */
         display: none;
     }
     #template_vr_mobile {
