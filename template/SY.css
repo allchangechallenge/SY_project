@@ -102,7 +102,7 @@ body {
     right: 0%;
     bottom: 0%;
 }
-#homeMobile, #template_vr_mobile, #template_360_mobile, #view_360_mobile, #mapPageMobile, #s360_guide_mobile {
+#homeMobile, #template_vr_mobile, #template_vr_mobile_2, #template_360_mobile, #view_360_mobile, #mapPageMobile, #s360_guide_mobile {
     display: none ; 
 }
 
@@ -488,7 +488,7 @@ body {
     pointer-events: none;
     display: none;
 }
-#VRbackModel, #s360backModel {
+#VRbackModel, #s360backModel, #VRbackBtn {
     position: absolute;
     top: 90%;
     left: 50px;
@@ -924,7 +924,7 @@ span.scroll {
     #homePage, #template_vr, #template_360 {
         display: none !important;
     }
-    #homeMobile {
+    #homeMobile, #template_vr_mobile_2 {
         position: absolute;
         z-index: 1;
         height: 100%;
@@ -1168,6 +1168,15 @@ span.scroll {
         width: 7vw;
         height: 7vw;
     }
+    #template_vr_mobile_2 {
+        display: none;
+    }
+    #VRbackBtn {
+        bottom: 20px;
+        left: 30px;
+        width: 15.2vw;
+        height: 11.3vw;
+    }
 
     .scroll {
         text-align: center;
@@ -1181,6 +1190,7 @@ span.scroll {
         left: 0%;
         width: 100%;
         height: 100%;
+        pointer-events: none;
     }
     #rwd_menu {
         position: absolute;
@@ -1190,6 +1200,7 @@ span.scroll {
         width: 40px;
         height: 40px;
         background-color: white;
+        pointer-events: initial;
     }
     #rwdBack {
         position: absolute;
@@ -1197,10 +1208,11 @@ span.scroll {
         background-image: url( "../source/cutImage/button/button1-3-normal.svg" );
         background-size: contain;
         background-repeat: no-repeat;
-        width: 50px;
-        height: 50px;
+        width: 15vw;
+        height: 7.5vh;
         top: 84%;
         left: 4%;
+        pointer-events: initial;
     }
 
     /* Scroll menu for mobile 360 view  */
@@ -1232,6 +1244,7 @@ span.scroll {
         height: 73%;
         margin-top: 14%;
         padding-left: 13px;
+        pointer-events: initial;
     }
     #rwd_scroll_bar::-webkit-scrollbar {
         width: 3px;
@@ -1379,16 +1392,17 @@ span.scroll {
         background-image: url( "../source/cutImage/window/RWD_operation_guide@2x.png" );
         background-size: contain;
         background-repeat: no-repeat;
-        width: 300px;
-        height: 90vh;
-        top: 5vh;
-        left: 50vw;
+        width: 61vmin;
+        height: 90vmin;
+        top: 15vh;
+        left: 50%;
         transform: translateX(-50%);
     }
     #x_circle_360_guide_mobile {
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 7vh;
+        left: calc( 50% - 2.75vw ); 
+        bottom: -2vh;
+        width: 5.5vw;
+        height: 5.5vw;
         width: 5.5vw;
         height: 5.5vw;
     }
