@@ -238,8 +238,8 @@ class CameraViewControl{
             tline.set(sceneMaskDiv, {visibility: 'hidden'});
 
         }
+        //// These are for back buttons of mobile VR and 360
         if ( bn.getAttribute('id') == 'VRbackBtn' || bn.getAttribute('id') == 'rwdBack' ) {
-            console.log( 'OK' ) ;
             cam.setAttribute( 'orbit-controls', 'enabled : true' ) ;
         }
     }

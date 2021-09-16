@@ -868,9 +868,10 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 			case 2:	// two-fingered touch: dolly
 
-				if ( scope.enableZoom === false ) return;
+				if ( scope.enableZoom === false || scope.enablePan === false ) return;     // 20210916 Chris added 「|| scope.enablePan === false」
 
 				handleTouchStartDolly( event );
+				handleTouchStartPan( event );     // 20210916 Chris added
 
 				state = STATE.TOUCH_DOLLY;
 
@@ -880,7 +881,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 				if ( scope.enablePan === false ) return;
 
-				handleTouchStartPan( event );
+				// handleTouchStartPan( event );     // 20210916 Chris commented
 
 				state = STATE.TOUCH_PAN;
 
@@ -919,13 +920,11 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 			case 2: // two-fingered touch: dolly
 
-				if ( scope.enableZoom === false ) return;
+				if ( scope.enableZoom === false || scope.enablePan === false ) return;     // 20210916 Chris added 「|| scope.enablePan === false」
 				if ( state !== STATE.TOUCH_DOLLY ) return; // is this needed?...
 
-                console.log( "TWO", event.touches ) ;
-
 				handleTouchMoveDolly( event );
-				handleTouchMovePan( event );
+				handleTouchMovePan( event );     // 20210916 Chris added
 
 				break;
 
@@ -934,9 +933,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 				if ( scope.enablePan === false ) return;
 				if ( state !== STATE.TOUCH_PAN ) return; // is this needed?...
 
-                console.log( "THREE", event.touches ) ;
-
-				// handleTouchMovePan( event );
+				// handleTouchMovePan( event );     // 20210916 Chris commented
 
 				break;
 
