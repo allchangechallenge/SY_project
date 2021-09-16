@@ -103,15 +103,17 @@ let scene_in_menu = {
 
 function toVR( s ) {
     if ( mode != 1 ) {
-        // --- UI ---
-        homePage.style.display = 'none' ;
-        templateVR.style.display = 'block' ;
-
-        // --- Mobile UI ---
-        RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
-        RWD_UI.vr_template_obj[ 'template_vr_mobile' ].style.display = 'none' ;
-        RWD_UI.viewVR_obj[ 'template_vr_mobile_2' ].style.display = 'block' ;
-
+        if ( rwd == 0 ) {
+            // --- UI ---
+            homePage.style.display = 'none' ;
+            templateVR.style.display = 'block' ;
+        }
+        else if ( rwd == 1 ) {
+            // --- Mobile UI ---
+            RWD_UI.homePage_obj[ 'homeMobile' ].style.display = 'none' ;
+            RWD_UI.vr_template_obj[ 'template_vr_mobile' ].style.display = 'none' ;
+            RWD_UI.viewVR_obj[ 'template_vr_mobile_2' ].style.display = 'block' ;
+        }
 
         // --- Into VR camera ---
         cam.setAttribute( 'orbit-controls', 'enabled : false' ) ;
@@ -1366,6 +1368,12 @@ function buttonActive() {
     }
 
     RWD_UI.homeButtonEvents() ;
+    RWD_UI.viewVR_obj[ 'VRbackBtn' ].onclick = function() {
+        cameraViewControl.mobileVRBackEvent();
+    }
+    RWD_UI.view360_obj[ 'rwdBack' ].onclick = function() {
+        cameraViewControl.mobile360BackEvent();
+    }
 }
 
 // --- Attach tag_appearing function to button2-1 and button2-2
@@ -1514,10 +1522,12 @@ const RWD_UI = {
         'view_360_mobile' : document.getElementById( 'view_360_mobile' ),
         'mapPageMobile' : document.getElementById( 'mapPageMobile' ), 
         's360_guide_mobile' : document.getElementById( 's360_guide_mobile' ),
+        'rwdBack' : document.getElementById( 'rwdBack' ),
     },
 
     viewVR_obj : {
         'template_vr_mobile_2' : document.getElementById( 'template_vr_mobile_2' ),  
+        'VRbackBtn' : document.getElementById( 'VRbackBtn' ), 
     },
 
 
