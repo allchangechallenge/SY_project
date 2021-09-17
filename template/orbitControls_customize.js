@@ -227,8 +227,12 @@ THREE.OrbitControls = function ( object, domElement ) {
 			// restrict theta to be between desired limits
 			spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
 
+			// console.log(' 1 ', spherical.phi  )
+
 			// restrict phi to be between desired limits
 			spherical.phi = Math.max( scope.minPolarAngle, Math.min( scope.maxPolarAngle, spherical.phi ) );
+
+			// console.log(' 2 ', spherical.phi  )
 
 			spherical.makeSafe();
 

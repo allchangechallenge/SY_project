@@ -502,6 +502,10 @@ body {
     cursor: pointer;
 }
 
+#VRbackModel:hover{
+    transform: scale(1.5);
+}
+
 #template_360 {
     position: absolute;
     z-index: 1;
@@ -652,9 +656,10 @@ span.scroll {
     background-image: url( "../source/cutImage/window/map@2x.png" );
     background-size: contain;
     background-repeat: no-repeat;
-    width: 52vw;
+    background-position: center;
+    width: 80vw;
     max-width: 1001px;
-    height: 32.2vw;
+    height: 50.09vw;
     max-height: 626px;
     position: absolute;
     top: 50%;
@@ -670,7 +675,7 @@ span.scroll {
     background-repeat: no-repeat;
     background-color: #eac788;
     position: absolute;
-    right: -2%;
+    right: -20px;
     width: 40px;
     height: 40px;
 }
@@ -704,13 +709,14 @@ span.scroll {
 }
 #guide_center {
     position: absolute;
-    width: 1000px;
-    height: 626px;
+    width: 80vw;
+    height: 50.09vw;
     background-image: url( "../source/cutImage/window/operation_guide@2x.png" );
     background-size: contain;
     background-repeat: no-repeat;
-    top: 50vh;
-    left: 50vw;
+    background-position: center;
+    top: 50%;
+    left: 50%;
     transform: translate( -50%, -50% );
 }
 
@@ -836,7 +842,7 @@ span.scroll {
 
 /* 固定背景 start */
 
-#b_tag_bg , #y_tag_bg, #r_tag_bg, #p_tag_bg, #g_tag_bg, #o_tag_bg, #m2_tag_bg  {
+#b_tag_bg , #y_tag_bg, #r_tag_bg, #p_tag_bg, #g_tag_bg, #o_tag_bg, #m2_tag_bg, #m3_tag_bg, #m4_tag_bg {
     position: absolute;
     top: 0%;
     left: 0%;
@@ -1053,7 +1059,7 @@ span.scroll {
         left: 5.33vw;
         width: 29.33vw;
         height: 9.676vh;
-        background-image: url(../cutImage/button/rwd-button1-1-click.svg);
+        background-image: url(../source/cutImage/button/rwd-button-6.svg);
         background-repeat: no-repeat;
         background-size: contain;
         visibility: hidden;
@@ -1074,7 +1080,7 @@ span.scroll {
         left: 13.33vw;
         width: 26.667vw;
         height: 8.023vh;
-        background-image: url(../cutImage/button/rwd-button1-2-click.svg);
+        background-image: url(../source/cutImage/button/rwd-button-4.svg);
         background-repeat: no-repeat;
         background-size: contain;  
         visibility: hidden;
@@ -1158,7 +1164,13 @@ span.scroll {
         background: -webkit-linear-gradient(top,#ffffe200,#ffffe2);
         opacity: 1.0;
     }
-    #x_circle_vr_mobile, #x_circle_360_mobile {
+    #x_circle_vr_mobile {
+        right: 45vw;
+        top: 0%;
+        width: 7vw;
+        height: 7vw;
+    }
+    #x_circle_360_mobile {
         right: 45vw;
         bottom: 6vh;
         width: 7vw;
@@ -1359,13 +1371,13 @@ span.scroll {
         background-image: url( "../source/cutImage/window/map-vert@2x.png" );
         background-size: contain;
         background-repeat: no-repeat;
-        width: 57.3vh;
-        height: 90vh;
-        top: 5%;
+        background-position: center;
+        width: 50.09vh;
+        height: 80vh;
+        top: 2%;
         left: 50%;
         transform: translateX(-50%);
-        /* margin-left: auto;
-        margin-right: auto; */
+        
     }
     #x_circle_360_map_mobile {
         right: calc( 50% - 2.25vw );
@@ -1392,9 +1404,10 @@ span.scroll {
         background-image: url( "../source/cutImage/window/RWD_operation_guide@2x.png" );
         background-size: contain;
         background-repeat: no-repeat;
-        width: 61vmin;
-        height: 90vmin;
-        top: 15vh;
+        background-position: center;
+        width: 49.51vh;
+        height: 75vh;
+        top: 5vh;
         left: 50%;
         transform: translateX(-50%);
     }

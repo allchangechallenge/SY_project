@@ -16,13 +16,17 @@ let cube_obj = [ bCube, gCube, yCube, oCube, rCube, pCube ] ;
 // VR Object on the landscape model 
 // Object for 360 views has its own class now !!
 let g_info = { 'vr_pos' : gCube.object3D.position,
-               'vr_dir' : new THREE.Vector3( 0, 3, 0 ) } ;
+               'vr_dir' : new THREE.Vector3( 0, 0.6, 0 ) } ;
 let o_info = { 'vr_pos' : oCube.object3D.position,
-               'vr_dir' : new THREE.Vector3( 0, 3, 0 ) } ;
+               'vr_dir' : new THREE.Vector3( 0, 4.75, 0 ) } ;
 let m2_info = { 'vr_pos' : m2_cube.object3D.position,
-               'vr_dir' : new THREE.Vector3( 0, 3, 0 ) } ;
+               'vr_dir' : new THREE.Vector3( 0.05, 4.93, 0 ) } ;
+let m3_info = { 'vr_pos' : m3_cube.object3D.position,
+               'vr_dir' : new THREE.Vector3( 0.05, 4.93, 0 ) } ;
+let m4_info = { 'vr_pos' : m4_cube.object3D.position,
+               'vr_dir' : new THREE.Vector3( 0.05, 1.57, 0 ) } ;
 
-let vrInfo = {'g' : g_info, 'o' : o_info , 'm2': m2_info } ;
+let vrInfo = {'g' : g_info, 'o' : o_info , 'm2': m2_info , 'm3': m3_info , 'm4': m4_info } ;
 
 let homePage = document.getElementById( 'homePage' ) ;
 let SY_icon = document.getElementById( 'SY_icon' ) ;
@@ -252,7 +256,7 @@ makarData.then( function( resolvedData ) {
     Promise.all( pScenes.concat( pRoot )  ).then(function( ret ){
         console.log( ' xxx ', ret  );
         main() ;
-        map_jump() ;
+        // map_jump() ;
         theRaycaster();
         loadingLayout.style.visibility = 'hidden' ;
     });
@@ -592,8 +596,16 @@ function main() {
     buttonActive() ;
     if ( window.innerWidth < 990 ) {
         rwd = 1 ; 
+
+        //// 設定相機初始固定位置，還有預設視角
+        cameraViewControl.fixPositionPC = new THREE.Vector3( 19 , 23 , -12 ); 
+        cam.components['orbit-controls'].controls.position0 = new THREE.Vector3( 19 , 23 , -12 ); 
+        cam.components['orbit-controls'].controls.reset();
+        
     }
-    else tagAppear() ;
+    else{
+        tagAppear() ;
+    } 
 }
 
 window.onresize = sizing ;
@@ -675,10 +687,10 @@ function to360( scene_id ) {
     } ) ;
 
     // Move the yellow current point on the map
-    if ( map_dot_pos[ scene_id ] ) {
-        let current_point = new map_dot( scene_id, map_dot_pos[ scene_id ][ 0 ], map_dot_pos[ scene_id ][ 1 ] ) ;
-        current_point.current_pos() ;
-    }
+    // if ( map_dot_pos[ scene_id ] ) {
+    //     let current_point = new map_dot( scene_id, map_dot_pos[ scene_id ][ 0 ], map_dot_pos[ scene_id ][ 1 ] ) ;
+    //     current_point.current_pos() ;
+    // }
 
     mode = 2 ;
     start_tick = 0 ;
@@ -821,17 +833,17 @@ function toOrbit() {
     tag = 0 ;
 }
 
-function tag_appear( s ) {
-    // console.log( "TAG APPEAR FUNC", document.getElementById( 'button2-1' ).style.display ) ;
-    start_tick = 1 ;
-    tags.style.display = 'inline' ;
-    if ( s == 'm' ) {
-        tag = 1 ;
-    }
-    else {
-        tag = 2 ;  
-    }
-}
+// function tag_appear( s ) {
+//     // console.log( "TAG APPEAR FUNC", document.getElementById( 'button2-1' ).style.display ) ;
+//     start_tick = 1 ;
+//     tags.style.display = 'inline' ;
+//     if ( s == 'm' ) {
+//         tag = 1 ;
+//     }
+//     else {
+//         tag = 2 ;  
+//     }
+// }
 
 // ----- 360 map function -----
 class menu { 
@@ -891,38 +903,38 @@ function click_menu( n ) {
 
 
 // Dots information for down right map
-let map_dot_pos = {
-    'b5e7eeb146954a73af7a9248cff19543' : [ 44, 43 ],
-    'a344d7bf16d140879724eb2e62a440aa' : [ 57, 43 ],
-    '18522ccb12004b1f8b8f3961858c4465' : [ 64, 79 ],
-    '673149e6f1b24354a949ff60415c5481' : [ 33, 54 ]
-}
+// let map_dot_pos = {
+//     'b5e7eeb146954a73af7a9248cff19543' : [ 44, 43 ],
+//     'a344d7bf16d140879724eb2e62a440aa' : [ 57, 43 ],
+//     '18522ccb12004b1f8b8f3961858c4465' : [ 64, 79 ],
+//     '673149e6f1b24354a949ff60415c5481' : [ 33, 54 ]
+// }
 
-class map_dot {
-    constructor( scene_id, x, y ) {   // start from the up left corner of the map
-        this.sceneId = scene_id ;
-        this.x = x.toString() + '%' ;
-        this.y = y.toString() + '%' ;
-    }
-    create_dot( tag ) {
-        let div = document.createElement( 'div' ) ;
-        div.classList.add( 'points' ) ;
-        div.style.top = this.y ;
-        div.style.left = this.x ;
+// class map_dot {
+//     constructor( scene_id, x, y ) {   // start from the up left corner of the map
+//         this.sceneId = scene_id ;
+//         this.x = x.toString() + '%' ;
+//         this.y = y.toString() + '%' ;
+//     }
+//     create_dot( tag ) {
+//         let div = document.createElement( 'div' ) ;
+//         div.classList.add( 'points' ) ;
+//         div.style.top = this.y ;
+//         div.style.left = this.x ;
 
-        div.addEventListener( 'click', function() {
-            to360( id_to_scene[ tag ] ) ;
-        })
+//         div.addEventListener( 'click', function() {
+//             to360( id_to_scene[ tag ] ) ;
+//         })
 
-        dots.appendChild( div ) ;
-    }
-    current_pos() {
-        let current = document.getElementById( 'circle' ) ;
-        current.style.top = map_dot_pos[ this.sceneId ][ 1 ].toString() + '%' ;
-        current.style.left = map_dot_pos[ this.sceneId ][ 0 ].toString() + '%' ;
-        // console.log( map_dot_pos[ this.sceneId ][ 0 ], map_dot_pos[ this.sceneId ][ 1 ])
-    }
-}
+//         dots.appendChild( div ) ;
+//     }
+//     current_pos() {
+//         let current = document.getElementById( 'circle' ) ;
+//         current.style.top = map_dot_pos[ this.sceneId ][ 1 ].toString() + '%' ;
+//         current.style.left = map_dot_pos[ this.sceneId ][ 0 ].toString() + '%' ;
+//         // console.log( map_dot_pos[ this.sceneId ][ 0 ], map_dot_pos[ this.sceneId ][ 1 ])
+//     }
+// }
 
 // --- Openning Map Page ---
 let mapPageOn = 0 ;
@@ -940,19 +952,19 @@ function openMapPage( n ) {
     }
 }
 
-function map_jump() {
-    const blue_dot = new map_dot( makarScenes[ 0 ].scene_id, map_dot_pos[ makarScenes[ 0 ].scene_id ][ 0 ], map_dot_pos[ makarScenes[ 0 ].scene_id ][ 1 ] ) ;
-    blue_dot.create_dot( 'b_tag' ) ;
+// function map_jump() {
+//     const blue_dot = new map_dot( makarScenes[ 0 ].scene_id, map_dot_pos[ makarScenes[ 0 ].scene_id ][ 0 ], map_dot_pos[ makarScenes[ 0 ].scene_id ][ 1 ] ) ;
+//     blue_dot.create_dot( 'b_tag' ) ;
 
-    const yellow_dot = new map_dot( makarScenes[ 1 ].scene_id, map_dot_pos[ makarScenes[ 1 ].scene_id ][ 0 ], map_dot_pos[ makarScenes[ 1 ].scene_id ][ 1 ] ) ;
-    yellow_dot.create_dot( 'y_tag' ) ;
+//     const yellow_dot = new map_dot( makarScenes[ 1 ].scene_id, map_dot_pos[ makarScenes[ 1 ].scene_id ][ 0 ], map_dot_pos[ makarScenes[ 1 ].scene_id ][ 1 ] ) ;
+//     yellow_dot.create_dot( 'y_tag' ) ;
     
-    const red_dot = new map_dot( makarScenes[ 2 ].scene_id, map_dot_pos[ makarScenes[ 2 ].scene_id ][ 0 ], map_dot_pos[ makarScenes[ 2 ].scene_id ][ 1 ] ) ;
-    red_dot.create_dot( 'r_tag' ) ;
+//     const red_dot = new map_dot( makarScenes[ 2 ].scene_id, map_dot_pos[ makarScenes[ 2 ].scene_id ][ 0 ], map_dot_pos[ makarScenes[ 2 ].scene_id ][ 1 ] ) ;
+//     red_dot.create_dot( 'r_tag' ) ;
 
-    const purple_dot = new map_dot( makarScenes[ 3 ].scene_id, map_dot_pos[ makarScenes[ 3 ].scene_id ][ 0 ], map_dot_pos[ makarScenes[ 3 ].scene_id ][ 1 ] ) ;
-    purple_dot.create_dot( 'p_tag' ) ;
-}
+//     const purple_dot = new map_dot( makarScenes[ 3 ].scene_id, map_dot_pos[ makarScenes[ 3 ].scene_id ][ 0 ], map_dot_pos[ makarScenes[ 3 ].scene_id ][ 1 ] ) ;
+//     purple_dot.create_dot( 'p_tag' ) ;
+// }
 
 //// 把「依靠 場景id 判斷場景載入狀況」的功能獨立出來在此
 
@@ -1256,29 +1268,44 @@ const buttonController = {
             } ) ;
         } else {
             Object.values( this.rwdButtonObj ).forEach( btnEle => {
-                btnEle.addEventListener( 'mousedown', function( event ) {
+                // btnEle.addEventListener( 'mousedown', function( event ) {
+                btnEle.addEventListener( 'touchstart', function( event ) {
                     console.log( "TOUCHSTART" ) ;
                     if ( btnEle.id == 'rwd-button1-1' ) {
-                        btnEle.style.backgroundImage = "url( ../source/cutImage/button/rwd-button-6.svg )" ;
+                        // btnEle.style.backgroundImage = "url( ../source/cutImage/button/rwd-button-6.svg )" ;
+                        btnEle.style.visibility = 'hidden';
+                        document.getElementById('rwd-button1-1-click').style.visibility = 'visible';
+
                     }
                     if ( btnEle.id == 'rwd-button1-2' ) {
-                        btnEle.style.backgroundImage = "url( ../source/cutImage/button/rwd-button-4.svg )" ;
+                        // btnEle.style.backgroundImage = "url( ../source/cutImage/button/rwd-button-4.svg )" ;
+                        btnEle.style.visibility = 'hidden';
+                        document.getElementById('rwd-button1-2-click').style.visibility = 'visible';
                     }
                 }, false ) ;
 
-                btnEle.addEventListener( 'mouseup', function( event ) {
+                // btnEle.addEventListener( 'mouseup', function( event ) {
+                btnEle.addEventListener( 'touchend', function( event ) {
                     console.log( "TOUCHEND" ) ;
                     setTimeout( function() {
                         if ( btnEle.id == 'rwd-button1-1' ) {
                             RWD_UI.enter360Click() ;
-                            btnEle.style.backgroundImage = "url( ../cutImage/button/rwd-button1-1.svg )" ;
+                            // btnEle.style.backgroundImage = "url( ../cutImage/button/rwd-button1-1.svg )" ;
+
+                            btnEle.style.visibility = 'visible';
+                            document.getElementById('rwd-button1-1-click').style.visibility = 'hidden';
+
                         }
                         if ( btnEle.id == 'rwd-button1-2' ) {
                             RWD_UI.enterModelClick() ;
-                            btnEle.style.backgroundImage = "url( ../cutImage/button/rwd-button1-2.svg )" ;
+                            // btnEle.style.backgroundImage = "url( ../cutImage/button/rwd-button1-2.svg )" ;
+
+                            btnEle.style.visibility = 'visible';
+                            document.getElementById('rwd-button1-2-click').style.visibility = 'hidden';
+
                         }
                         ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ]  ) ;
-                    }, 500 ) ;
+                    }, 1 ) ;
                 }, false ) ;
             } ) ;
         }
@@ -1416,7 +1443,7 @@ function tagAppear() {
 
     //// 建構「tag hover」的對應事件
 
-    [ b_tag, y_tag, r_tag, p_tag, g_tag, o_tag, m2_tag ].forEach( e => {
+    [ b_tag, y_tag, r_tag, p_tag, g_tag, o_tag, m2_tag , m3_tag, m4_tag ].forEach( e => {
 
         let tline = gsap.timeline();
         let tag_top = e.getElementsByClassName('tag_top')[0];

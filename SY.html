@@ -3,7 +3,7 @@
     <head>
         <title> SY </title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
 
         <meta property="og:title" content="漫遊松菸">
@@ -342,6 +342,16 @@
                 <div class = 'tag_top'> <div class='centerText'>模型觀看3</div> </div>
             </div>
 
+            <div id="m3_tag" class="tagModel" onclick="toVR('m3')">
+                <div id = 'm3_tag_bg'></div>
+                <div class = 'tag_top'> <div class='centerText'>模型觀看4</div> </div>
+            </div>
+
+            <div id="m4_tag" class="tagModel" onclick="toVR('m4')">
+                <div id = 'm4_tag_bg'></div>
+                <div class = 'tag_top'> <div class='centerText'>模型觀看5</div> </div>
+            </div>
+
         </div>
 
         <!-- Old Jumping Map ( Not using now ) -->
@@ -384,18 +394,22 @@
                     </a-entity>
 
                     <a-entity id = 'cubeModels' visible = 'true' >
-                        <a-box id="g_cube" color="#8cbf82" width='0.02' height='0.02' depth="0.02" position="-0.5 0.65 3.7" visible="true"></a-box>
-                        <a-box id="o_cube" color="#edbc40" width='0.02' height='0.02' depth="0.02" position="8.2 0.65 4" visible="true"></a-box>
+                        <a-box id="g_cube" color="#8cbf82" width='0.02' height='0.02' depth="0.2" position="7.7 0.8 8.1" visible="true"></a-box>
+                        <a-box id="o_cube" color="#edbc40" width='0.02' height='0.02' depth="0.02" position="-11.5 0.8 -1.5" visible="true"></a-box>
 
-                        <a-box id="m2_cube" color="#fd9e5e" width='0.02' height='0.02' depth="0.02" position="-15.3 0.65 -1" visible="true"></a-box>
+                        <a-box id="m2_cube" color="#fd9e5e" width='0.02' height='0.02' depth="0.02" position="-15.8 0.8 4.2" visible="true"></a-box>
+
+                        <a-box id="m3_cube" color="#e57e78" width='0.02' height='0.02' depth="0.02" position="-11.6 0.8 4.2" visible="true"></a-box>
+
+                        <a-box id="m4_cube" color="#b3ea7e" width='0.02' height='0.02' depth="0.02" position="-0.2 0.8 3.65" visible="true"></a-box>
 
                     </a-entity>
                     
                     <a-light id = 'ambientLight' type='ambient' color='white' intensity='1.0'></a-light>
 
     
-                    <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: -9 4 2.5 ; initialPosition: 16 23 27; minDistance: 5; maxDistance: 42; maxPolarAngle: 88; minPolarAngle: 1;">
-                    </a-entity>     
+                    <a-entity camera id="cam" look-controls="enabled: false" wasd-controls orbit-controls="target: 3.8 1.35 -1; initialPosition: 3.85 16.9 -11.1; minDistance: -0; maxDistance: 42; maxPolarAngle: 88; minPolarAngle: -5;">
+                    </a-entity>
                 </a-entity>
 
                 <a-entity id="scene_360" visible="false" arrow-monitor>

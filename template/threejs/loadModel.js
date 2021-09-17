@@ -114,14 +114,27 @@ class LoadRootModel{
                                 
                                 //// 水池
                                 if (child.name == 'Songyan_base_1'){
-                                    child.renderOrder = 1;
+                                    child.renderOrder = 2;
+                                    child.material.depthTest = true;
                                     child.material.depthWrite = false;
                                     child.material.needsUpdate = true;
                                 }
     
-                                //// Tobacco_base
-                                if (child.name == 'Tobacco_base&top001_1' ){
-                                    
+                                //// 辦公室基底，由於要陰影，所以後畫
+                                if (child.name == 'base_1' ){
+                                    child.renderOrder = 3;
+                                    child.material.depthTest = true;
+                                    child.material.depthWrite = false;
+                                    child.material.needsUpdate = true;
+                                    // child.material.blending = THREE.NormalBlending;
+                                }
+
+                                //// 主建築基底
+                                if (child.name == 'Tobacco_base&top001_1'){
+                                    child.renderOrder = 2;
+                                    child.material.depthTest = true;
+                                    child.material.depthWrite = false;
+                                    child.material.needsUpdate = true;
                                 }
 
                                 //// 鋼鐵材質： Tobacco_base_steel
@@ -136,6 +149,35 @@ class LoadRootModel{
                                     
                                 }
 
+                                //// 玻璃材質 
+                                let mg = ['family_mart_1' , 'Boiler_1' , 'Check room_2', 'Warehouse_02_1', 'Liuli_2', 'bookmart_2', 'Tobacco_base&top001_2', 'front001_1' , 'wash room001_1' , 'outside001_1', 'inside house001_1', 'back001_1', 'side_1' , 'building1_1', 'wall_1' ];
+                                mg.forEach( e => {
+                                    if ( child.name == e ){
+                                        child.material.metalness = 0.7;
+                                        child.material.roughness = 0.25;
+                                    }
+                                })
+
+                                /// 半透明材質 
+                                let mhg = ['Warehouse_02_3'];
+                                mhg.forEach( e => {
+                                    if ( child.name == e ){
+
+                                        child.material.depthWrite = false;
+                                        child.material.blending = THREE.CustomBlending;
+                                        child.material.blendEquation = THREE.AddEquation;
+                                        child.material.blendSrc = THREE.OneFactor;
+                                        child.material.blendDst = THREE.OneMinusSrcAlphaFactor;
+                                        child.material.blendSrcAlpha = THREE.OneFactor;
+                                        child.material.blendDstAlpha = THREE.OneMinusSrcAlphaFactor;
+                                        child.material.transparent = true;
+                                        child.material.opacity = 0.5;
+
+                                        child.material.metalness = 0.7;
+                                        child.material.roughness = 0.25;
+
+                                    }
+                                })
     
                             }
     
@@ -143,7 +185,8 @@ class LoadRootModel{
     
                         // root.object3D.traverse(function(c){ if(c.isMesh ){ console.log(c.name ) }})
                         // root.object3D.traverse(function(c){ if(c.isMesh ){ console.log(  c.name, c.material.name ) }})
-                        // root.object3D.traverse(function(c){ if(c.isMesh ){ if ( c.name == 'Songyan_logo' ){ window.a = c } }})
+                        // root.object3D.traverse(function(c){ if(c.isMesh ){ if ( c.name == 'Tobacco_base&top001_1' ){ window.a = c } }})
+                        // root.object3D.traverse(function(c){ if(c.isMesh ){ if ( c.name == 'Songyan_base_1' ){ window.b = c } }})
     
                         // root.object3D.traverse(function(c){ if(c.isMesh ){ if ( c.material.name.toLowerCase() == 'songyan_base' ){ console.log(c.name) } }})
     
@@ -153,6 +196,22 @@ class LoadRootModel{
     
                         root.object3D.add(object);                    
                         homeModel.appendChild(root);
+
+                        //// 遮擋用地板 ，讓模型的部份物件不會因為 depthWrite(false)而顯露
+                        let ground = document.createElement('a-entity');
+                        ground.setAttribute('id', 'ground');
+                        ground.addEventListener("loaded", function (){
+
+                            let geometry = new THREE.BoxGeometry( 1, 1, 1 );
+                            let material = new THREE.MeshBasicMaterial( { color: 0x858585 } );
+                            let go = new THREE.Mesh( geometry, material );
+                            go.scale.set(33, 0.4, 20.5 );
+                            go.position.set( -0.25 , 0.25, 0);
+                            ground.object3D.add( go );
+
+                        });
+
+                        homeModel.appendChild(ground);
 
                         //// 燈光部份
                         //// 下方往上打方向光

@@ -3,8 +3,8 @@
 class CameraViewControl{
     constructor(){
 
-        this.fixPosition = new THREE.Vector3( 16 , 23 , 27 ); 
-        this.fixTarget = new THREE.Vector3( -9 , 4 , 2.5 ); 
+        this.fixPositionPC = new THREE.Vector3( 3.85 , 16.9 , -11.1 ); 
+        this.fixTargetPC = new THREE.Vector3( 3.8 , 1.35 , -1 ); 
 
         let aScene = document.getElementsByTagName( 'a-scene' )[ 0 ] ;   
 
@@ -51,12 +51,12 @@ class CameraViewControl{
 
             //// 取得相機當前位置
             let camOP = cam.object3D.children[0].position.clone();
-            let camFP = self.fixPosition.clone() ; 
+            let camFP = self.fixPositionPC.clone() ; 
             let dp = camFP.clone().sub(camOP);
 
             //// 取得 orbit 控制器當前的 目標數值
             let camOTP = cam.components['orbit-controls'].controls.target.clone();
-            let camFTP = self.fixTarget.clone();
+            let camFTP = self.fixTargetPC.clone();
             let dtp = camFTP.clone().sub(camOTP);
 
 
@@ -126,6 +126,8 @@ class CameraViewControl{
             let g_tag = document.getElementById('g_tag');
             let o_tag = document.getElementById('o_tag');
             let m2_tag = document.getElementById('m2_tag');
+            let m3_tag = document.getElementById('m3_tag');
+            let m4_tag = document.getElementById('m4_tag');
             
             //// 顯示出全螢幕遮罩
             let tline = gsap.timeline();
@@ -136,12 +138,12 @@ class CameraViewControl{
 
             //// 取得相機當前位置
             let camOP = cam.object3D.children[0].position.clone();
-            let camFP = self.fixPosition.clone() ; 
+            let camFP = self.fixPositionPC.clone() ; 
             let dp = camFP.clone().sub(camOP);
 
             //// 取得 orbit 控制器當前的 目標數值
             let camOTP = cam.components['orbit-controls'].controls.target.clone();
-            let camFTP = self.fixTarget.clone();
+            let camFTP = self.fixTargetPC.clone();
             let dtp = camFTP.clone().sub(camOTP);
 
             let dur = dp.length()/30 + 0.05;
@@ -163,6 +165,8 @@ class CameraViewControl{
                     set3Dto2D( o_tag , o_cube );
 
                     set3Dto2D( m2_tag , m2_cube );
+                    set3Dto2D( m3_tag , m3_cube );
+                    set3Dto2D( m4_tag , m4_cube );
 
                     
 
@@ -433,7 +437,7 @@ class CameraViewControl{
         cam.object3D.rotation.y = 0 ;
         cam.object3D.rotation.z = 0 ;
 
-        let target_pos = self.fixPosition.clone() ; 
+        let target_pos = self.fixPositionPC.clone() ; 
 
         // use lookat to determine the position to turn to 
         let a = cam.object3D.children[0].clone()
@@ -444,13 +448,13 @@ class CameraViewControl{
 
         //// 會到的 目標位置給定
         // a.lookAt( new THREE.Vector3( 0, 0, 0 ) ) ;
-        a.lookAt( self.fixTarget.clone() ) ;
+        a.lookAt( self.fixTargetPC.clone() ) ;
         
         distance.ratio = 0 ;
 
         var persCam = {
-            target : new THREE.Vector3( target_pos.x, target_pos.y, target_pos.z ),
-            origin : new THREE.Vector3( cam.object3D.children[0].position.x, 
+            pos_t : new THREE.Vector3( target_pos.x, target_pos.y, target_pos.z ),
+            pos_o : new THREE.Vector3( cam.object3D.children[0].position.x, 
                                         cam.object3D.children[0].position.y, 
                                         cam.object3D.children[0].position.z,  ),
 
@@ -470,7 +474,7 @@ class CameraViewControl{
         // console.log( persCam.rot_o, persCam.rot_t ) ;
 
         var direction = {
-            pers_pos : persCam.target.clone().sub( persCam.origin.clone() ), 
+            pers_pos : persCam.pos_t.clone().sub( persCam.pos_o.clone() ), 
             pers_rot : persCam.rot_t.clone().sub( persCam.rot_o.clone() ), 
         } ;
         // console.log( direction.pers_rot ) ;
@@ -482,9 +486,9 @@ class CameraViewControl{
                 round : 1,
                 ratio : 1000,
                 update : function() {
-                    let persPos = new THREE.Vector3( persCam.origin.x + direction.pers_pos.x * distance.ratio / 1000,
-                                                    persCam.origin.y + direction.pers_pos.y * distance.ratio / 1000,
-                                                    persCam.origin.z + direction.pers_pos.z * distance.ratio / 1000 )
+                    let persPos = new THREE.Vector3( persCam.pos_o.x + direction.pers_pos.x * distance.ratio / 1000,
+                                                    persCam.pos_o.y + direction.pers_pos.y * distance.ratio / 1000,
+                                                    persCam.pos_o.z + direction.pers_pos.z * distance.ratio / 1000 )
                     let persRot = new THREE.Vector3( persCam.rot_o.x + direction.pers_rot.x * distance.ratio / 1000,
                                                     persCam.rot_o.y + direction.pers_rot.y * distance.ratio / 1000,
                                                     persCam.rot_o.z + direction.pers_rot.z * distance.ratio / 1000 )
