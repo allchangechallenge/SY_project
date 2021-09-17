@@ -1256,12 +1256,30 @@ const buttonController = {
             } ) ;
         } else {
             Object.values( this.rwdButtonObj ).forEach( btnEle => {
-                btnEle.addEventListener( 'click', function( event ){
-                    // console.log( 'Hi Normal Click' ) ;
-                    btnEle.style.visibility = 'hidden' ;
-                    ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ]  ) ;
-                    ctrl.rwdButtonObj_click[ ctrl.buttonChange[ btnEle.id] ].style.visibility = 'visible' ;
-                } ) ;
+                btnEle.addEventListener( 'mousedown', function( event ) {
+                    console.log( "TOUCHSTART" ) ;
+                    if ( btnEle.id == 'rwd-button1-1' ) {
+                        btnEle.style.backgroundImage = "url( ../source/cutImage/button/rwd-button-6.svg )" ;
+                    }
+                    if ( btnEle.id == 'rwd-button1-2' ) {
+                        btnEle.style.backgroundImage = "url( ../source/cutImage/button/rwd-button-4.svg )" ;
+                    }
+                }, false ) ;
+
+                btnEle.addEventListener( 'mouseup', function( event ) {
+                    console.log( "TOUCHEND" ) ;
+                    setTimeout( function() {
+                        if ( btnEle.id == 'rwd-button1-1' ) {
+                            RWD_UI.enter360Click() ;
+                            btnEle.style.backgroundImage = "url( ../cutImage/button/rwd-button1-1.svg )" ;
+                        }
+                        if ( btnEle.id == 'rwd-button1-2' ) {
+                            RWD_UI.enterModelClick() ;
+                            btnEle.style.backgroundImage = "url( ../cutImage/button/rwd-button1-2.svg )" ;
+                        }
+                        ctrl.allUnselect( ctrl.buttonChange[ btnEle.id ]  ) ;
+                    }, 500 ) ;
+                }, false ) ;
             } ) ;
         }
 
@@ -1584,8 +1602,8 @@ const RWD_UI = {
     homeButtonEvents : function() {
         let homeBtn = this.homePage_obj ;
         homeBtn[ 'homeMobile_menu' ].onclick = this.homeMenuClick ;
-        homeBtn[ 'rwd-button1-1' ].onclick = this.enter360Click ;
-        homeBtn[ 'rwd-button1-2' ].onclick = this.enterModelClick ;
+        // homeBtn[ 'rwd-button1-1' ].onclick = this.enter360Click ;
+        // homeBtn[ 'rwd-button1-2' ].onclick = this.enterModelClick ;
 
         let vrBtn = this.vr_template_obj ;
         vrBtn[ 'x_circle_vr_mobile' ].onclick = this.exitMobileTemplate ;
